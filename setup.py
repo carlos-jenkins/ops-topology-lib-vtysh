@@ -91,7 +91,7 @@ setup(
     # Entry points
     entry_points={
         'topology_library_10': [
-            'Vtysh = topology_lib_vtysh.library:REGISTRY'
+            'vtysh = topology_lib_vtysh.library'
         ]
     }
 )
