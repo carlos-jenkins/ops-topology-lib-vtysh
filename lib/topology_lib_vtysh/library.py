@@ -23,7 +23,7 @@ from __future__ import unicode_literals, absolute_import
 from __future__ import print_function, division
 
 
-def configure_interface(enode, ipv4=None, portlbl=None, up=None):
+def configure_interface(enode, ipv4, portlbl, up=None):
     """
     Configure a interface.
 
@@ -41,8 +41,8 @@ def configure_interface(enode, ipv4=None, portlbl=None, up=None):
     :param up: Bring up or down the interface. If ``None``, take no action.
     :type up: bool or None
     """
-    assert ipv4 is not None
-    assert portlbl is not None
+    assert ipv4
+    assert portlbl
 
     commands = """\
         configure terminal
