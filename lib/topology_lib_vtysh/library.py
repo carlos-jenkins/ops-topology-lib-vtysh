@@ -23,7 +23,7 @@ from __future__ import unicode_literals, absolute_import
 from __future__ import print_function, division
 
 
-def configure_interface(enode, ipv4, portlbl, up=None):
+def configure_interface(enode, portlbl, ipv4, up=None):
     """
     Configure a interface.
 
@@ -34,10 +34,10 @@ def configure_interface(enode, ipv4, portlbl, up=None):
 
     :param enode: Engine node to communicate with.
     :type enode: topology.platforms.base.BaseNode
-    :param str ipv4: IPv4 address and netmask to assign to the interface in
-     the form ``'192.168.20.20/24'``.
     :param str portlbl: Port label to configure. Port label will be mapped to
      real port automatically.
+    :param str ipv4: IPv4 address and netmask to assign to the interface in
+     the form ``'192.168.20.20/24'``.
     :param up: Bring up or down the interface. If ``None``, take no action.
     :type up: bool or None
     """
