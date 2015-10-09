@@ -29,7 +29,7 @@ def configure_interface(enode, portlbl, ipv4, up=None):
 
     This communication library function allows to:
 
-    #. Set address if given interface.
+    #. Set address of given interface.
     #. Bring up or down the interface, or leave it as it is.
 
     :param enode: Engine node to communicate with.
@@ -41,8 +41,8 @@ def configure_interface(enode, portlbl, ipv4, up=None):
     :param up: Bring up or down the interface. If ``None``, take no action.
     :type up: bool or None
     """
-    assert ipv4
     assert portlbl
+    assert ipv4
 
     commands = """\
         configure terminal
