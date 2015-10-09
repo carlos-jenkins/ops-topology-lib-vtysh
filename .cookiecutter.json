@@ -1,0 +1,11 @@
+{
+    "author": "Hewlett Packard Enterprise Development LP",
+    "email": "asicapi@hp.com",
+    "repo_url": "https://github-sc-p.corp.hp.com/hpe-networking/topology_lib_vtysh",
+    "doc_url": "https://github-sc-p.corp.hp.com/hpe-networking/topology_lib_vtysh",
+    "project_name": "Vtysh Communication Library for Topology",
+    "repo_name": "topology_lib_vtysh",
+    "short_description": "Vtysh Communication Library for Topology",
+    "year": "2015",
+    "version": "0.1.0"
+}
