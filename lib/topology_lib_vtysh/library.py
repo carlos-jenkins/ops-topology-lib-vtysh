@@ -49,19 +49,13 @@ def configure_interface(enode, ipv4=None, portlbl=None, up=None):
         interface {port}
         ip address {ipv4}
     """
+    replace = {
+        'port': enode.ports[portlbl],
+        'ipv4': ipv4
+    }
 
     try:
-        enode.send_data(
-            {
-                'commands': commands,
-                'replace': {
-                    'port': enode.ports[portlbl],
-                    'ipv4': ipv4
-                },
-                'shell': 'vtysh'
-            },
-            function='assert_batch'
-        )
+        enode.libs.assert_batch(commands, replace=replace, shell='vtysh')
         if up is not None:
             shutdown = '{}shutdown'.format('no ' if up else '')
             enode(shutdown, shell='vtysh')
@@ -69,8 +63,6 @@ def configure_interface(enode, ipv4=None, portlbl=None, up=None):
     finally:
         assert not enode('end', shell='vtysh')
 
-
-REGISTRY = [configure_interface]
 
 __all__ = [
     'configure_interface'
