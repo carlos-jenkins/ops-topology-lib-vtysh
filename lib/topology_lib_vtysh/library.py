@@ -165,6 +165,32 @@ def ipv4_route(enode, destination, nexthop):
         assert not enode('end', shell='vtysh')
 
 
+def del_ipv4_route(enode, destination, nexthop):
+    """
+    Remove a IPv4 static route.
+
+    All parameters left as ``None`` are ignored and thus no configuration
+    action is taken for that parameter (left "as-is").
+
+    :param enode: Engine node to communicate with.
+    :type enode: topology.platforms.base.BaseNode
+    :param str destination: IPv4 destination prefix in the form
+     ``'10.0.0.0/8'``.
+    :param str nexthop: Nexthop IPv4 (in the form ``'10.0.0.1'``) or outgoing
+     interface.
+    """
+
+    preamble = """\
+        configure terminal
+        no ip route {destination} {nexthop}
+    """
+
+    try:
+        enode.libs.assert_batch(preamble, locals(), shell='vtysh')
+    finally:
+        assert not enode('end', shell='vtysh')
+
+
 def ipv6_route(enode, destination, nexthop):
     """
     Configure a IPv6 static route.
