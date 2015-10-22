@@ -221,5 +221,6 @@ __all__ = [
     'interface',
     'vlan',
     'ipv4_route',
+    'del_ipv4_route',
     'ipv6_route'
 ]
