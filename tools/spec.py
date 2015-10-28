@@ -27,7 +27,7 @@ from os.path import abspath, normpath, dirname, join
 
 from inflection import parameterize, underscore, camelize
 from jinja2 import FunctionLoader, Environment, StrictUndefined
-
+from re import sub
 
 log = logging.getLogger(__name__)
 
@@ -47,8 +47,9 @@ VTYSH_SPEC = {
         ],
         'pre_commands': ['config terminal', 'interface {interface}'],
         'post_commands': ['end'],
-        'commands': {
-            'ip_address': {
+        'commands': [
+            {
+                'command': 'ip address {ipv4}',
                 'doc': 'This is the documentation for this command',
                 'arguments': [
                     {
@@ -56,10 +57,10 @@ VTYSH_SPEC = {
                         'doc': 'blabla'
                     },
                 ],
-                'command': 'ip address {ipv4}',
                 'return': None
             },
-            'foo': {
+            {
+                'command': 'echo {aa} something_else',
                 'doc': 'This is the documentation for this command',
                 'arguments': [
                     {
@@ -67,10 +68,9 @@ VTYSH_SPEC = {
                         'doc': 'blabla'
                     },
                 ],
-                'command': 'echo {aa}',
                 'return': 'parse_echo'
             }
-        }
+        ]
     },
     'bar': {
         'doc': 'This is the documentation for this context.',
@@ -86,8 +86,9 @@ VTYSH_SPEC = {
         ],
         'pre_commands': ['config terminal', 'interface {interface}'],
         'post_commands': ['end'],
-        'commands': {
-            'ip_address': {
+        'commands': [
+            {
+                'command': 'ip address {ipv4}',
                 'doc': 'This is the documentation for this command',
                 'arguments': [
                     {
@@ -95,10 +96,10 @@ VTYSH_SPEC = {
                         'doc': 'blabla'
                     },
                 ],
-                'command': 'ip address {ipv4}',
                 'return': None
             },
-            'foo': {
+            {
+                'command': 'echo {aa} something_else',
                 'doc': 'This is the documentation for this command',
                 'arguments': [
                     {
@@ -106,10 +107,9 @@ VTYSH_SPEC = {
                         'doc': 'blabla'
                     },
                 ],
-                'command': 'echo {aa}',
                 'return': 'parse_echo'
             }
-        }
+        ]
     }
 }
 """VTYSH Specification as a Python dictionary"""
@@ -188,10 +188,13 @@ class {{ context_name|objectize }}(object):
             replace=self.__dict__,
             shell='vtysh'
         )
-{% for command_name, command in context.commands.items() %}
-    def {{ command_name|methodize }}({{ 'self%s):'|format(param_attrs(command.arguments))|wordwrap(67)|indent(12) }}
+{% for command in context.commands %}
+    def {{ command.command|methodize }}({{ 'self%s):'|format(param_attrs(command.arguments))|wordwrap(67)|indent(12) }}
         \"""
         {{ command.doc|wordwrap(71)|indent(8) }}
+
+        This function runs the following vtysh command:
+            # {{ command.command }}
 
         {% for attr in command.arguments -%}
         {{ ':param %s: %s.'|format(attr.name, attr.doc)|wordwrap(75)|indent(5) }}
@@ -203,7 +206,7 @@ class {{ context_name|objectize }}(object):
             shell='vtysh'
         )"|format(command.command)|assertize(command.return|methodize) }}
 {% endfor %}
-{%- endfor %}
+{% endfor -%}
 
 __all__ = [
 {%- for context_name in spec.keys() %}
@@ -223,7 +226,7 @@ def filter_objectize(token):
 def filter_methodize(token):
     if token is None:
         return None
-    return underscore(parameterize(underscore(token)))
+    return underscore(parameterize(underscore(sub('{.*}', '', token))))
 
 
 def filter_variablize(token):
