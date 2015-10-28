@@ -37,7 +37,7 @@ VTYSH_SPEC = {
         'doc': 'This is the documentation for this context.',
         'arguments': [
             {
-                'name': 'interface',
+                'name': 'portlbl',
                 'doc': 'blabla'
             },
             {
@@ -45,7 +45,7 @@ VTYSH_SPEC = {
                 'doc': 'babab'
             }
         ],
-        'pre_commands': ['config terminal', 'interface {interface}'],
+        'pre_commands': ['config terminal', 'interface {port}'],
         'post_commands': ['end'],
         'commands': [
             {
@@ -54,17 +54,17 @@ VTYSH_SPEC = {
                 'arguments': [
                     {
                         'name': 'ipv4',
-                        'doc': 'blabla'
+                        'doc': 'blabla',
                     },
                 ],
                 'return': None
             },
             {
-                'command': 'echo {aa} something_else',
+                'command': 'echo {port} something_else',
                 'doc': 'This is the documentation for this command',
                 'arguments': [
                     {
-                        'name': 'aa',
+                        'name': 'portlbl',
                         'doc': 'blabla'
                     },
                 ],
@@ -160,7 +160,11 @@ class {{ context_name|objectize }}(object):
     def __init__({{ 'self, enode%s):'|format(param_attrs(context.arguments))|wordwrap(67)|indent(12) }}
         self.enode = enode
         {%- for arg in context.arguments %}
+        {% if arg.name == 'portlbl' -%}
+        self.port = enode.ports[portlbl]
+        {%- else -%}
         self.{{ arg.name }} = {{ arg.name }}
+        {%- endif %}
         {%- endfor %}
 
     def __enter__(self):
@@ -200,6 +204,12 @@ class {{ context_name|objectize }}(object):
         {{ ':param %s: %s.'|format(attr.name, attr.doc)|wordwrap(75)|indent(5) }}
         {% endfor -%}
         \"""
+        {%- for attr in command.arguments -%}
+            {% if attr.name == 'portlbl' %}
+
+        port = self.enode.ports[portlbl]
+            {%- endif -%}
+        {%- endfor %}
 
         {{ "self.enode(
             '%s'.format(**locals()),
