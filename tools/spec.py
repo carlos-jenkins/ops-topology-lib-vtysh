@@ -180,7 +180,9 @@ class {{ context_name|objectize }}(object):
             shell='vtysh'
         )
 
-    def __exit__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
         commands = \"""\\
         {%- for post_command in context.post_commands %}
             {{ post_command }}
