@@ -34,15 +34,11 @@ log = logging.getLogger(__name__)
 
 VTYSH_SPEC = {
     'config_interface': {
-        'doc': 'This is the documentation for this context.',
+        'doc': 'Interface configuration.',
         'arguments': [
             {
                 'name': 'portlbl',
-                'doc': 'blabla'
-            },
-            {
-                'name': 'a',
-                'doc': 'babab'
+                'doc': 'Label that identifies interface.'
             }
         ],
         'pre_commands': ['config terminal', 'interface {port}'],
@@ -50,68 +46,81 @@ VTYSH_SPEC = {
         'commands': [
             {
                 'command': 'ip address {ipv4}',
-                'doc': 'This is the documentation for this command',
+                'doc': 'Set IP address',
                 'arguments': [
                     {
                         'name': 'ipv4',
-                        'doc': 'blabla',
+                        'doc': 'A.B.C.D/M Interface IP address.',
                     },
                 ],
-                'return': None
             },
             {
-                'command': 'echo {port} something_else',
-                'doc': 'This is the documentation for this command',
+                'command': 'ipv6 address {ipv6}',
+                'doc': 'Set IP address',
                 'arguments': [
                     {
-                        'name': 'portlbl',
-                        'doc': 'blabla'
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
                     },
                 ],
-                'return': 'parse_echo'
+            },
+            {
+                'command': 'routing',
+                'doc': 'Configure interface as L3.',
+                'arguments': [],
+            },
+            {
+                'command': 'no routing',
+                'doc': 'Unconfigure interface as L3.',
+                'arguments': [],
+            },
+            {
+                'command': 'shutdown',
+                'doc': 'Enable an interface.',
+                'arguments': [],
+            },
+            {
+                'command': 'no shutdown',
+                'doc': 'Disable an interface.',
+                'arguments': [],
+            },
+            {
+                'command': 'vlan access {vlan_id}',
+                'doc': 'Access configuration',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
             }
         ]
     },
-    'bar': {
-        'doc': 'This is the documentation for this context.',
+    'config_vlan': {
+        'doc': 'VLAN configuration.',
         'arguments': [
             {
-                'name': 'interface',
-                'doc': 'blabla'
-            },
-            {
-                'name': 'a',
-                'doc': 'babab'
+                'name': 'vlan_id',
+                'doc': '<1-4094>  VLAN identifier.'
             }
         ],
-        'pre_commands': ['config terminal', 'interface {interface}'],
+        'pre_commands': ['config terminal', 'vlan {vlan_id}'],
         'post_commands': ['end'],
         'commands': [
             {
-                'command': 'ip address {ipv4}',
-                'doc': 'This is the documentation for this command',
-                'arguments': [
-                    {
-                        'name': 'ipv4',
-                        'doc': 'blabla'
-                    },
-                ],
-                'return': None
+                'command': 'shutdown',
+                'doc': 'Enable the VLAN.',
+                'arguments': [],
             },
             {
-                'command': 'echo {aa} something_else',
-                'doc': 'This is the documentation for this command',
-                'arguments': [
-                    {
-                        'name': 'aa',
-                        'doc': 'blabla'
-                    },
-                ],
-                'return': 'parse_echo'
+                'command': 'no shutdown',
+                'doc': 'Disable the VLAN.',
+                'arguments': [],
             }
         ]
-    }
+    },
 }
+
 """VTYSH Specification as a Python dictionary"""
 
 
@@ -216,7 +225,7 @@ class {{ context_name|objectize }}(object):
         {{ "self.enode(
             '%s'.format(**locals()),
             shell='vtysh'
-        )"|format(command.command)|assertize(command.return|methodize) }}
+        )"|format(command.command)|assertize(command.command|methodize, 'returns' in command.keys() and command.returns) }}
 {% endfor %}
 {% endfor -%}
 
@@ -247,11 +256,11 @@ def filter_variablize(token):
     return underscore(parameterize(underscore(token)))
 
 
-def filter_assertize(token, return_function):
+def filter_assertize(token, command_name, returns=False):
     if token is None:
         return None
-    if return_function:
-        return "return {return_function}({token})".format(**locals())
+    if returns:
+        return "return parser.parse_{command_name}({token})".format(**locals())
     return "assert not {}".format(token)
 
 
