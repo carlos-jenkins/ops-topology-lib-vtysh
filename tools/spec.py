@@ -174,7 +174,7 @@ class {{ context_name|objectize }}(object):
         {%- endfor %}
         \"""
 
-        self.enode.libs.assert_batch(
+        self.enode.libs.common.assert_batch(
             commands,
             replace=self.__dict__,
             shell='vtysh'
@@ -189,7 +189,7 @@ class {{ context_name|objectize }}(object):
         {%- endfor %}
         \"""
 
-        self.enode.libs.assert_batch(
+        self.enode.libs.common.assert_batch(
             commands,
             replace=self.__dict__,
             shell='vtysh'

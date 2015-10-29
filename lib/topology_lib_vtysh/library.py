@@ -79,7 +79,7 @@ def interface(
     """
 
     try:
-        enode.libs.assert_batch(preamble, locals(), shell='vtysh')
+        enode.libs.common.assert_batch(preamble, locals(), shell='vtysh')
 
         if ipv4 is not None:
             ipv4_cmd = 'ip address {}'.format(ipv4)
@@ -125,7 +125,7 @@ def vlan(enode, vlan, shutdown=None, description=None):
     """
 
     try:
-        enode.libs.assert_batch(preamble, locals(), shell='vtysh')
+        enode.libs.common.assert_batch(preamble, locals(), shell='vtysh')
 
         if shutdown is not None:
             shutdown_cmd = '{}shutdown'.format('' if shutdown else 'no ')
@@ -160,7 +160,7 @@ def ipv4_route(enode, destination, nexthop):
     """
 
     try:
-        enode.libs.assert_batch(preamble, locals(), shell='vtysh')
+        enode.libs.common.assert_batch(preamble, locals(), shell='vtysh')
     finally:
         assert not enode('end', shell='vtysh')
 
@@ -186,7 +186,7 @@ def del_ipv4_route(enode, destination, nexthop):
     """
 
     try:
-        enode.libs.assert_batch(preamble, locals(), shell='vtysh')
+        enode.libs.common.assert_batch(preamble, locals(), shell='vtysh')
     finally:
         assert not enode('end', shell='vtysh')
 
@@ -212,7 +212,7 @@ def ipv6_route(enode, destination, nexthop):
     """
 
     try:
-        enode.libs.assert_batch(preamble, locals(), shell='vtysh')
+        enode.libs.common.assert_batch(preamble, locals(), shell='vtysh')
     finally:
         assert not enode('end', shell='vtysh')
 
