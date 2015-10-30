@@ -190,6 +190,10 @@ class {{ context_name|objectize }}(object):
         self.enode = enode
         {%- for arg in context.arguments %}
         {% if arg.name == 'portlbl' -%}
+        if portlbl not in enode.ports.keys():
+            msg = 'Unknown portlbl, available portlbl are: {}'.format(
+                  ', '.join('\\'{}\\''.format(k) for k in enode.ports.keys()))
+            raise Exception(msg)
         self.port = enode.ports[portlbl]
         {%- else -%}
         self.{{ arg.name }} = {{ arg.name }}
@@ -240,7 +244,13 @@ class {{ context_name|objectize }}(object):
         \"""
         {%- for attr in command.arguments -%}
             {% if attr.name == 'portlbl' %}
-
+        if portlbl not in self.enode.ports.keys():
+            msg = 'Unknown portlbl, available portlbl are: {}'.format(
+                  ', '.join(
+                      '\\'{}\\''.format(k) for k in self.enode.ports.keys()
+                  )
+            )
+            raise Exception(msg)
         port = self.enode.ports[portlbl]
             {%- endif -%}
         {%- endfor %}
@@ -273,7 +283,10 @@ def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arg
     \"""
     {%- for attr in command.arguments -%}
         {% if attr.name == 'portlbl' %}
-
+    if portlbl not in enode.ports.keys():
+        msg = 'Unknown portlbl, available portlbl are: {}'.format(
+              ', '.join('\\'{}\\''.format(k) for k in enode.ports.keys()))
+        raise Exception(msg)
     port = enode.ports[portlbl]
         {%- endif -%}
     {%- endfor %}
