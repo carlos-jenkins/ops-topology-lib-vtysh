@@ -34,12 +34,31 @@ log = logging.getLogger(__name__)
 
 
 VTYSH_SPEC = {
+    'root': {
+        'doc': '',
+        'arguments': [],
+        'pre_commands': [],
+        'post_commands': [],
+        'commands': [
+            {
+                'command': 'show interface {port}',
+                'doc': 'Interface infomation.',
+                'arguments': [
+                    {
+                        'name': 'portlbl',
+                        'doc': 'Label that identifies interface.',
+                    },
+                ],
+                'returns': True
+            }
+        ]
+    },
     'config_interface': {
         'doc': 'Interface configuration.',
         'arguments': [
             {
                 'name': 'portlbl',
-                'doc': 'Label that identifies interface.'
+                'doc': 'Label that identifies an interface.'
             }
         ],
         'pre_commands': ['config terminal', 'interface {port}'],
@@ -162,7 +181,7 @@ from __future__ import print_function, division
 
 from .parser import *  # noqa
 
-{% for context_name, context in spec.items() %}
+{% for context_name, context in spec.items() if context_name != 'root' %}
 class {{ context_name|objectize }}(object):
     \"""
     {{ context.doc|wordwrap(75)|indent(4) }}
@@ -213,8 +232,11 @@ class {{ context_name|objectize }}(object):
             # {{ command.command }}
 
         {% for attr in command.arguments -%}
-        {{ ':param %s: %s.'|format(attr.name, attr.doc)|wordwrap(75)|indent(5) }}
+        {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(75)|indent(5) }}
         {% endfor -%}
+        {%- if 'returns' in command.keys() and command.returns -%}
+        :return: {{ 'parse_%s(raw_result)|format(command.command|methodize)' }}
+        {%- endif %}
         \"""
         {%- for attr in command.arguments -%}
             {% if attr.name == 'portlbl' %}
@@ -223,16 +245,55 @@ class {{ context_name|objectize }}(object):
             {%- endif -%}
         {%- endfor %}
 
-        {{ "self.enode(
+        {% set template='assert not %s' -%}
+        {% if 'returns' in command.keys() and command.returns -%}
+            {% set template='return parse_%s(%s)'|format(command.command|methodize, '%s') -%}
+        {% endif -%}
+        {{ template|format("self.enode(
             '%s'.format(**locals()),
             shell='vtysh'
-        )"|format(command.command)|assertize(command.command|methodize, 'returns' in command.keys() and command.returns) }}
+        )")|format(command.command) }}
 {% endfor %}
 {% endfor -%}
 
+{% for command in spec.root.commands %}
+def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arguments))|wordwrap(67)|indent(8) }}
+    \"""
+    {{ command.doc|wordwrap(71)|indent(4) }}
+
+    This function runs the following vtysh command:
+        # {{ command.command }}
+
+    {% for attr in command.arguments -%}
+    {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(75)|indent(5) }}
+    {% endfor -%}
+    {%- if 'returns' in command.keys() and command.returns -%}
+    :return: {{ 'parse_%s(raw_result)'|format(command.command|methodize) }}
+    {%- endif %}
+    \"""
+    {%- for attr in command.arguments -%}
+        {% if attr.name == 'portlbl' %}
+
+    port = enode.ports[portlbl]
+        {%- endif -%}
+    {%- endfor %}
+
+    {% set template='assert not %s' -%}
+    {% if 'returns' in command.keys() and command.returns -%}
+        {% set template='return parse_%s(%s)'|format(command.command|methodize, '%s') -%}
+    {% endif -%}
+    {{ template|format("enode(
+        '%s'.format(**locals()),
+        shell='vtysh'
+    )")|format(command.command) }}
+{% endfor %}
+
 __all__ = [
-{%- for context_name in spec.keys() %}
-    '{{ context_name|objectize }}'{% if not loop.last %},{% endif %}
+{%- for context_name in spec.keys() if context_name != 'root' %}
+    '{{ context_name|objectize }}',
+{%- endfor %}
+{%- for function in spec.root.commands %}
+    '{{ function.command|methodize }}'{% if not loop.last %},{% endif %}
 {%- endfor %}
 ]
 
@@ -257,14 +318,6 @@ def filter_variablize(token):
     return underscore(parameterize(underscore(token)))
 
 
-def filter_assertize(token, command_name, returns=False):
-    if token is None:
-        return None
-    if returns:
-        return "return parser.parse_{command_name}({token})".format(**locals())
-    return "assert not {}".format(token)
-
-
 def build():
     """
     Build VTYSH Python module from specification.
@@ -281,7 +334,7 @@ def build():
         loader=FunctionLoader(load_template),
         undefined=StrictUndefined
     )
-    for ftr in ['objectize', 'methodize', 'variablize', 'assertize']:
+    for ftr in ['objectize', 'methodize', 'variablize']:
         env.filters[ftr] = globals()['filter_' + ftr]
 
     # Render template
