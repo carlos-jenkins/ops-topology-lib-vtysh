@@ -67,6 +67,7 @@ class ConfigVlan(object):
         This function runs the following vtysh command:
             # shutdown
 
+        
         """
 
         assert not self.enode(
@@ -81,6 +82,7 @@ class ConfigVlan(object):
         This function runs the following vtysh command:
             # no shutdown
 
+        
         """
 
         assert not self.enode(
@@ -95,6 +97,10 @@ class ConfigInterface(object):
     """
     def __init__(self, enode, portlbl):
         self.enode = enode
+        if portlbl not in enode.ports.keys():
+            msg = 'Unknown portlbl, available portlbl are: {}'.format(
+                  ', '.join('\'{}\''.format(k) for k in enode.ports.keys()))
+            raise Exception(msg)
         self.port = enode.ports[portlbl]
 
     def __enter__(self):
@@ -129,7 +135,8 @@ class ConfigInterface(object):
         This function runs the following vtysh command:
             # ip address {ipv4}
 
-        :param ipv4: A.B.C.D/M Interface IP address..
+        :param ipv4: A.B.C.D/M Interface IP address.
+        
         """
 
         assert not self.enode(
@@ -144,7 +151,8 @@ class ConfigInterface(object):
         This function runs the following vtysh command:
             # ipv6 address {ipv6}
 
-        :param ipv6: X:X::X:X/M  Interface IPv6 address.
+        :param ipv6: X:X::X:X/M  Interface IPv6 address
+        
         """
 
         assert not self.enode(
@@ -159,6 +167,7 @@ class ConfigInterface(object):
         This function runs the following vtysh command:
             # routing
 
+        
         """
 
         assert not self.enode(
@@ -173,6 +182,7 @@ class ConfigInterface(object):
         This function runs the following vtysh command:
             # no routing
 
+        
         """
 
         assert not self.enode(
@@ -187,6 +197,7 @@ class ConfigInterface(object):
         This function runs the following vtysh command:
             # shutdown
 
+        
         """
 
         assert not self.enode(
@@ -201,6 +212,7 @@ class ConfigInterface(object):
         This function runs the following vtysh command:
             # no shutdown
 
+        
         """
 
         assert not self.enode(
@@ -215,7 +227,8 @@ class ConfigInterface(object):
         This function runs the following vtysh command:
             # vlan access {vlan_id}
 
-        :param vlan_id: <1-4094>  VLAN identifier.
+        :param vlan_id: <1-4094>  VLAN identifier
+        
         """
 
         assert not self.enode(
@@ -223,7 +236,31 @@ class ConfigInterface(object):
             shell='vtysh'
         )
 
+
+def show_interface(enode, portlbl):
+    """
+    Interface infomation.
+
+    This function runs the following vtysh command:
+        # show interface {port}
+
+    :param portlbl: Label that identifies interface.
+    :return: parse_show_interface(raw_result)
+    """
+    if portlbl not in enode.ports.keys():
+        msg = 'Unknown portlbl, available portlbl are: {}'.format(
+              ', '.join('\'{}\''.format(k) for k in enode.ports.keys()))
+        raise Exception(msg)
+    port = enode.ports[portlbl]
+
+    return parse_show_interface(enode(
+        'show interface {port}'.format(**locals()),
+        shell='vtysh'
+    ))
+
+
 __all__ = [
     'ConfigVlan',
-    'ConfigInterface'
+    'ConfigInterface',
+    'show_interface'
 ]
