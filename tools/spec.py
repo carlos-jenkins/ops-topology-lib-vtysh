@@ -93,8 +93,68 @@ VTYSH_SPEC = {
                 ],
             },
             {
+                'command': 'no ip address {ipv4}',
+                'doc': 'Unset IP address',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Interface IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'ip address {ipv4} secondary',
+                'doc': 'Set secondary IP address',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Interface IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'no ip address {ipv4} secondary',
+                'doc': 'Unset secondary IP address',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Interface IP address.',
+                    },
+                ],
+            },
+            {
                 'command': 'ipv6 address {ipv6}',
-                'doc': 'Set IP address',
+                'doc': 'Set IPv6 address',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
+                    },
+                ],
+            },
+            {
+                'command': 'no ipv6 address {ipv6}',
+                'doc': 'Unset IPv6 address',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
+                    },
+                ],
+            },
+            {
+                'command': 'ipv6 address {ipv6} secondary',
+                'doc': 'Set secondary IPv6 address',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
+                    },
+                ],
+            },
+            {
+                'command': 'no ipv6 address {ipv6} secondary',
+                'doc': 'Unset IPv6 address',
                 'arguments': [
                     {
                         'name': 'ipv6',
@@ -192,6 +252,46 @@ VTYSH_SPEC = {
                     }
                 ],
             },
+            {
+                'command': 'lacp port-id {port_id}',
+                'doc': 'Set port ID used in LACP negotiation.',
+                'arguments': [
+                    {
+                        'name': 'port_id',
+                        'doc': '<1-65535>  .The range is 1 to 65535'
+                    }
+                ],
+            },
+            {
+                'command': 'lacp port-priority {port_priority}',
+                'doc': 'Set port priority is used in LACP negotiation.',
+                'arguments': [
+                    {
+                        'name': 'port_priority',
+                        'doc': '<1-65535>  The range is 1 to 65535'
+                    }
+                ],
+            },
+            {
+                'command': 'lag {lag_id}',
+                'doc': 'Add the current interface to link aggregation.',
+                'arguments': [
+                    {
+                        'name': 'lag_id',
+                        'doc': '<1-2000>  LAG number ranges from 1 to 2000'
+                    }
+                ],
+            },
+            {
+                'command': 'no lag {lag_id}',
+                'doc': 'Remove the current interface to link aggregation.',
+                'arguments': [
+                    {
+                        'name': 'lag_id',
+                        'doc': '<1-2000>  LAG number ranges from 1 to 2000'
+                    }
+                ],
+            },
         ]
     },
     'config_interface_vlan': {
@@ -206,6 +306,86 @@ VTYSH_SPEC = {
         'pre_commands': ['config terminal', 'interface vlan {vlan_id}'],
         'post_commands': ['end'],
         'commands': [
+            {
+                'command': 'ip address {ipv4}',
+                'doc': 'Set IP address',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Interface IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'no ip address {ipv4}',
+                'doc': 'Unset IP address',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Interface IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'ip address {ipv4} secondary',
+                'doc': 'Set secondary IP address',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Interface IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'no ip address {ipv4} secondary',
+                'doc': 'Unset secondary IP address',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Interface IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'ipv6 address {ipv6}',
+                'doc': 'Set IPv6 address',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
+                    },
+                ],
+            },
+            {
+                'command': 'no ipv6 address {ipv6}',
+                'doc': 'Unset IPv6 address',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
+                    },
+                ],
+            },
+            {
+                'command': 'ipv6 address {ipv6} secondary',
+                'doc': 'Set secondary IPv6 address',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
+                    },
+                ],
+            },
+            {
+                'command': 'no ipv6 address {ipv6} secondary',
+                'doc': 'Unset IPv6 address',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
+                    },
+                ],
+            },
             {
                 'command': 'shutdown',
                 'doc': 'Enable an interface.',
@@ -230,6 +410,86 @@ VTYSH_SPEC = {
         'post_commands': ['end'],
         'commands': [
             {
+                'command': 'ip address {ipv4}',
+                'doc': 'Set IP address',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Interface IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'no ip address {ipv4}',
+                'doc': 'Unset IP address',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Interface IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'ip address {ipv4} secondary',
+                'doc': 'Set secondary IP address',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Interface IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'no ip address {ipv4} secondary',
+                'doc': 'Unset secondary IP address',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Interface IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'ipv6 address {ipv6}',
+                'doc': 'Set IPv6 address',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
+                    },
+                ],
+            },
+            {
+                'command': 'no ipv6 address {ipv6}',
+                'doc': 'Unset IPv6 address',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
+                    },
+                ],
+            },
+            {
+                'command': 'ipv6 address {ipv6} secondary',
+                'doc': 'Set secondary IPv6 address',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
+                    },
+                ],
+            },
+            {
+                'command': 'no ipv6 address {ipv6} secondary',
+                'doc': 'Unset IPv6 address',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Interface IPv6 address',
+                    },
+                ],
+            },
+            {
                 'command': 'shutdown',
                 'doc': 'Enable an interface.',
                 'arguments': [],
@@ -238,6 +498,34 @@ VTYSH_SPEC = {
                 'command': 'no shutdown',
                 'doc': 'Disable an interface.',
                 'arguments': [],
+            },
+        ]
+    },
+    'config_interface_mgmt': {
+        'doc': 'Configure management interface.',
+        'arguments': [],
+        'pre_commands': ['config terminal', 'interface mgmt'],
+        'post_commands': ['end'],
+        'commands': [
+            {
+                'command': 'ip static {ip}',
+                'doc': 'Set IP address',
+                'arguments': [
+                    {
+                        'name': 'ip',
+                        'doc': 'Interface IP (ipv4 or ipv6) address.',
+                    },
+                ],
+            },
+            {
+                'command': 'no ip static {ip}',
+                'doc': 'Unset IP address',
+                'arguments': [
+                    {
+                        'name': 'ip',
+                        'doc': 'Interface IP (ipv4 or ipv6) address.',
+                    },
+                ],
             },
         ]
     },
