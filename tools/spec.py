@@ -240,7 +240,7 @@ class {{ context_name|objectize }}(object):
         {% endfor -%}
         {%- if 'returns' in command.keys() and command.returns -%}
         :return: {{ 'parse_%s(raw_result)|format(command.command|methodize)' }}
-        {%- endif %}
+        {% endif -%}
         \"""
         {%- for attr in command.arguments -%}
             {% if attr.name == 'portlbl' %}
@@ -279,7 +279,7 @@ def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arg
     {% endfor -%}
     {%- if 'returns' in command.keys() and command.returns -%}
     :return: {{ 'parse_%s(raw_result)'|format(command.command|methodize) }}
-    {%- endif %}
+    {% endif -%}
     \"""
     {%- for attr in command.arguments -%}
         {% if attr.name == 'portlbl' %}
