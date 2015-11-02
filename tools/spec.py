@@ -53,6 +53,24 @@ VTYSH_SPEC = {
             }
         ]
     },
+    'configure': {
+        'doc': 'Configuration terminal',
+        'arguments': [],
+        'pre_commands': ['configure terminal'],
+        'post_commands': ['end'],
+        'commands': [
+            {
+                'command': 'no vlan {vlan_id}',
+                'doc': 'Delete a VLAN',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': 'VLAN Identifier.',
+                    },
+                ],
+            }
+        ]
+    },
     'config_interface': {
         'doc': 'Interface configuration.',
         'arguments': [
@@ -113,7 +131,114 @@ VTYSH_SPEC = {
                         'doc': '<1-4094>  VLAN identifier'
                     }
                 ],
+            },
+            {
+                'command': 'no vlan access {vlan_id}',
+                'doc': 'Remove vlan access',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
+                'command': 'vlan trunk allowed {vlan_id}',
+                'doc': 'Allow VLAN on the trunk port',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
+                'command': 'no vlan trunk allowed {vlan_id}',
+                'doc': 'Disallow VLAN on the trunk port',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
+                'command': 'vlan trunk native tag',
+                'doc': 'Tag configuration on the trunk port',
+                'arguments': [],
+            },
+            {
+                'command': 'no vlan trunk native tag',
+                'doc': 'Remove tag configuration on the trunk port',
+                'arguments': [],
+            },
+            {
+                'command': 'vlan trunk native {vlan_id}',
+                'doc': 'Native VLAN on the trunk port',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
+                'command': 'no vlan trunk native {vlan_id}',
+                'doc': 'Remove native VLAN on the trunk port',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+        ]
+    },
+    'config_interface_vlan': {
+        'doc': 'VLAN configuration.',
+        'arguments': [
+            {
+                'name': 'vlan_id',
+                'doc': 'Vlan id within <1-4094> and should not'
+                       'be an internal vlan.'
             }
+        ],
+        'pre_commands': ['config terminal', 'interface vlan {vlan_id}'],
+        'post_commands': ['end'],
+        'commands': [
+            {
+                'command': 'shutdown',
+                'doc': 'Enable an interface.',
+                'arguments': [],
+            },
+            {
+                'command': 'no shutdown',
+                'doc': 'Disable an interface.',
+                'arguments': [],
+            },
+        ]
+    },
+    'config_interface_lag': {
+        'doc': 'Configure link-aggregation parameters.',
+        'arguments': [
+            {
+                'name': 'lag',
+                'doc': 'LAG number ranges from 1 to 2000.'
+            }
+        ],
+        'pre_commands': ['config terminal', 'interface lag {lag}'],
+        'post_commands': ['end'],
+        'commands': [
+            {
+                'command': 'shutdown',
+                'doc': 'Enable an interface.',
+                'arguments': [],
+            },
+            {
+                'command': 'no shutdown',
+                'doc': 'Disable an interface.',
+                'arguments': [],
+            },
         ]
     },
     'config_vlan': {
