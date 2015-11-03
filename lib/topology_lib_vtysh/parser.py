@@ -71,7 +71,7 @@ def parse_show_interface(raw_result):
         r'\((?P<state_description>.*)\)\s+'
         r'Admin state is (?P<admin_state>\S+)\s+'
         r'State information: (?P<state_information>\S+)\s+'
-        r'Hardware: (?P<hadrware>\S+), MAC Address: (?P<mac_address>\S+)\s+'
+        r'Hardware: (?P<hardware>\S+), MAC Address: (?P<mac_address>\S+)\s+'
         r'MTU (?P<mtu>\d+)\s+'
         r'(?P<conection_type>\S+)\s+'
         r'Speed (?P<speed>\d+) (?P<speed_unit>\S+)\s+'
@@ -79,27 +79,28 @@ def parse_show_interface(raw_result):
         r'Input flow-control is (?P<input_flow_control>\w+),\s+'
         r'output flow-control is (?P<output_flow_control>\w+)\s+'
         r'RX\s+'
-        r'(?P<rx_input_packets>\d+) input packets\s+'
-        r'(?P<rx_input_bytes>\d+) bytes\s+'
-        r'(?P<rx_input_error>\d+) input error\s+'
+        r'(?P<rx_packets>\d+) input packets\s+'
+        r'(?P<rx_bytes>\d+) bytes\s+'
+        r'(?P<rx_error>\d+) input error\s+'
         r'(?P<rx_dropped>\d+) dropped\s+'
         r'(?P<rx_crc_fcs>\d+) CRC/FCS\s+'
         r'TX\s+'
-        r'(?P<tx_output_packets>\d+) output packets\s+'
+        r'(?P<tx_packets>\d+) output packets\s+'
         r'(?P<tx_bytes>\d+) bytes\s+'
-        r'(?P<tx_input_errors>\d+) input error\s+'
+        r'(?P<tx_errors>\d+) input error\s+'
         r'(?P<tx_dropped>\d+) dropped\s+'
         r'(?P<tx_collisions>\d+) collision'
     )
 
     raw_result = re.match(show_re, raw_result)
-    if raw_result:
-        result = raw_result.groupdict()
-        for key, value in result.items():
-            if value.isdigit():
-                result[key] = int(value)
-            elif value == 'on':
-                result[key] = True
-            elif value == 'off':
-                result[key] = False
-        return result
+    assert raw_result
+
+    result = raw_result.groupdict()
+    for key, value in result.items():
+        if value.isdigit():
+            result[key] = int(value)
+        elif value == 'on':
+            result[key] = True
+        elif value == 'off':
+            result[key] = False
+    return result
