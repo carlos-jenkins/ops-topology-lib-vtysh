@@ -68,6 +68,92 @@ VTYSH_SPEC = {
                         'doc': 'VLAN Identifier.',
                     },
                 ],
+            },
+            {
+                'command': 'no interface lag {lag_id}',
+                'doc': 'Delete a lag',
+                'arguments': [
+                    {
+                        'name': 'lag_id',
+                        'doc': 'link-aggregation identifier.',
+                    },
+                ],
+            },
+            {
+                'command': 'ip route {ipv4} {next_hop} {metric}',
+                'doc': 'Configure static routes',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M IP destination prefix.',
+                    },
+                    {
+                        'name': 'next_hop',
+                        'doc': 'Can be an ip address or a interface.',
+                    },
+                    {
+                        'name': 'metric',
+                        'doc': 'Optional, route address to configure.',
+                        'optional': True
+                    },
+                ],
+            },
+            {
+                'command': 'no ip route {ipv4} {next_hop} {metric}',
+                'doc': 'Un-configure static routes',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M IP destination prefix.',
+                    },
+                    {
+                        'name': 'next_hop',
+                        'doc': 'Can be an ip address or a interface.',
+                    },
+                    {
+                        'name': 'metric',
+                        'doc': 'Optional, route address to configure.',
+                        'optional': True
+                    },
+                ],
+            },
+            {
+                'command': 'ipv6 route {ipv6} {next_hop} {metric}',
+                'doc': 'Configure static routes',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M IP destination prefix.',
+                    },
+                    {
+                        'name': 'next_hop',
+                        'doc': 'Can be an ip address or a interface.',
+                    },
+                    {
+                        'name': 'metric',
+                        'doc': 'Optional, route address to configure.',
+                        'optional': True
+                    },
+                ],
+            },
+            {
+                'command': 'no ipv6 route {ipv6} {next_hop} {metric}',
+                'doc': 'Un-configure static routes',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M IP destination prefix.',
+                    },
+                    {
+                        'name': 'next_hop',
+                        'doc': 'Can be an ip address or a interface.',
+                    },
+                    {
+                        'name': 'metric',
+                        'doc': 'Optional, route address to configure.',
+                        'optional': True
+                    },
+                ],
             }
         ]
     },
@@ -562,6 +648,7 @@ VTYSH_TEMPLATE = """\
 {% if attrs -%}
 , {% for attr in attrs -%}
 {{ attr.name|variablize }}
+{%- if 'optional' in attr.keys() and attr.optional %}=''{% endif %}
 {%- if not loop.last %}, {% endif -%}
 {%- endfor %}
 {%- endif %}
