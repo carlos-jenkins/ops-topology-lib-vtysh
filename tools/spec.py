@@ -50,6 +50,12 @@ VTYSH_SPEC = {
                     },
                 ],
                 'returns': True
+            },
+            {
+                'command': 'show vlan',
+                'doc': 'Show VLAN configuration.',
+                'arguments': [],
+                'returns': True
             }
         ]
     },
@@ -585,6 +591,26 @@ VTYSH_SPEC = {
                 'doc': 'Disable an interface.',
                 'arguments': [],
             },
+            {
+                'command': 'lacp mode passive',
+                'doc': 'Sets an interface as LACP passive.',
+                'arguments': [],
+            },
+            {
+                'command': 'no lacp mode passive',
+                'doc': 'Sets an LACP passive interface off.',
+                'arguments': [],
+            },
+            {
+                'command': 'lacp mode active',
+                'doc': 'Sets an interface as LACP active.',
+                'arguments': [],
+            },
+            {
+                'command': 'no lacp mode active',
+                'doc': 'Sets an LACP active interface off.',
+                'arguments': [],
+            },
         ]
     },
     'config_interface_mgmt': {
@@ -799,8 +825,8 @@ def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arg
         '%s'.format(**locals()),
         shell='vtysh'
     )")|format(command.command) }}
-{% endfor %}
 
+{% endfor %}
 __all__ = [
 {%- for context_name in spec.keys() if context_name != 'root' %}
     '{{ context_name|objectize }}',

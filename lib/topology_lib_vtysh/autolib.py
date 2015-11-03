@@ -27,6 +27,199 @@ from __future__ import print_function, division
 from .parser import *  # noqa
 
 
+class ConfigInterfaceMgmt(object):
+    """
+    Configure management interface.
+    """
+    def __init__(self, enode):
+        self.enode = enode
+
+    def __enter__(self):
+        commands = """\
+            config terminal
+            interface mgmt
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+        return self
+
+    def __exit__(self, type, value, traceback):
+        commands = """\
+            end
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+    def ip_static(self, ip):
+        """
+        Set IP address
+
+        This function runs the following vtysh command:
+            # ip static {ip}
+
+        :param ip: Interface IP (ipv4 or ipv6) address.
+        """
+
+        assert not self.enode(
+            'ip static {ip}'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def no_ip_static(self, ip):
+        """
+        Unset IP address
+
+        This function runs the following vtysh command:
+            # no ip static {ip}
+
+        :param ip: Interface IP (ipv4 or ipv6) address.
+        """
+
+        assert not self.enode(
+            'no ip static {ip}'.format(**locals()),
+            shell='vtysh'
+        )
+
+
+class Configure(object):
+    """
+    Configuration terminal
+    """
+    def __init__(self, enode):
+        self.enode = enode
+
+    def __enter__(self):
+        commands = """\
+            configure terminal
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+        return self
+
+    def __exit__(self, type, value, traceback):
+        commands = """\
+            end
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+    def no_vlan(self, vlan_id):
+        """
+        Delete a VLAN
+
+        This function runs the following vtysh command:
+            # no vlan {vlan_id}
+
+        :param vlan_id: VLAN Identifier.
+        """
+
+        assert not self.enode(
+            'no vlan {vlan_id}'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def no_interface_lag(self, lag_id):
+        """
+        Delete a lag
+
+        This function runs the following vtysh command:
+            # no interface lag {lag_id}
+
+        :param lag_id: link-aggregation identifier.
+        """
+
+        assert not self.enode(
+            'no interface lag {lag_id}'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def ip_route(self, ipv4, next_hop, metric=''):
+        """
+        Configure static routes
+
+        This function runs the following vtysh command:
+            # ip route {ipv4} {next_hop} {metric}
+
+        :param ipv4: A.B.C.D/M IP destination prefix.
+        :param next_hop: Can be an ip address or a interface.
+        :param metric: Optional, route address to configure.
+        """
+
+        assert not self.enode(
+            'ip route {ipv4} {next_hop} {metric}'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def no_ip_route(self, ipv4, next_hop, metric=''):
+        """
+        Un-configure static routes
+
+        This function runs the following vtysh command:
+            # no ip route {ipv4} {next_hop} {metric}
+
+        :param ipv4: A.B.C.D/M IP destination prefix.
+        :param next_hop: Can be an ip address or a interface.
+        :param metric: Optional, route address to configure.
+        """
+
+        assert not self.enode(
+            'no ip route {ipv4} {next_hop} {metric}'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def ipv6_route(self, ipv6, next_hop, metric=''):
+        """
+        Configure static routes
+
+        This function runs the following vtysh command:
+            # ipv6 route {ipv6} {next_hop} {metric}
+
+        :param ipv6: X:X::X:X/M IP destination prefix.
+        :param next_hop: Can be an ip address or a interface.
+        :param metric: Optional, route address to configure.
+        """
+
+        assert not self.enode(
+            'ipv6 route {ipv6} {next_hop} {metric}'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def no_ipv6_route(self, ipv6, next_hop, metric=''):
+        """
+        Un-configure static routes
+
+        This function runs the following vtysh command:
+            # no ipv6 route {ipv6} {next_hop} {metric}
+
+        :param ipv6: X:X::X:X/M IP destination prefix.
+        :param next_hop: Can be an ip address or a interface.
+        :param metric: Optional, route address to configure.
+        """
+
+        assert not self.enode(
+            'no ipv6 route {ipv6} {next_hop} {metric}'.format(**locals()),
+            shell='vtysh'
+        )
+
+
 class ConfigInterfaceLag(object):
     """
     Configure link-aggregation parameters.
@@ -39,6 +232,244 @@ class ConfigInterfaceLag(object):
         commands = """\
             config terminal
             interface lag {lag}
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+        return self
+
+    def __exit__(self, type, value, traceback):
+        commands = """\
+            end
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+    def ip_address(self, ipv4):
+        """
+        Set IP address
+
+        This function runs the following vtysh command:
+            # ip address {ipv4}
+
+        :param ipv4: A.B.C.D/M Interface IP address.
+        """
+
+        assert not self.enode(
+            'ip address {ipv4}'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def no_ip_address(self, ipv4):
+        """
+        Unset IP address
+
+        This function runs the following vtysh command:
+            # no ip address {ipv4}
+
+        :param ipv4: A.B.C.D/M Interface IP address.
+        """
+
+        assert not self.enode(
+            'no ip address {ipv4}'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def ip_address_secondary(self, ipv4):
+        """
+        Set secondary IP address
+
+        This function runs the following vtysh command:
+            # ip address {ipv4} secondary
+
+        :param ipv4: A.B.C.D/M Interface IP address.
+        """
+
+        assert not self.enode(
+            'ip address {ipv4} secondary'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def no_ip_address_secondary(self, ipv4):
+        """
+        Unset secondary IP address
+
+        This function runs the following vtysh command:
+            # no ip address {ipv4} secondary
+
+        :param ipv4: A.B.C.D/M Interface IP address.
+        """
+
+        assert not self.enode(
+            'no ip address {ipv4} secondary'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def ipv6_address(self, ipv6):
+        """
+        Set IPv6 address
+
+        This function runs the following vtysh command:
+            # ipv6 address {ipv6}
+
+        :param ipv6: X:X::X:X/M  Interface IPv6 address
+        """
+
+        assert not self.enode(
+            'ipv6 address {ipv6}'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def no_ipv6_address(self, ipv6):
+        """
+        Unset IPv6 address
+
+        This function runs the following vtysh command:
+            # no ipv6 address {ipv6}
+
+        :param ipv6: X:X::X:X/M  Interface IPv6 address
+        """
+
+        assert not self.enode(
+            'no ipv6 address {ipv6}'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def ipv6_address_secondary(self, ipv6):
+        """
+        Set secondary IPv6 address
+
+        This function runs the following vtysh command:
+            # ipv6 address {ipv6} secondary
+
+        :param ipv6: X:X::X:X/M  Interface IPv6 address
+        """
+
+        assert not self.enode(
+            'ipv6 address {ipv6} secondary'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def no_ipv6_address_secondary(self, ipv6):
+        """
+        Unset IPv6 address
+
+        This function runs the following vtysh command:
+            # no ipv6 address {ipv6} secondary
+
+        :param ipv6: X:X::X:X/M  Interface IPv6 address
+        """
+
+        assert not self.enode(
+            'no ipv6 address {ipv6} secondary'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def shutdown(self):
+        """
+        Enable an interface.
+
+        This function runs the following vtysh command:
+            # shutdown
+
+        """
+
+        assert not self.enode(
+            'shutdown'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def no_shutdown(self):
+        """
+        Disable an interface.
+
+        This function runs the following vtysh command:
+            # no shutdown
+
+        """
+
+        assert not self.enode(
+            'no shutdown'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def lacp_mode_passive(self):
+        """
+        Sets an interface as LACP passive.
+
+        This function runs the following vtysh command:
+            # lacp mode passive
+
+        """
+
+        assert not self.enode(
+            'lacp mode passive'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def no_lacp_mode_passive(self):
+        """
+        Sets an LACP passive interface off.
+
+        This function runs the following vtysh command:
+            # no lacp mode passive
+
+        """
+
+        assert not self.enode(
+            'no lacp mode passive'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def lacp_mode_active(self):
+        """
+        Sets an interface as LACP active.
+
+        This function runs the following vtysh command:
+            # lacp mode active
+
+        """
+
+        assert not self.enode(
+            'lacp mode active'.format(**locals()),
+            shell='vtysh'
+        )
+
+    def no_lacp_mode_active(self):
+        """
+        Sets an LACP active interface off.
+
+        This function runs the following vtysh command:
+            # no lacp mode active
+
+        """
+
+        assert not self.enode(
+            'no lacp mode active'.format(**locals()),
+            shell='vtysh'
+        )
+
+
+class ConfigInterfaceVlan(object):
+    """
+    VLAN configuration.
+    """
+    def __init__(self, enode, vlan_id):
+        self.enode = enode
+        self.vlan_id = vlan_id
+
+    def __enter__(self):
+        commands = """\
+            config terminal
+            interface vlan {vlan_id}
         """
 
         self.enode.libs.common.assert_batch(
@@ -267,318 +698,6 @@ class ConfigVlan(object):
 
         assert not self.enode(
             'no shutdown'.format(**locals()),
-            shell='vtysh'
-        )
-
-
-class ConfigInterfaceVlan(object):
-    """
-    VLAN configuration.
-    """
-    def __init__(self, enode, vlan_id):
-        self.enode = enode
-        self.vlan_id = vlan_id
-
-    def __enter__(self):
-        commands = """\
-            config terminal
-            interface vlan {vlan_id}
-        """
-
-        self.enode.libs.common.assert_batch(
-            commands,
-            replace=self.__dict__,
-            shell='vtysh'
-        )
-
-        return self
-
-    def __exit__(self, type, value, traceback):
-        commands = """\
-            end
-        """
-
-        self.enode.libs.common.assert_batch(
-            commands,
-            replace=self.__dict__,
-            shell='vtysh'
-        )
-
-    def ip_address(self, ipv4):
-        """
-        Set IP address
-
-        This function runs the following vtysh command:
-            # ip address {ipv4}
-
-        :param ipv4: A.B.C.D/M Interface IP address.
-        """
-
-        assert not self.enode(
-            'ip address {ipv4}'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def no_ip_address(self, ipv4):
-        """
-        Unset IP address
-
-        This function runs the following vtysh command:
-            # no ip address {ipv4}
-
-        :param ipv4: A.B.C.D/M Interface IP address.
-        """
-
-        assert not self.enode(
-            'no ip address {ipv4}'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def ip_address_secondary(self, ipv4):
-        """
-        Set secondary IP address
-
-        This function runs the following vtysh command:
-            # ip address {ipv4} secondary
-
-        :param ipv4: A.B.C.D/M Interface IP address.
-        """
-
-        assert not self.enode(
-            'ip address {ipv4} secondary'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def no_ip_address_secondary(self, ipv4):
-        """
-        Unset secondary IP address
-
-        This function runs the following vtysh command:
-            # no ip address {ipv4} secondary
-
-        :param ipv4: A.B.C.D/M Interface IP address.
-        """
-
-        assert not self.enode(
-            'no ip address {ipv4} secondary'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def ipv6_address(self, ipv6):
-        """
-        Set IPv6 address
-
-        This function runs the following vtysh command:
-            # ipv6 address {ipv6}
-
-        :param ipv6: X:X::X:X/M  Interface IPv6 address
-        """
-
-        assert not self.enode(
-            'ipv6 address {ipv6}'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def no_ipv6_address(self, ipv6):
-        """
-        Unset IPv6 address
-
-        This function runs the following vtysh command:
-            # no ipv6 address {ipv6}
-
-        :param ipv6: X:X::X:X/M  Interface IPv6 address
-        """
-
-        assert not self.enode(
-            'no ipv6 address {ipv6}'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def ipv6_address_secondary(self, ipv6):
-        """
-        Set secondary IPv6 address
-
-        This function runs the following vtysh command:
-            # ipv6 address {ipv6} secondary
-
-        :param ipv6: X:X::X:X/M  Interface IPv6 address
-        """
-
-        assert not self.enode(
-            'ipv6 address {ipv6} secondary'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def no_ipv6_address_secondary(self, ipv6):
-        """
-        Unset IPv6 address
-
-        This function runs the following vtysh command:
-            # no ipv6 address {ipv6} secondary
-
-        :param ipv6: X:X::X:X/M  Interface IPv6 address
-        """
-
-        assert not self.enode(
-            'no ipv6 address {ipv6} secondary'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def shutdown(self):
-        """
-        Enable an interface.
-
-        This function runs the following vtysh command:
-            # shutdown
-
-        """
-
-        assert not self.enode(
-            'shutdown'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def no_shutdown(self):
-        """
-        Disable an interface.
-
-        This function runs the following vtysh command:
-            # no shutdown
-
-        """
-
-        assert not self.enode(
-            'no shutdown'.format(**locals()),
-            shell='vtysh'
-        )
-
-
-class Configure(object):
-    """
-    Configuration terminal
-    """
-    def __init__(self, enode):
-        self.enode = enode
-
-    def __enter__(self):
-        commands = """\
-            configure terminal
-        """
-
-        self.enode.libs.common.assert_batch(
-            commands,
-            replace=self.__dict__,
-            shell='vtysh'
-        )
-
-        return self
-
-    def __exit__(self, type, value, traceback):
-        commands = """\
-            end
-        """
-
-        self.enode.libs.common.assert_batch(
-            commands,
-            replace=self.__dict__,
-            shell='vtysh'
-        )
-
-    def no_vlan(self, vlan_id):
-        """
-        Delete a VLAN
-
-        This function runs the following vtysh command:
-            # no vlan {vlan_id}
-
-        :param vlan_id: VLAN Identifier.
-        """
-
-        assert not self.enode(
-            'no vlan {vlan_id}'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def no_interface_lag(self, lag_id):
-        """
-        Delete a lag
-
-        This function runs the following vtysh command:
-            # no interface lag {lag_id}
-
-        :param lag_id: link-aggregation identifier.
-        """
-
-        assert not self.enode(
-            'no interface lag {lag_id}'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def ip_route(self, ipv4, next_hop, metric=''):
-        """
-        Configure static routes
-
-        This function runs the following vtysh command:
-            # ip route {ipv4} {next_hop} {metric}
-
-        :param ipv4: A.B.C.D/M IP destination prefix.
-        :param next_hop: Can be an ip address or a interface.
-        :param metric: Optional, route address to configure.
-        """
-
-        assert not self.enode(
-            'ip route {ipv4} {next_hop} {metric}'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def no_ip_route(self, ipv4, next_hop, metric=''):
-        """
-        Un-configure static routes
-
-        This function runs the following vtysh command:
-            # no ip route {ipv4} {next_hop} {metric}
-
-        :param ipv4: A.B.C.D/M IP destination prefix.
-        :param next_hop: Can be an ip address or a interface.
-        :param metric: Optional, route address to configure.
-        """
-
-        assert not self.enode(
-            'no ip route {ipv4} {next_hop} {metric}'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def ipv6_route(self, ipv6, next_hop, metric=''):
-        """
-        Configure static routes
-
-        This function runs the following vtysh command:
-            # ipv6 route {ipv6} {next_hop} {metric}
-
-        :param ipv6: X:X::X:X/M IP destination prefix.
-        :param next_hop: Can be an ip address or a interface.
-        :param metric: Optional, route address to configure.
-        """
-
-        assert not self.enode(
-            'ipv6 route {ipv6} {next_hop} {metric}'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def no_ipv6_route(self, ipv6, next_hop, metric=''):
-        """
-        Un-configure static routes
-
-        This function runs the following vtysh command:
-            # no ipv6 route {ipv6} {next_hop} {metric}
-
-        :param ipv6: X:X::X:X/M IP destination prefix.
-        :param next_hop: Can be an ip address or a interface.
-        :param metric: Optional, route address to configure.
-        """
-
-        assert not self.enode(
-            'no ipv6 route {ipv6} {next_hop} {metric}'.format(**locals()),
             shell='vtysh'
         )
 
@@ -975,69 +1094,6 @@ class ConfigInterface(object):
         )
 
 
-class ConfigInterfaceMgmt(object):
-    """
-    Configure management interface.
-    """
-    def __init__(self, enode):
-        self.enode = enode
-
-    def __enter__(self):
-        commands = """\
-            config terminal
-            interface mgmt
-        """
-
-        self.enode.libs.common.assert_batch(
-            commands,
-            replace=self.__dict__,
-            shell='vtysh'
-        )
-
-        return self
-
-    def __exit__(self, type, value, traceback):
-        commands = """\
-            end
-        """
-
-        self.enode.libs.common.assert_batch(
-            commands,
-            replace=self.__dict__,
-            shell='vtysh'
-        )
-
-    def ip_static(self, ip):
-        """
-        Set IP address
-
-        This function runs the following vtysh command:
-            # ip static {ip}
-
-        :param ip: Interface IP (ipv4 or ipv6) address.
-        """
-
-        assert not self.enode(
-            'ip static {ip}'.format(**locals()),
-            shell='vtysh'
-        )
-
-    def no_ip_static(self, ip):
-        """
-        Unset IP address
-
-        This function runs the following vtysh command:
-            # no ip static {ip}
-
-        :param ip: Interface IP (ipv4 or ipv6) address.
-        """
-
-        assert not self.enode(
-            'no ip static {ip}'.format(**locals()),
-            shell='vtysh'
-        )
-
-
 def show_interface(enode, portlbl):
     """
     Interface infomation.
@@ -1060,12 +1116,29 @@ def show_interface(enode, portlbl):
     ))
 
 
+def show_vlan(enode):
+    """
+    Show VLAN configuration.
+
+    This function runs the following vtysh command:
+        # show vlan
+
+    :return: parse_show_vlan(raw_result)
+    """
+
+    return parse_show_vlan(enode(
+        'show vlan'.format(**locals()),
+        shell='vtysh'
+    ))
+
+
 __all__ = [
-    'ConfigInterfaceLag',
-    'ConfigVlan',
-    'ConfigInterfaceVlan',
-    'Configure',
-    'ConfigInterface',
     'ConfigInterfaceMgmt',
-    'show_interface'
+    'Configure',
+    'ConfigInterfaceLag',
+    'ConfigInterfaceVlan',
+    'ConfigVlan',
+    'ConfigInterface',
+    'show_interface',
+    'show_vlan'
 ]
