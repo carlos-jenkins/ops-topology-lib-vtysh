@@ -183,7 +183,17 @@ VTYSH_SPEC = {
                         'optional': True
                     },
                 ],
-            }
+            },
+            {
+                'command': 'lacp system-priority {priority}',
+                'doc': 'Set LACP system priority.',
+                'arguments': [
+                    {
+                        'name': 'priority',
+                        'doc': '<0-65535>  The range is 0 to 65535.',
+                    },
+                ],
+            },
         ]
     },
     'config_interface': {
@@ -634,6 +644,33 @@ VTYSH_SPEC = {
                 'doc': 'Sets an LACP active interface off.',
                 'arguments': [],
             },
+            {
+                'command': 'lacp fallback',
+                'doc': 'Enable LACP fallback mode.',
+                'arguments': [],
+            },
+            {
+                'command': 'hash l2-src-dst',
+                'doc': 'Base the hash on l2-src-dst.',
+                'arguments': [],
+            },
+            {
+                'command': 'hash l3-src-dst',
+                'doc': 'Base the hash on l3-src-dst.',
+                'arguments': [],
+            },
+            {
+                'command': 'lacp rate fast',
+                'doc': 'Set LACP heartbeats are requested at the rate '
+                       'of one per second.',
+                'arguments': [],
+            },
+            {
+                'command': 'no lacp rate fast',
+                'doc': 'Set LACP heartbeats slow which is once every '
+                       ' 30 seconds.',
+                'arguments': [],
+            },
         ]
     },
     'config_interface_mgmt': {
@@ -661,6 +698,63 @@ VTYSH_SPEC = {
                         'doc': 'Interface IP (ipv4 or ipv6) address.',
                     },
                 ],
+            },
+            {
+                'command': 'default-gateway {gateway}',
+                'doc': 'Configure the Default gateway address (IPv4 and IPv6)',
+                'arguments': [
+                    {
+                        'name': 'gateway',
+                        'doc': 'IP (ipv4 or ipv6) address.',
+                    },
+                ],
+            },
+            {
+                'command': 'no default-gateway {gateway}',
+                'doc': 'Remove the Default gateway address (IPv4 and IPv6)',
+                'arguments': [
+                    {
+                        'name': 'gateway',
+                        'doc': 'IP (ipv4 or ipv6) address.',
+                    },
+                ],
+            },
+            {
+                'command': 'nameserver {primary_nameserver} '
+                           '{secondary_nameserver}',
+                'doc': 'Configure the nameserver',
+                'arguments': [
+                    {
+                        'name': 'primary_nameserver',
+                        'doc': 'Primary nameserver (ipv4 or ipv6) address.',
+                    },
+                    {
+                        'name': 'secondary_nameserver',
+                        'doc': 'Secondary nameserver (ipv4 or ipv6) address.',
+                        'optional': True
+                    },
+                ],
+            },
+            {
+                'command': 'no nameserver {primary_nameserver} '
+                           '{secondary_nameserver}',
+                'doc': 'Configure the nameserver',
+                'arguments': [
+                    {
+                        'name': 'primary_nameserver',
+                        'doc': 'Primary nameserver (ipv4 or ipv6) address.',
+                    },
+                    {
+                        'name': 'secondary_nameserver',
+                        'doc': 'Secondary nameserver (ipv4 or ipv6) address.',
+                        'optional': True
+                    },
+                ],
+            },
+            {
+                'command': 'ip dhcp',
+                'doc': 'Set the mode as dhcp.',
+                'arguments': [],
             },
         ]
     },
@@ -777,7 +871,7 @@ class {{ context_name|objectize }}(object):
             shell='vtysh'
         )
 {% for command in context.commands %}
-    def {{ command.command|methodize }}({{ 'self%s):'|format(param_attrs(command.arguments))|wordwrap(67)|indent(12) }}
+    def {{ command.command|methodize }}({{ 'self%s):'|format(param_attrs(command.arguments))|wordwrap(56)|indent(12) }}
         \"""
         {{ command.doc|wordwrap(71)|indent(8) }}
 
@@ -785,7 +879,7 @@ class {{ context_name|objectize }}(object):
             # {{ command.command }}
 
         {% for attr in command.arguments -%}
-        {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(75)|indent(5) }}
+        {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(70)|indent(12) }}
         {% endfor -%}
         {%- if 'returns' in command.keys() and command.returns -%}
         :return: {{ 'parse_%s(raw_result)|format(command.command|methodize)' }}
@@ -809,7 +903,9 @@ class {{ context_name|objectize }}(object):
             {% set template='return parse_%s(%s)'|format(command.command|methodize, '%s') -%}
         {% endif -%}
         {{ template|format("self.enode(
-            '%s'.format(**locals()),
+            '%s'.format(
+                **locals()
+            ),
             shell='vtysh'
         )")|format(command.command) }}
 {% endfor %}
