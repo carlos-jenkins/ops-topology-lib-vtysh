@@ -33,7 +33,7 @@ def parse_show_interface(raw_result):
     :param str raw_result: vtysh raw result string.
     :rtype: dict
     :return: The parsed result of the show interface command in a
-    dictionary of the form:
+        dictionary of the form:
 
      ::
 
@@ -112,7 +112,7 @@ def parse_show_vlan(raw_result):
     :param str raw_result: vtysh raw result string.
     :rtype: dict
     :return: The parsed result of the show vlan command in a
-    dictionary of the form:
+        dictionary of the form:
 
      ::
 
@@ -158,7 +158,7 @@ def parse_show_lacp_interface(raw_result):
     :param str raw_result: vtysh raw result string.
     :rtype: dict
     :return: The parsed result of the show lacp interface command in a
-    dictionary of the form:
+        dictionary of the form:
 
      ::
 
@@ -243,7 +243,7 @@ def parse_show_lacp_aggregates(raw_result):
     :param str raw_result: vtysh raw result string.
     :rtype: dict
     :return: The parsed result of the show lacp interface command in a
-    dictionary of the form:
+        dictionary of the form:
 
      ::
 
@@ -286,3 +286,9 @@ def parse_show_lacp_aggregates(raw_result):
     assert result
 
     return result
+
+
+__all__ = [
+    'parse_show_vlan', 'parse_show_lacp_aggregates',
+    'parse_show_lacp_interface', 'parse_show_interface'
+]

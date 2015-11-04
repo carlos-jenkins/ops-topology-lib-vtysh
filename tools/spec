@@ -63,7 +63,7 @@ VTYSH_SPEC = {
                 'arguments': [
                     {
                         'name': 'portlbl',
-                        'doc': 'Show LACP interface.',
+                        'doc': 'Label that identifies interface.',
                     }
                 ],
                 'returns': True
@@ -910,7 +910,7 @@ def build():
 
     with open(join(
             root,
-            '{}.py'.format('../lib/topology_lib_vtysh/autolib')),
+            '{}.py'.format('../lib/topology_lib_vtysh/library')),
             'w') as module:
         module.write(rendered)
 
