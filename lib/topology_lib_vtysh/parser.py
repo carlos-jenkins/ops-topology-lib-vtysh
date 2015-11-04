@@ -133,14 +133,11 @@ def parse_show_vlan(raw_result):
                     'vlan_id': '2'
             }
         }
-
-    FIXME: find a regular expresion for "reserved" field, so it doesn't
-    break ports
     """
 
     vlan_re = (
         r'(?P<vlan_id>\d+)\s+(?P<name>\S+)\s+(?P<status>\S+)\s+'
-        r'(?P<reason>\S+)\s*(?P<reserved>FIXME)?\s*(?P<ports>.*)?'
+        r'(?P<reason>\S+)\s*(?P<reserved>\(\w+\))?\s*(?P<ports>[\w ,]*)'
     )
 
     result = {}
