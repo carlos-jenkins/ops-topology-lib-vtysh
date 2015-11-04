@@ -59,11 +59,23 @@ VTYSH_SPEC = {
             },
             {
                 'command': 'show lacp interface {port}',
-                'doc': 'Show VLAN configuration.',
+                'doc': 'Show LACP interface.',
                 'arguments': [
                     {
                         'name': 'portlbl',
                         'doc': 'Show LACP interface.',
+                    }
+                ],
+                'returns': True
+            },
+            {
+                'command': 'show lacp aggregates {lag}',
+                'doc': 'Show LACP aggregates.',
+                'arguments': [
+                    {
+                        'name': 'lag',
+                        'doc': 'Link-aggregate name.',
+                        'optional': True
                     }
                 ],
                 'returns': True

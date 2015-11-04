@@ -18,11 +18,15 @@
 """
 OpenSwitch Test for vtysh related commands.
 """
+
+from __future__ import unicode_literals
+
 from deepdiff import DeepDiff
 
 from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_vlan,
-                                       parse_show_lacp_interface
+                                       parse_show_lacp_interface,
+                                       parse_show_lacp_aggregates
                                        )
 
 
@@ -173,6 +177,49 @@ State      |                    |
             'neighbor_state': False,
             'individual': False,
             'out_sync': False
+        },
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_lacp_aggregates():
+    raw_result = """\
+Aggregate-name        : lag1
+Aggregated-interfaces : 4 9
+Heartbeat rate        : slow
+Fallback              : false
+Hash                  : l3-src-dst
+Aggregate mode        : off
+
+
+Aggregate-name        : lag2
+Aggregated-interfaces :
+Heartbeat rate        : slow
+Fallback              : false
+Hash                  : l3-src-dst
+Aggregate mode        : off
+    """
+
+    result = parse_show_lacp_aggregates(raw_result)
+
+    expected = {
+        'lag1': {
+            'name': 'lag1',
+            'interfaces': ['4', '9'],
+            'heartbeat_rate': 'slow',
+            'fallback': False,
+            'hash': 'l3-src-dst',
+            'mode': 'off'
+        },
+        'lag2': {
+            'name': 'lag2',
+            'interfaces': [],
+            'heartbeat_rate': 'slow',
+            'fallback': False,
+            'hash': 'l3-src-dst',
+            'mode': 'off'
         },
     }
 

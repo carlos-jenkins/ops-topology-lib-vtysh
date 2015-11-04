@@ -234,3 +234,55 @@ def parse_show_lacp_interface(raw_result):
         result[state] = tmp_dict
 
     return result
+
+
+def parse_show_lacp_aggregates(raw_result):
+    """
+    Parse the 'show lacp aggregates' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show lacp interface command in a
+    dictionary of the form:
+
+     ::
+
+            {
+                'lag1': {
+                    'name': 'lag1',
+                    'interfaces': [4, 9],
+                    'heartbeat_rate': 'slow',
+                    'fallback': False,
+                    'hash': 'l3-src-dst',
+                    'mode': 'off'
+                },
+                'lag2': {
+                    'name': 'lag2',
+                    'interfaces': [],
+                    'heartbeat_rate': 'slow',
+                    'fallback': False,
+                    'hash': 'l3-src-dst',
+                    'mode': 'off'
+                }
+            }
+    """
+
+    lacp_re = (
+        r'Aggregate-name[ ]+: (?P<name>\w+)\s*'
+        r'Aggregated-interfaces\s+:[ ]?(?P<interfaces>[\w \-]*)\s*'
+        r'Heartbeat rate[ ]+: (?P<heartbeat_rate>slow|fast)\s*'
+        r'Fallback[ ]+: (?P<fallback>true|false)\s*'
+        r'Hash[ ]+: (?P<hash>l2-src-dst|l3-src-dst)\s*'
+        r'Aggregate mode[ ]+: (?P<mode>off|passive|active)\s*'
+    )
+
+    result = {}
+    for re_result in re.finditer(lacp_re, raw_result):
+        lag = re_result.groupdict()
+        lag['interfaces'] = lag['interfaces'].split()
+        lag['fallback'] = lag['fallback'] == 'True'
+        result[lag['name']] = lag
+
+    assert result
+
+    return result
