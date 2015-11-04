@@ -194,6 +194,16 @@ VTYSH_SPEC = {
                     },
                 ],
             },
+            {
+                'command': 'feature lldp',
+                'doc': 'Configure LLDP parameters.',
+                'arguments': [],
+            },
+            {
+                'command': 'no feature lldp',
+                'doc': 'Un-configure LLDP parameters.',
+                'arguments': [],
+            },
         ]
     },
     'config_interface': {
@@ -416,6 +426,26 @@ VTYSH_SPEC = {
                         'doc': '<1-2000>  LAG number ranges from 1 to 2000'
                     }
                 ],
+            },
+            {
+                'command': 'lldp transmission',
+                'doc': 'Set the transmission on lldp.',
+                'arguments': [],
+            },
+            {
+                'command': 'no lldp transmission',
+                'doc': 'Un-set the transmission on lldp.',
+                'arguments': [],
+            },
+            {
+                'command': 'lldp reception',
+                'doc': 'Set the reception on lldp.',
+                'arguments': [],
+            },
+            {
+                'command': 'no lldp reception',
+                'doc': 'Un-set the reception on lldp.',
+                'arguments': [],
             },
         ]
     },
@@ -778,6 +808,26 @@ VTYSH_SPEC = {
                 'command': 'no shutdown',
                 'doc': 'Disable the VLAN.',
                 'arguments': [],
+            },
+            {
+                'command': 'description {description}',
+                'doc': 'Set VLAN description',
+                'arguments': [
+                    {
+                        'name': 'description',
+                        'doc': 'VLAN description.',
+                    }
+                ],
+            },
+            {
+                'command': 'no description {description}',
+                'doc': 'Un-set VLAN description',
+                'arguments': [
+                    {
+                        'name': 'description',
+                        'doc': 'VLAN description.',
+                    }
+                ],
             }
         ]
     },
