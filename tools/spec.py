@@ -56,6 +56,17 @@ VTYSH_SPEC = {
                 'doc': 'Show VLAN configuration.',
                 'arguments': [],
                 'returns': True
+            },
+            {
+                'command': 'show lacp interface {port}',
+                'doc': 'Show VLAN configuration.',
+                'arguments': [
+                    {
+                        'name': 'portlbl',
+                        'doc': 'Show LACP interface.',
+                    }
+                ],
+                'returns': True
             }
         ]
     },

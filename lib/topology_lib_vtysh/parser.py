@@ -149,3 +149,88 @@ def parse_show_vlan(raw_result):
             result[partial['vlan_id']] = partial
 
     return result
+
+
+def parse_show_lacp_interface(raw_result):
+    """
+    Parse the 'show lacp interface' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show lacp interface command in a
+    dictionary of the form:
+
+     ::
+
+        {
+                'lag_id': '1',
+                'local_system_id': '',
+                'remote_system_id': '',
+                'local_port_id': '',
+                'remote_port_id': '',
+                'local_key': '',
+                'remote_key': '',
+                'local_state': {
+                    'active': False,
+                    'short_time': False,
+                    'collecting': True,
+                    'state_expired': False,
+                    'passive': False,
+                    'long_timeout': False,
+                    'distributing': True,
+                    'aggregable': False,
+                    'in_sync': False,
+                    'neighbor_state': False,
+                    'individual': False,
+                    'out_sync': False
+                },
+                'remote_state': {
+                    'active': False,
+                    'short_time': False,
+                    'collecting': True,
+                    'state_expired': False,
+                    'passive': False,
+                    'long_timeout': False,
+                    'distributing': False,
+                    'aggregable': False,
+                    'in_sync': True,
+                    'neighbor_state': False,
+                    'individual': False,
+                    'out_sync': False
+                },
+            }
+    """
+
+    lacp_re = (
+        r'Aggregate-name\s*:\s*[lag]*(?P<lag_id>\w*)?[\s \S]*'
+        r'System-id\s*\|\s*(?P<local_system_id>.*)?\|'
+        r'\s*(?P<remote_system_id>.*)?\s+'
+        r'Port-id\s*\|\s*(?P<local_port_id>.*)?\|\s*(?P<remote_port_id>.*)?\s+'
+        r'Key\s*\|\s*(?P<local_key>.*)?\|\s*(?P<remote_key>.*)?\s+'
+        r'State\s*\|\s*(?P<local_state>.*)?\|\s*(?P<remote_state>.*)?\s+'
+    )
+
+    re_result = re.search(lacp_re, raw_result)
+    assert re_result
+
+    result = re_result.groupdict()
+
+    for state in ['local_state', 'remote_state']:
+        tmp_dict = {
+            'active': 'A' in result[state],
+            'short_time': 'S' in result[state],
+            'collecting': 'C' in result[state],
+            'state_expired': 'X' in result[state],
+            'passive': 'P' in result[state],
+            'long_timeout': 'L' in result[state],
+            'distributing': 'D' in result[state],
+            'aggregable': 'F' in result[state],
+            'in_sync': 'N' in result[state],
+            'neighbor_state': 'E' in result[state],
+            'individual': 'I' in result[state],
+            'out_sync': 'O' in result[state]
+        }
+
+        result[state] = tmp_dict
+
+    return result

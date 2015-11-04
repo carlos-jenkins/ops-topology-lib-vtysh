@@ -20,7 +20,10 @@ OpenSwitch Test for vtysh related commands.
 """
 from deepdiff import DeepDiff
 
-from topology_lib_vtysh.parser import parse_show_interface, parse_show_vlan
+from topology_lib_vtysh.parser import (parse_show_interface,
+                                       parse_show_vlan,
+                                       parse_show_lacp_interface
+                                       )
 
 
 def test_parse_show_vlan():
@@ -108,6 +111,69 @@ Interface 7 is down (Administratively down)
         'tx_dropped': 0,
         'tx_errors': 0,
         'tx_packets': 0
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_lacp_interface():
+    raw_result = """\
+State abbreviations :
+A - Active        P - Passive      F - Aggregable I - Individual
+S - Short-timeout L - Long-timeout N - InSync     O - OutofSync
+C - Collecting    D - Distributing
+X - State m/c expired              E - Default neighbor state
+
+
+Aggregate-name : lag1
+-------------------------------------------------
+                   Actor             Partner
+-------------------------------------------------
+System-id  |                    |
+Port-id    |                    |
+Key        |                    |
+State      |                    |
+    """
+
+    result = parse_show_lacp_interface(raw_result)
+
+    expected = {
+        'lag_id': '1',
+        'local_system_id': '',
+        'remote_system_id': '',
+        'local_port_id': '',
+        'remote_port_id': '',
+        'local_key': '',
+        'remote_key': '',
+        'local_state': {
+            'active': False,
+            'short_time': False,
+            'collecting': False,
+            'state_expired': False,
+            'passive': False,
+            'long_timeout': False,
+            'distributing': False,
+            'aggregable': False,
+            'in_sync': False,
+            'neighbor_state': False,
+            'individual': False,
+            'out_sync': False
+        },
+        'remote_state': {
+            'active': False,
+            'short_time': False,
+            'collecting': False,
+            'state_expired': False,
+            'passive': False,
+            'long_timeout': False,
+            'distributing': False,
+            'aggregable': False,
+            'in_sync': False,
+            'neighbor_state': False,
+            'individual': False,
+            'out_sync': False
+        },
     }
 
     ddiff = DeepDiff(result, expected)
