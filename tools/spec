@@ -85,6 +85,23 @@ VTYSH_SPEC = {
                 'doc': 'Show LACP configuration.',
                 'arguments': [],
                 'returns': True
+            },
+            {
+                'command': 'show lldp neighbor-info {port}',
+                'doc': 'Show global LLDP neighbor information.',
+                'arguments': [
+                    {
+                        'name': 'portlbl',
+                        'doc': 'Label that identifies interface.'
+                    }
+                ],
+                'returns': True
+            },
+            {
+                'command': 'show lldp statistics',
+                'doc': 'Show LLDP statistics.',
+                'arguments': [],
+                'returns': True
             }
         ]
     },

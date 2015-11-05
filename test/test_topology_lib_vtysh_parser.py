@@ -27,7 +27,9 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_vlan,
                                        parse_show_lacp_interface,
                                        parse_show_lacp_aggregates,
-                                       parse_show_lacp_configuration
+                                       parse_show_lacp_configuration,
+                                       parse_show_lldp_neighbor_info,
+                                       parse_show_lldp_statistics
                                        )
 
 
@@ -241,5 +243,61 @@ System-priority : 65534
         'priority': 65534
     }
 
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_lldp_neighbor_info():
+    raw_result = """\
+Port                           : 1
+Neighbor entries               : 0
+Neighbor entries deleted       : 0
+Neighbor entries dropped       : 0
+Neighbor entries age-out       : 0
+Neighbor Chassis-Name          :
+Neighbor Chassis-Description   :
+Neighbor Chassis-ID            :
+Chassis Capabilities Available :
+Chassis Capabilities Enabled   :
+Neighbor Port-ID               :
+TTL                            :
+    """
+
+    result = parse_show_lldp_neighbor_info(raw_result)
+
+    expected = {
+        'port': 1,
+        'neighbor_entries': 0,
+        'neighbor_entries_deleted': 0,
+        'neighbor_entries_dropped': 0,
+        'neighbor_entries_age_out': 0,
+        'neighbor_chassis_name': None,
+        'neighbor_chassis_description': '',
+        'neighbor_chassis_id': None,
+        'chassis_capabilities_available': '',
+        'chassis_capabilities_enabled': '',
+        'neighbor_port_id': '',
+        'ttl': None
+    }
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_lldp_statistics():
+    raw_result = """\
+Total Packets transmitted : 0
+Total Packets received : 0
+Total Packet received and discarded : 0
+Total TLVs unrecognized : 0
+    """
+
+    result = parse_show_lldp_statistics(raw_result)
+
+    expected = {
+        'total_packets_transmited': 0,
+        'total_packets_received': 0,
+        'total_packets_received_and_discarded': 0,
+        'total_tlvs_unrecognized': 0
+    }
     ddiff = DeepDiff(result, expected)
     assert not ddiff

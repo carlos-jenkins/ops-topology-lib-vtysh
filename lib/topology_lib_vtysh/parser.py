@@ -318,8 +318,104 @@ def parse_show_lacp_configuration(raw_result):
     return result
 
 
+def parse_show_lldp_neighbor_info(raw_result):
+    """
+    Parse the 'show lldp neighbor-info' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show lldp neighbor-info command in a
+        dictionary of the form:
+
+     ::
+
+            {
+                'port': 1,
+                'neighbor_entries': 0,
+                'neighbor_entries_deleted': 0,
+                'neighbor_entries_dropped': 0,
+                'neighbor_entries_age_out': 0,
+                'neighbor_chassis_name': None,
+                'neighbor_chassis_description': '',
+                'neighbor_chassis_id': None,
+                'chassis_capabilities_available': '',
+                'chassis_capabilities_enabled': '',
+                'neighbor_port_id': '',
+                'ttl': None
+            }
+    """
+
+    neighbor_info_re = (
+        r'\s*Port\s+:\s*(?P<port>\d+)\s*'
+        r'Neighbor entries\s+:\s*(?P<neighbor_entries>\d+)\s*'
+        r'Neighbor entries deleted\s+:\s*(?P<neighbor_entries_deleted>\d+)\s*'
+        r'Neighbor entries dropped\s+:\s*(?P<neighbor_entries_dropped>\d+)\s*'
+        r'Neighbor entries age-out\s+:\s*(?P<neighbor_entries_age_out>\d+)\s*'
+        r'Neighbor Chassis-Name\s+:\s*(?P<neighbor_chassis_name>\S+)?\s*'
+        r'Neighbor Chassis-Description\s+:\s*'
+        r'(?P<neighbor_chassis_description>.*)\s*'
+        r'Neighbor Chassis-ID\s+:\s*(?P<neighbor_chassis_id>[0-9a-f:]+)?\s*'
+        r'Chassis Capabilities Available\s*:\s*'
+        r'(?P<chassis_capabilities_available>.*)?\s*'
+        r'Chassis Capabilities Enabled\s*:\s*'
+        r'(?P<chassis_capabilities_enabled>.*)?\s*'
+        r'Neighbor Port-ID\s*:\s*(?P<neighbor_port_id>.*)?\s*'
+        r'TTL\s+:\s*(?P<ttl>\d+)?\s*'
+    )
+
+    re_result = re.match(neighbor_info_re, raw_result)
+    assert re_result
+
+    result = re_result.groupdict()
+    for key, value in result.items():
+        if value and value.isdigit():
+            result[key] = int(value)
+    return result
+
+
+def parse_show_lldp_statistics(raw_result):
+    """
+    Parse the 'show lldp statistics' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show lldp statistics command in a
+        dictionary of the form:
+
+     ::
+
+            {
+                'total_packets_transmited': 0,
+                'total_packets_received': 0,
+                'total_packets_received_and_discarded': 0,
+                'total_tlvs_unrecognized': 0
+            }
+    """
+
+    neighbor_info_re = (
+        r'\s*Total\sPackets\stransmitted\s*:\s*'
+        r'(?P<total_packets_transmited>\d+)\s*'
+        r'Total\sPackets\sreceived\s*:\s*(?P<total_packets_received>\d+)\s*'
+        r'Total\sPacket\sreceived\sand\sdiscarded\s*:\s*'
+        r'(?P<total_packets_received_and_discarded>\d+)\s*'
+        r'Total\sTLVs\sunrecognized\s*:\s*(?P<total_tlvs_unrecognized>\d+)\s*'
+
+    )
+
+    re_result = re.match(neighbor_info_re, raw_result)
+    assert re_result
+
+    result = re_result.groupdict()
+    for key, value in result.items():
+        if value and value.isdigit():
+            result[key] = int(value)
+
+    return result
+
+
 __all__ = [
     'parse_show_vlan', 'parse_show_lacp_aggregates',
     'parse_show_lacp_interface', 'parse_show_interface',
-    'parse_show_lacp_configuration'
+    'parse_show_lacp_configuration', 'parse_show_lldp_neighbor_info',
+    'parse_show_lldp_statistics'
 ]
