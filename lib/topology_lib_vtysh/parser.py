@@ -288,7 +288,38 @@ def parse_show_lacp_aggregates(raw_result):
     return result
 
 
+def parse_show_lacp_configuration(raw_result):
+    """
+    Parse the 'show lacp configuration' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show lacp configuration command in a
+        dictionary of the form:
+
+     ::
+
+            {
+                'id': '70:72:cf:af:66:e7',
+                'priority': 65534
+            }
+    """
+
+    configuration_re = (
+        r'\s*System-id\s*:\s*(?P<id>\S+)\s*'
+        r'System-priority\s*:\s*(?P<priority>\d+)\s*'
+    )
+
+    re_result = re.match(configuration_re, raw_result)
+    assert re_result
+
+    result = re_result.groupdict()
+    result['priority'] = int(result['priority'])
+    return result
+
+
 __all__ = [
     'parse_show_vlan', 'parse_show_lacp_aggregates',
-    'parse_show_lacp_interface', 'parse_show_interface'
+    'parse_show_lacp_interface', 'parse_show_interface',
+    'parse_show_lacp_configuration'
 ]

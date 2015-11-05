@@ -79,6 +79,12 @@ VTYSH_SPEC = {
                     }
                 ],
                 'returns': True
+            },
+            {
+                'command': 'show lacp configuration',
+                'doc': 'Show LACP configuration.',
+                'arguments': [],
+                'returns': True
             }
         ]
     },

@@ -26,7 +26,8 @@ from deepdiff import DeepDiff
 from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_vlan,
                                        parse_show_lacp_interface,
-                                       parse_show_lacp_aggregates
+                                       parse_show_lacp_aggregates,
+                                       parse_show_lacp_configuration
                                        )
 
 
@@ -221,6 +222,23 @@ Aggregate mode        : off
             'hash': 'l3-src-dst',
             'mode': 'off'
         },
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_lacp_configuration():
+    raw_result = """\
+System-id       : 70:72:cf:af:66:e7
+System-priority : 65534
+    """
+
+    result = parse_show_lacp_configuration(raw_result)
+
+    expected = {
+        'id': '70:72:cf:af:66:e7',
+        'priority': 65534
     }
 
     ddiff = DeepDiff(result, expected)
