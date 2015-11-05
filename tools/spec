@@ -938,7 +938,7 @@ class {{ context_name|objectize }}(object):
         {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(70)|indent(12) }}
         {% endfor -%}
         {%- if 'returns' in command.keys() and command.returns -%}
-        :return: {{ 'parse_%s(raw_result)|format(command.command|methodize)' }}
+        :return: :py:func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
         {% endif -%}
         \"""
         {%- for attr in command.arguments -%}
@@ -979,7 +979,7 @@ def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arg
     {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(75)|indent(5) }}
     {% endfor -%}
     {%- if 'returns' in command.keys() and command.returns -%}
-    :return: {{ 'parse_%s(raw_result)'|format(command.command|methodize) }}
+    :return: :py:func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
     {% endif -%}
     \"""
     {%- for attr in command.arguments -%}
