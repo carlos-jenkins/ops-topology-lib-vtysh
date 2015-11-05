@@ -897,10 +897,41 @@ from __future__ import print_function, division
 
 from .parser import *  # noqa
 
+
+class ContextManager(object):
+    \"""
+    This class defines a context manager object.
+
+    Usage:
+
+    ::
+
+        with ClassName(parameters) as ctx:
+            ctx.first_function()
+            ctx.second_function()
+
+    This way at the beginning the **pre_commands** will be run and at the end
+    the **post_commands** will clean the vtysh terminal. Every implementation
+    of this class document their pre_commands and post_commands.
+
+    \"""
+
 {% for context_name, context in spec.items() if context_name != 'root' %}
-class {{ context_name|objectize }}(object):
+class {{ context_name|objectize }}(ContextManager):
     \"""
     {{ context.doc|wordwrap(75)|indent(4) }}
+
+    pre_commands:
+
+    ::
+
+            {{ context.pre_commands }}
+
+    post_commands:
+
+    ::
+
+            {{ context.post_commands }}
     \"""
     def __init__({{ 'self, enode%s):'|format(param_attrs(context.arguments))|wordwrap(67)|indent(12) }}
         self.enode = enode
@@ -949,13 +980,17 @@ class {{ context_name|objectize }}(object):
         {{ command.doc|wordwrap(71)|indent(8) }}
 
         This function runs the following vtysh command:
+
+        ::
+
             # {{ command.command }}
 
         {% for attr in command.arguments -%}
         {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(70)|indent(12) }}
         {% endfor -%}
         {%- if 'returns' in command.keys() and command.returns -%}
-        :return: :py:func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
+        :return: A dictionary as returned by \\
+            :func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
         {% endif -%}
         \"""
         {%- for attr in command.arguments -%}
@@ -990,13 +1025,17 @@ def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arg
     {{ command.doc|wordwrap(71)|indent(4) }}
 
     This function runs the following vtysh command:
+
+    ::
+
         # {{ command.command }}
 
     {% for attr in command.arguments -%}
     {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(75)|indent(5) }}
     {% endfor -%}
     {%- if 'returns' in command.keys() and command.returns -%}
-    :return: :py:func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
+    :return: A dictionary as returned by \\
+        :func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
     {% endif -%}
     \"""
     {%- for attr in command.arguments -%}
@@ -1020,6 +1059,7 @@ def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arg
 
 {% endfor %}
 __all__ = [
+    'ContextManager',
 {%- for context_name in spec.keys() if context_name != 'root' %}
     '{{ context_name|objectize }}',
 {%- endfor %}
