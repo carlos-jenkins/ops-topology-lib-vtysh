@@ -32,7 +32,7 @@ def parse_show_interface(raw_result):
 
     :param str raw_result: vtysh raw result string.
     :rtype: dict
-    :return: The parsed result of the show interface command in a
+    :return: The parsed result of the show interface command in a \
         dictionary of the form:
 
      ::
@@ -111,7 +111,7 @@ def parse_show_vlan(raw_result):
 
     :param str raw_result: vtysh raw result string.
     :rtype: dict
-    :return: The parsed result of the show vlan command in a
+    :return: The parsed result of the show vlan command in a \
         dictionary of the form:
 
      ::
@@ -157,7 +157,7 @@ def parse_show_lacp_interface(raw_result):
 
     :param str raw_result: vtysh raw result string.
     :rtype: dict
-    :return: The parsed result of the show lacp interface command in a
+    :return: The parsed result of the show lacp interface command in a \
         dictionary of the form:
 
      ::
@@ -242,7 +242,7 @@ def parse_show_lacp_aggregates(raw_result):
 
     :param str raw_result: vtysh raw result string.
     :rtype: dict
-    :return: The parsed result of the show lacp interface command in a
+    :return: The parsed result of the show lacp interface command in a \
         dictionary of the form:
 
      ::
@@ -294,7 +294,7 @@ def parse_show_lacp_configuration(raw_result):
 
     :param str raw_result: vtysh raw result string.
     :rtype: dict
-    :return: The parsed result of the show lacp configuration command in a
+    :return: The parsed result of the show lacp configuration command in a \
         dictionary of the form:
 
      ::
@@ -324,7 +324,7 @@ def parse_show_lldp_neighbor_info(raw_result):
 
     :param str raw_result: vtysh raw result string.
     :rtype: dict
-    :return: The parsed result of the show lldp neighbor-info command in a
+    :return: The parsed result of the show lldp neighbor-info command in a \
         dictionary of the form:
 
      ::
@@ -379,7 +379,7 @@ def parse_show_lldp_statistics(raw_result):
 
     :param str raw_result: vtysh raw result string.
     :rtype: dict
-    :return: The parsed result of the show lldp statistics command in a
+    :return: The parsed result of the show lldp statistics command in a \
         dictionary of the form:
 
      ::
