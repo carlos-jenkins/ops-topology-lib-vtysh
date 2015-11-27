@@ -67,9 +67,9 @@ def parse_show_interface(raw_result):
 
     show_re = (
         r'\s+Interface (?P<port>\d+) is (?P<interface_state>\S+) '
-        r'\((?P<state_description>.*)\)\s+'
+        r'(\((?P<state_description>.*)\))?\s*'
         r'Admin state is (?P<admin_state>\S+)\s+'
-        r'State information: (?P<state_information>\S+)\s+'
+        r'(State information: (?P<state_information>\S+))?\s*'
         r'Hardware: (?P<hardware>\S+), MAC Address: (?P<mac_address>\S+)\s+'
         r'MTU (?P<mtu>\d+)\s+'
         r'(?P<conection_type>\S+)\s+'
@@ -96,12 +96,13 @@ def parse_show_interface(raw_result):
 
     result = re_result.groupdict()
     for key, value in result.items():
-        if value.isdigit():
-            result[key] = int(value)
-        elif value == 'on':
-            result[key] = True
-        elif value == 'off':
-            result[key] = False
+        if value is not None:
+            if value.isdigit():
+                result[key] = int(value)
+            elif value == 'on':
+                result[key] = True
+            elif value == 'off':
+                result[key] = False
     return result
 
 
