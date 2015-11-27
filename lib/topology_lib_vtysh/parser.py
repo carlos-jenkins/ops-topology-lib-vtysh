@@ -96,7 +96,7 @@ def parse_show_interface(raw_result):
 
     result = re_result.groupdict()
     for key, value in result.items():
-        if not value is None:
+        if value is not None:
             if value.isdigit():
                 result[key] = int(value)
             elif value == 'on':
