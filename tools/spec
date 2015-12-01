@@ -940,11 +940,7 @@ class {{ context_name|objectize }}(ContextManager):
         self.enode = enode
         {%- for arg in context.arguments %}
         {% if arg.name == 'portlbl' -%}
-        if portlbl not in enode.ports.keys():
-            msg = 'Unknown portlbl, available portlbl are: {}'.format(
-                  ', '.join('\\'{}\\''.format(k) for k in enode.ports.keys()))
-            raise Exception(msg)
-        self.port = enode.ports[portlbl]
+        self.port = enode.ports.get(portlbl, portlbl)
         {%- else -%}
         self.{{ arg.name }} = {{ arg.name }}
         {%- endif %}
@@ -998,14 +994,7 @@ class {{ context_name|objectize }}(ContextManager):
         \"""
         {%- for attr in command.arguments -%}
             {% if attr.name == 'portlbl' %}
-        if portlbl not in self.enode.ports.keys():
-            msg = 'Unknown portlbl, available portlbl are: {}'.format(
-                  ', '.join(
-                      '\\'{}\\''.format(k) for k in self.enode.ports.keys()
-                  )
-            )
-            raise Exception(msg)
-        port = self.enode.ports[portlbl]
+        port = self.enode.ports(portlbl, portlbl)
             {%- endif -%}
         {%- endfor %}
 
@@ -1043,11 +1032,7 @@ def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arg
     \"""
     {%- for attr in command.arguments -%}
         {% if attr.name == 'portlbl' %}
-    if portlbl not in enode.ports.keys():
-        msg = 'Unknown portlbl, available portlbl are: {}'.format(
-              ', '.join('\\'{}\\''.format(k) for k in enode.ports.keys()))
-        raise Exception(msg)
-    port = enode.ports[portlbl]
+    port = enode.ports.get(portlbl, portlbl)
         {%- endif -%}
     {%- endfor %}
 

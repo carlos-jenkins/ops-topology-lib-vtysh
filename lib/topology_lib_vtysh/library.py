@@ -294,11 +294,7 @@ class ConfigInterface(ContextManager):
     """
     def __init__(self, enode, portlbl):
         self.enode = enode
-        if portlbl not in enode.ports.keys():
-            msg = 'Unknown portlbl, available portlbl are: {}'.format(
-                  ', '.join('\'{}\''.format(k) for k in enode.ports.keys()))
-            raise Exception(msg)
-        self.port = enode.ports[portlbl]
+        self.port = enode.ports.get(portlbl, portlbl)
 
     def __enter__(self):
         commands = """\
@@ -1861,11 +1857,7 @@ def show_interface(enode, portlbl):
     :return: A dictionary as returned by \
         :func:`topology_lib_vtysh.parser.parse_show_interface`
     """
-    if portlbl not in enode.ports.keys():
-        msg = 'Unknown portlbl, available portlbl are: {}'.format(
-              ', '.join('\'{}\''.format(k) for k in enode.ports.keys()))
-        raise Exception(msg)
-    port = enode.ports[portlbl]
+    port = enode.ports.get(portlbl, portlbl)
 
     return parse_show_interface(enode(
         'show interface {port}'.format(**locals()),
@@ -1907,11 +1899,7 @@ def show_lacp_interface(enode, portlbl):
     :return: A dictionary as returned by \
         :func:`topology_lib_vtysh.parser.parse_show_lacp_interface`
     """
-    if portlbl not in enode.ports.keys():
-        msg = 'Unknown portlbl, available portlbl are: {}'.format(
-              ', '.join('\'{}\''.format(k) for k in enode.ports.keys()))
-        raise Exception(msg)
-    port = enode.ports[portlbl]
+    port = enode.ports.get(portlbl, portlbl)
 
     return parse_show_lacp_interface(enode(
         'show lacp interface {port}'.format(**locals()),
@@ -1974,11 +1962,7 @@ def show_lldp_neighbor_info(enode, portlbl):
     :return: A dictionary as returned by \
         :func:`topology_lib_vtysh.parser.parse_show_lldp_neighbor_info`
     """
-    if portlbl not in enode.ports.keys():
-        msg = 'Unknown portlbl, available portlbl are: {}'.format(
-              ', '.join('\'{}\''.format(k) for k in enode.ports.keys()))
-        raise Exception(msg)
-    port = enode.ports[portlbl]
+    port = enode.ports.get(portlbl, portlbl)
 
     return parse_show_lldp_neighbor_info(enode(
         'show lldp neighbor-info {port}'.format(**locals()),
