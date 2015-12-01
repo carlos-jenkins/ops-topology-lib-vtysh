@@ -24,17 +24,19 @@ from __future__ import unicode_literals, absolute_import
 from __future__ import print_function, division
 
 import logging
+from re import sub
+from collections import OrderedDict
 from os.path import abspath, normpath, dirname, join
 
 from inflection import parameterize, underscore, camelize
 from jinja2 import FunctionLoader, Environment, StrictUndefined
-from re import sub
+
 
 log = logging.getLogger(__name__)
 
 
-VTYSH_SPEC = {
-    'root': {
+VTYSH_SPEC = OrderedDict([
+    ('root', {
         'doc': '',
         'arguments': [],
         'pre_commands': [],
@@ -104,8 +106,8 @@ VTYSH_SPEC = {
                 'returns': True
             }
         ]
-    },
-    'configure': {
+    }),
+    ('configure', {
         'doc': 'Configuration terminal',
         'arguments': [],
         'pre_commands': ['configure terminal'],
@@ -228,8 +230,8 @@ VTYSH_SPEC = {
                 'arguments': [],
             },
         ]
-    },
-    'config_interface': {
+    }),
+    ('config_interface', {
         'doc': 'Interface configuration.',
         'arguments': [
             {
@@ -471,8 +473,8 @@ VTYSH_SPEC = {
                 'arguments': [],
             },
         ]
-    },
-    'config_interface_vlan': {
+    }),
+    ('config_interface_vlan', {
         'doc': 'VLAN configuration.',
         'arguments': [
             {
@@ -575,8 +577,8 @@ VTYSH_SPEC = {
                 'arguments': [],
             },
         ]
-    },
-    'config_interface_lag': {
+    }),
+    ('config_interface_lag', {
         'doc': 'Configure link-aggregation parameters.',
         'arguments': [
             {
@@ -725,8 +727,8 @@ VTYSH_SPEC = {
                 'arguments': [],
             },
         ]
-    },
-    'config_interface_mgmt': {
+    }),
+    ('config_interface_mgmt', {
         'doc': 'Configure management interface.',
         'arguments': [],
         'pre_commands': ['config terminal', 'interface mgmt'],
@@ -810,8 +812,8 @@ VTYSH_SPEC = {
                 'arguments': [],
             },
         ]
-    },
-    'config_vlan': {
+    }),
+    ('config_vlan', {
         'doc': 'VLAN configuration.',
         'arguments': [
             {
@@ -854,7 +856,8 @@ VTYSH_SPEC = {
             }
         ]
     },
-}
+    )
+])
 
 """VTYSH Specification as a Python dictionary"""
 
