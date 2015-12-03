@@ -1068,7 +1068,7 @@ def filter_objectize(token):
 def filter_methodize(token):
     if token is None:
         return None
-    return underscore(parameterize(underscore(sub('{.*}', '', token))))
+    return underscore(parameterize(underscore(sub('{\S+}', '', token))))
 
 
 def filter_variablize(token):
