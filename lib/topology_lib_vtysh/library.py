@@ -1719,6 +1719,605 @@ class ConfigInterfaceMgmt(ContextManager):
         )
 
 
+class ConfigRouterBgp(ContextManager):
+    """
+    BGP configuration.
+
+    pre_commands:
+
+    ::
+
+            ['config terminal', 'router bgp {asn}']
+
+    post_commands:
+
+    ::
+
+            ['end']
+    """
+    def __init__(self, enode, asn):
+        self.enode = enode
+        self.asn = asn
+
+    def __enter__(self):
+        commands = """\
+            config terminal
+            router bgp {asn}
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+        return self
+
+    def __exit__(self, type, value, traceback):
+        commands = """\
+            end
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+    def bgp_router_id(self, id):
+        """
+        Specifies the BGP router-ID for a BGP Router
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # bgp router-id {id}
+
+        :param id: <A.B.C.D> IPv4 address
+        """
+
+        assert not self.enode(
+            'bgp router-id {id}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_bgp_router_id(self, id):
+        """
+        Removes the BGP router-ID for a BGP Router
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no bgp router-id {id}
+
+        :param id: <A.B.C.D> IPv4 address
+        """
+
+        assert not self.enode(
+            'no bgp router-id {id}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def network(self, network):
+        """
+        Adds the announcement network for BGP
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # network {network}
+
+        :param network: <A.B.C.D/M> IPv4 address with the prefix len
+        """
+
+        assert not self.enode(
+            'network {network}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_network(self, network):
+        """
+        Removes the announcement network for BGP
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no network {network}
+
+        :param network: <A.B.C.D/M> IPv4 address with the prefix length
+        """
+
+        assert not self.enode(
+            'no network {network}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def maximum_paths(self, num):
+        """
+        Sets the maximum number of paths for a BGP route
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # maximum-paths {num}
+
+        :param num: <1-255> Maximum number of paths. Default is 1
+        """
+
+        assert not self.enode(
+            'maximum-paths {num}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_maximum_paths(self, num):
+        """
+        Set the max number of paths to the default value of 1
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no maximum-paths {num}
+
+        :param num: <1-255> Maximum number of paths. Default is 1
+        """
+
+        assert not self.enode(
+            'no maximum-paths {num}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def timers_bgp(self, keepalive, hold):
+        """
+        Sets the keepalive interval and hold time for a BGP router
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # timers bgp {keepalive} {hold}
+
+        :param keepalive: <0-65535> Keepalive interval in seconds. Default is
+            60
+        :param hold: <0 - 65535> Hold time in seconds. Default is 180
+        """
+
+        assert not self.enode(
+            'timers bgp {keepalive} {hold}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_timers_bgp(self, keepalive='', hold=''):
+        """
+        Sets the default values for keepalive interval and hold time for a BGP
+        router
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no timers bgp {keepalive} {hold}
+
+        :param keepalive: <0 - 65535> Keepalive interval in seconds. Default
+            is 60
+        :param hold: <0 - 65535> Hold time in seconds. Default is 180
+        """
+
+        assert not self.enode(
+            'no timers bgp {keepalive} {hold}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def neighbor_remote_as(self, ip, asn):
+        """
+        Configures a BGP neighbor
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # neighbor {ip} remote-as {asn}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param asn: <1 - 4294967295> Neighbor AS number. Ranges from 1 to
+            4294967295
+        """
+
+        assert not self.enode(
+            'neighbor {ip} remote-as {asn}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_neighbor_remote_as(self, ip, asn):
+        """
+        Removes a BGP neighbor
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no neighbor {ip} remote-as {asn}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param asn: <1 - 4294967295> Neighbor AS number. Ranges from 1 to
+            4294967295
+        """
+
+        assert not self.enode(
+            'no neighbor {ip} remote-as {asn}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def neighbor_description(self, ip, text):
+        """
+        Removes a BGP neighbor
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # neighbor {ip} description {text}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param text: Description of the peer router. String of maximum length
+            80 chars
+        """
+
+        assert not self.enode(
+            'neighbor {ip} description {text}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_neighbor_description(self, ip, text=''):
+        """
+        Removes a BGP neighbor
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no neighbor {ip} description {text}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param text: Description of the peer router.String of maximum length
+            80 chars
+        """
+
+        assert not self.enode(
+            'no neighbor {ip} description {text}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def neighbor_password(self, ip, pwd):
+        """
+        Enables MD5 authentication on a TCP connection between BGP peers.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # neighbor {ip} password {pwd}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param pwd: Password in plain text.String of maximum length 80 chars
+        """
+
+        assert not self.enode(
+            'neighbor {ip} password {pwd}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_neighbor_password(self, ip, pwd=''):
+        """
+        Removes MD5 authentication on a TCP connection between BGP peers.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no neighbor {ip} password {pwd}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param pwd: Password in plain text.String of maximum length 80 chars
+        """
+
+        assert not self.enode(
+            'no neighbor {ip} password {pwd}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def neighbor_timers(self, ip, keepalive, hold):
+        """
+        Sets the keepalive interval and hold time for a specific BGP peer
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # neighbor {ip} timers {keepalive} {hold}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param keepalive: <0 - 65535> Keepalive interval in seconds.Default is
+            60
+        :param hold: <0-65535> Hold time in seconds. Default is 180
+        """
+
+        assert not self.enode(
+            'neighbor {ip} timers {keepalive} {hold}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_neighbor_timers(self, ip, keepalive='', hold=''):
+        """
+        Sets the default values for keepalive interval and hold time for a
+        specific BGP peer
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no neighbor {ip} timers {keepalive} {hold}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param keepalive: <0 - 65535> Keepalive interval in seconds.Default is
+            0
+        :param hold: <0 - 65535> Hold time in seconds. Default is 0
+        """
+
+        assert not self.enode(
+            'no neighbor {ip} timers {keepalive} {hold}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def neighbor_allowas_in(self, ip, val=''):
+        """
+        Specifies an allow-as-in occurrence number for an AS to be in the AS
+        path
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # neighbor {ip} allowas-in {val}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param val: <0 - 10> Number of times BGP can allow an instance of AS
+            to be in the AS_PATH
+        """
+
+        assert not self.enode(
+            'neighbor {ip} allowas-in {val}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_neighbor_allowas_in(self, ip, val=''):
+        """
+        Clears the allow-as-in occurrence number for an AS to be in the AS path
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no neighbor {ip} allowas-in {val}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param val: <0 - 10> Number of times BGP can allow aninstance of AS to
+            be in the AS_PATH
+        """
+
+        assert not self.enode(
+            'no neighbor {ip} allowas-in {val}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def neighbor_remove_private_as(self, ip):
+        """
+        Removes private AS numbers from the AS pathin outbound routing updates
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # neighbor {ip} remove-private-AS
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        """
+
+        assert not self.enode(
+            'neighbor {ip} remove-private-AS'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_neighbor_remove_private_as(self, ip):
+        """
+        Resets to a cleared state (default)
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no neighbor {ip} remove-private-AS
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        """
+
+        assert not self.enode(
+            'no neighbor {ip} remove-private-AS'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def neighbor_soft_reconfiguration_inbound(self, ip):
+        """
+        Enables software-based reconfiguration to generate updates from a
+        neighbor without clearing the BGP session
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # neighbor {ip} soft-reconfiguration inbound
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        """
+
+        assert not self.enode(
+            'neighbor {ip} soft-reconfiguration inbound'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_neighbor_soft_reconfiguration_inbound(self, ip):
+        """
+        Resets to a cleared state (default)
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no neighbor {ip} soft-reconfiguration inbound
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        """
+
+        assert not self.enode(
+            'no neighbor {ip} soft-reconfiguration inbound'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def neighbor_shutdown(self, ip):
+        """
+        Shuts down the neighbor. This disables the peer routerbut preserves
+        neighbor configuration
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # neighbor {ip} shutdown
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        """
+
+        assert not self.enode(
+            'neighbor {ip} shutdown'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_neighbor_shutdown(self, ip):
+        """
+        Re-enables the neighbor
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no neighbor {ip} shutdown
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        """
+
+        assert not self.enode(
+            'no neighbor {ip} shutdown'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def neighbor_peer_group(self, ip_or_group, group=''):
+        """
+        Assigns a neighbor to a peer-group
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # neighbor {ip_or_group} peer-group {group}
+
+        :param ip_or_group: <A.B.C.D> Neighbor IPv4 address<X:X::X:X> Neighbor
+            IPv6 address<WORD> Neighbor group
+        :param group: ('Peer-group name.String of maximum length 80 chars',)
+        """
+
+        assert not self.enode(
+            'neighbor {ip_or_group} peer-group {group}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_neighbor_peer_group(self, ip_or_group, group=''):
+        """
+        Removes the neighbor from the peer-group
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no neighbor {ip_or_group} peer-group {group}
+
+        :param ip_or_group: <A.B.C.D> Neighbor IPv4 address<X:X::X:X> Neighbor
+            IPv6 address<WORD> Neighbor group
+        :param group: Peer-group name. String of maximum length 80 chars
+        """
+
+        assert not self.enode(
+            'no neighbor {ip_or_group} peer-group {group}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+
 class ConfigVlan(ContextManager):
     """
     VLAN configuration.
@@ -1997,6 +2596,7 @@ __all__ = [
     'ConfigInterfaceVlan',
     'ConfigInterfaceLag',
     'ConfigInterfaceMgmt',
+    'ConfigRouterBgp',
     'ConfigVlan',
     'show_interface',
     'show_vlan',
