@@ -414,9 +414,171 @@ def parse_show_lldp_statistics(raw_result):
     return result
 
 
+def parse_show_ip_bgp_summary(raw_result):
+    """
+    Parse the 'show ip bgp summary' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show ip bgp summary command in a \
+        dictionary of the form:
+
+     ::
+
+        {
+            'bgp_router_identifier': '1.0.0.1',
+            'local_as_number': 64000,
+            'rib_entries': 15,
+            'peers': 2,
+            '20.1.1.1': { 'AS': 65000,
+                   'msgrcvd': 83,
+                   'msgsent': 86,
+                   'up_down': '01:19:21',
+                   'state': 'Established',
+                   'neighbor': '20.1.1.1'
+             },
+            '20.1.1.2': { 'AS': 65000,
+                   'msgrcvd': 100,
+                   'msgsent': 105,
+                   'up_down': '01:22:22',
+                   'state': 'Established',
+                   'neighbor': '20.1.1.2'
+            }
+        }
+    """
+
+    local_bgp_re = (
+        r'BGP router identifier (?P<bgp_router_identifier>[^,]+), '
+        r'local AS number (?P<local_as_number>\d+)\nRIB entries '
+        r'(?P<rib_entries>\d+)\nPeers (?P<peers>\d+)\n\n'
+    )
+
+    summary_re = (
+        r'(?P<neighbor>\S+)\s+(?P<as_number>\d+)\s+(?P<msgrcvd>\d+)\s+'
+        r'(?P<msgsent>\d+)\s+(?P<up_down>\S+)\s+(?P<state>\w+)\s*'
+    )
+
+    result = {}
+    re_result = re.match(local_bgp_re, raw_result)
+    assert re_result
+    result = re_result.groupdict()
+    for key, value in result.items():
+        if value and value.isdigit():
+            result[key] = int(value)
+
+    for line in raw_result.splitlines():
+        re_result = re.search(summary_re, line)
+        if re_result:
+            partial = re_result.groupdict()
+            for key, value in partial.items():
+                if value and value.isdigit():
+                    partial[key] = int(value)
+            result[partial['neighbor']] = partial
+
+    return result
+
+
+def parse_show_ip_bgp_neighbors(raw_result):
+    """
+    Parse the 'show ip bgp neighbor' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show ip bgp neighbor command in a \
+        dictionary of the form:
+
+     ::
+
+        {
+            '20.1.1.1': { 'name': '20.1.1.1',
+                   'remote_as': 65000,
+                   'state': 'Established',
+                   'tcp_port_number': 179 ,
+                   'bgp_peer_dropped_count': 0,
+                   'bgp_peer_dynamic_cap_in_count': 0,
+                   'bgp_peer_dynamic_cap_out_count': 0,
+                   'bgp_peer_established_count': 1,
+                   'bgp_peer_keepalive_in_count': 2,
+                   'bgp_peer_keepalive_out_count': 3,
+                   'bgp_peer_notify_in_count': 0,
+                   'bgp_peer_notify_out_count': 0,
+                   'bgp_peer_open_in_count': 0,
+                   'bgp_peer_open_out_coun': 1,
+                   'bgp_peer_readtime': 249,
+                   'bgp_peer_refresh_in_count': 0,
+                   'bgp_peer_refresh_out_count': 0,
+                   'bgp_peer_resettime': 127,
+                   'bgp_peer_update_in_count': 2,
+                   'bgp_peer_update_out_count': 2,
+                   'bgp_peer_uptime': 189
+
+             },
+            '20.1.1.10': { 'name': '20.1.1.10',
+                   'remote_as': 65000,
+                   'state': 'Established',
+                   'tcp_port_number': 179 ,
+                   'bgp_peer_dropped_count': 0,
+                   'bgp_peer_dynamic_cap_in_count': 0,
+                   'bgp_peer_dynamic_cap_out_count': 0,
+                   'bgp_peer_established_count': 1,
+                   'bgp_peer_keepalive_in_count': 2,
+                   'bgp_peer_keepalive_out_count': 3,
+                   'bgp_peer_notify_in_count': 0,
+                   'bgp_peer_notify_out_count': 0,
+                   'bgp_peer_open_in_count': 0,
+                   'bgp_peer_open_out_coun': 1,
+                   'bgp_peer_readtime': 281,
+                   'bgp_peer_refresh_in_count': 0,
+                   'bgp_peer_refresh_out_count': 0,
+                   'bgp_peer_resettime': 127,
+                   'bgp_peer_update_in_count': 2,
+                   'bgp_peer_update_out_count': 4,
+                   'bgp_peer_uptime': 221
+
+             }
+    """
+
+    neighbor_re = (
+        r'\s*name: (?P<name>[^,]+), remote-as: (?P<remote_as>\d+)\s+state: '
+        r'(?P<state>\w+)\s*tcp_port_number: (?P<tcp_port_number>\d+)'
+        r'\s*statistics:\s*bgp_peer_dropped_count: '
+        r'(?P<bgp_peer_dropped_count>\d+)\s*bgp_peer_dynamic_cap_in_count: '
+        r'(?P<bgp_peer_dynamic_cap_in_count>\d+)'
+        r'\s*bgp_peer_dynamic_cap_out_count: '
+        r'(?P<bgp_peer_dynamic_cap_out_count>\d+)'
+        r'\s*bgp_peer_established_count: (?P<bgp_peer_established_count>\d+)'
+        r'\s*bgp_peer_keepalive_in_count: '
+        r'(?P<bgp_peer_keepalive_in_count>\d+)'
+        r'\s*bgp_peer_keepalive_out_count: '
+        r'(?P<bgp_peer_keepalive_out_count>\d+)\s*bgp_peer_notify_in_count: '
+        r'(?P<bgp_peer_notify_in_count>\d+)\s*bgp_peer_notify_out_count: '
+        r'(?P<bgp_peer_notify_out_count>\d+)\s*bgp_peer_open_in_count: '
+        r'(?P<bgp_peer_open_in_count>\d+)\s*bgp_peer_open_out_count: '
+        r'(?P<bgp_peer_open_out_count>\d+)\s*bgp_peer_readtime: '
+        r'(?P<bgp_peer_readtime>\d+)\s*bgp_peer_refresh_in_count: '
+        r'(?P<bgp_peer_refresh_in_count>\d+)\s*bgp_peer_refresh_out_count: '
+        r'(?P<bgp_peer_refresh_out_count>\d+)\s*bgp_peer_resettime: '
+        r'(?P<bgp_peer_resettime>\d+)\s*bgp_peer_update_in_count: '
+        r'(?P<bgp_peer_update_in_count>\d+)\s*bgp_peer_update_out_count: '
+        r'(?P<bgp_peer_update_out_count>\d+)\s*bgp_peer_uptime: '
+        r'(?P<bgp_peer_uptime>\d+)\s*'
+    )
+
+    result = {}
+    for re_result in re.finditer(neighbor_re, raw_result):
+        partial = re_result.groupdict()
+        for key, value in partial.items():
+            if value and value.isdigit():
+                partial[key] = int(value)
+        result[partial['name']] = partial
+
+    return result
+
+
 __all__ = [
     'parse_show_vlan', 'parse_show_lacp_aggregates',
     'parse_show_lacp_interface', 'parse_show_interface',
     'parse_show_lacp_configuration', 'parse_show_lldp_neighbor_info',
-    'parse_show_lldp_statistics'
+    'parse_show_lldp_statistics', 'parse_show_ip_bgp_summary',
+    'parse_show_ip_bgp_neighbors'
 ]

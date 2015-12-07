@@ -29,7 +29,9 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_lacp_aggregates,
                                        parse_show_lacp_configuration,
                                        parse_show_lldp_neighbor_info,
-                                       parse_show_lldp_statistics
+                                       parse_show_lldp_statistics,
+                                       parse_show_ip_bgp_summary,
+                                       parse_show_ip_bgp_neighbors
                                        )
 
 
@@ -299,5 +301,204 @@ Total TLVs unrecognized : 0
         'total_packets_received_and_discarded': 0,
         'total_tlvs_unrecognized': 0
     }
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ip_bgp_summary():
+    raw_result = """\
+BGP router identifier 2.0.0.1, local AS number 64000
+RIB entries 5
+Peers 3
+
+Neighbor             AS MsgRcvd MsgSent Up/Down  State
+192.168.1.10      64000       0       0 never           Idle
+20.1.1.1          65000       0       0 never         Active
+20.1.1.10         65000       0       0 never         Active
+    """
+
+    result = parse_show_ip_bgp_summary(raw_result)
+
+    expected = {
+        'bgp_router_identifier': '2.0.0.1',
+        '20.1.1.1': {
+            'up_down': 'never',
+            'state': 'Active',
+            'msgsent': 0,
+            'neighbor': '20.1.1.1',
+            'as_number': 65000,
+            'msgrcvd': 0
+        },
+        'rib_entries': 5,
+        'peers': 3,
+        '192.168.1.10': {
+            'up_down': 'never',
+            'state': 'Idle',
+            'msgsent': 0,
+            'neighbor': '192.168.1.10',
+            'as_number': 64000,
+            'msgrcvd': 0
+        },
+        '20.1.1.10': {
+            'up_down': 'never',
+            'state': 'Active',
+            'msgsent': 0,
+            'neighbor': '20.1.1.10',
+            'as_number': 65000,
+            'msgrcvd': 0
+        },
+        'local_as_number': 64000
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ip_bgp_neighbors():
+    raw_result = """\
+  name: 192.168.1.10, remote-as: 64000
+    state: Active
+    tcp_port_number: 179
+
+    statistics:
+       bgp_peer_dropped_count: 0
+       bgp_peer_dynamic_cap_in_count: 0
+       bgp_peer_dynamic_cap_out_count: 0
+       bgp_peer_established_count: 0
+       bgp_peer_keepalive_in_count: 0
+       bgp_peer_keepalive_out_count: 0
+       bgp_peer_notify_in_count: 0
+       bgp_peer_notify_out_count: 0
+       bgp_peer_open_in_count: 0
+       bgp_peer_open_out_count: 0
+       bgp_peer_readtime: 611931
+       bgp_peer_refresh_in_count: 0
+       bgp_peer_refresh_out_count: 0
+       bgp_peer_resettime: 611931
+       bgp_peer_update_in_count: 0
+       bgp_peer_update_out_count: 0
+       bgp_peer_uptime: 0
+
+  name: 20.1.1.1, remote-as: 65000
+    state: Active
+    tcp_port_number: 179
+
+    statistics:
+       bgp_peer_dropped_count: 0
+       bgp_peer_dynamic_cap_in_count: 0
+       bgp_peer_dynamic_cap_out_count: 0
+       bgp_peer_established_count: 0
+       bgp_peer_keepalive_in_count: 0
+       bgp_peer_keepalive_out_count: 0
+       bgp_peer_notify_in_count: 0
+       bgp_peer_notify_out_count: 0
+       bgp_peer_open_in_count: 0
+       bgp_peer_open_out_count: 0
+       bgp_peer_readtime: 611931
+       bgp_peer_refresh_in_count: 0
+       bgp_peer_refresh_out_count: 0
+       bgp_peer_resettime: 611931
+       bgp_peer_update_in_count: 0
+       bgp_peer_update_out_count: 0
+       bgp_peer_uptime: 0
+
+  name: 20.1.1.10, remote-as: 65000
+    state: Active
+    tcp_port_number: 179
+
+    statistics:
+       bgp_peer_dropped_count: 0
+       bgp_peer_dynamic_cap_in_count: 0
+       bgp_peer_dynamic_cap_out_count: 0
+       bgp_peer_established_count: 0
+       bgp_peer_keepalive_in_count: 0
+       bgp_peer_keepalive_out_count: 0
+       bgp_peer_notify_in_count: 0
+       bgp_peer_notify_out_count: 0
+       bgp_peer_open_in_count: 0
+       bgp_peer_open_out_count: 0
+       bgp_peer_readtime: 611931
+       bgp_peer_refresh_in_count: 0
+       bgp_peer_refresh_out_count: 0
+       bgp_peer_resettime: 611931
+       bgp_peer_update_in_count: 0
+       bgp_peer_update_out_count: 0
+       bgp_peer_uptime: 0
+    """
+
+    result = parse_show_ip_bgp_neighbors(raw_result)
+
+    expected = {
+        '20.1.1.1': {
+            'state': 'Active',
+            'bgp_peer_keepalive_out_count': 0,
+            'bgp_peer_readtime': 611931,
+            'bgp_peer_uptime': 0,
+            'tcp_port_number': 179,
+            'bgp_peer_refresh_in_count': 0,
+            'bgp_peer_notify_in_count': 0,
+            'bgp_peer_keepalive_in_count': 0,
+            'bgp_peer_resettime': 611931,
+            'name': '20.1.1.1',
+            'bgp_peer_update_out_count': 0,
+            'bgp_peer_open_in_count': 0,
+            'bgp_peer_open_out_count': 0,
+            'bgp_peer_dynamic_cap_in_count': 0,
+            'remote_as': 65000,
+            'bgp_peer_established_count': 0,
+            'bgp_peer_notify_out_count': 0,
+            'bgp_peer_refresh_out_count': 0,
+            'bgp_peer_dynamic_cap_out_count': 0,
+            'bgp_peer_dropped_count': 0,
+            'bgp_peer_update_in_count': 0
+        },
+        '20.1.1.10': {
+            'state': 'Active',
+            'bgp_peer_keepalive_out_count': 0,
+            'bgp_peer_readtime': 611931,
+            'bgp_peer_uptime': 0,
+            'tcp_port_number': 179,
+            'bgp_peer_refresh_in_count': 0,
+            'bgp_peer_notify_in_count': 0,
+            'bgp_peer_keepalive_in_count': 0,
+            'bgp_peer_resettime': 611931,
+            'name': '20.1.1.10',
+            'bgp_peer_update_out_count': 0,
+            'bgp_peer_open_in_count': 0,
+            'bgp_peer_open_out_count': 0,
+            'bgp_peer_dynamic_cap_in_count': 0,
+            'remote_as': 65000,
+            'bgp_peer_established_count': 0,
+            'bgp_peer_notify_out_count': 0,
+            'bgp_peer_refresh_out_count': 0,
+            'bgp_peer_dynamic_cap_out_count': 0,
+            'bgp_peer_dropped_count': 0,
+            'bgp_peer_update_in_count': 0
+        },
+        '192.168.1.10': {
+            'state': 'Active',
+            'bgp_peer_keepalive_out_count': 0,
+            'bgp_peer_readtime': 611931,
+            'bgp_peer_uptime': 0,
+            'tcp_port_number': 179,
+            'bgp_peer_refresh_in_count': 0,
+            'bgp_peer_notify_in_count': 0,
+            'bgp_peer_keepalive_in_count': 0,
+            'bgp_peer_resettime': 611931,
+            'name': '192.168.1.10',
+            'bgp_peer_update_out_count': 0,
+            'bgp_peer_open_in_count': 0,
+            'bgp_peer_open_out_count': 0,
+            'bgp_peer_dynamic_cap_in_count': 0,
+            'remote_as': 64000,
+            'bgp_peer_established_count': 0,
+            'bgp_peer_notify_out_count': 0,
+            'bgp_peer_refresh_out_count': 0,
+            'bgp_peer_dynamic_cap_out_count': 0,
+            'bgp_peer_dropped_count': 0,
+            'bgp_peer_update_in_count': 0
+        }
+    }
+
     ddiff = DeepDiff(result, expected)
     assert not ddiff
