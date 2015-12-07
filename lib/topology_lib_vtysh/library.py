@@ -2589,6 +2589,46 @@ def show_lldp_statistics(enode):
     ))
 
 
+def show_ip_bgp_summary(enode):
+    """
+    Show bgp neighbors information summary.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show ip bgp summary
+
+    :return: A dictionary as returned by \
+        :func:`topology_lib_vtysh.parser.parse_show_ip_bgp_summary`
+    """
+
+    return parse_show_ip_bgp_summary(enode(
+        'show ip bgp summary'.format(**locals()),
+        shell='vtysh'
+    ))
+
+
+def show_ip_bgp_neighbors(enode):
+    """
+    Show bgp neighbors information.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show ip bgp neighbors
+
+    :return: A dictionary as returned by \
+        :func:`topology_lib_vtysh.parser.parse_show_ip_bgp_neighbors`
+    """
+
+    return parse_show_ip_bgp_neighbors(enode(
+        'show ip bgp neighbors'.format(**locals()),
+        shell='vtysh'
+    ))
+
+
 __all__ = [
     'ContextManager',
     'Configure',
@@ -2604,5 +2644,7 @@ __all__ = [
     'show_lacp_aggregates',
     'show_lacp_configuration',
     'show_lldp_neighbor_info',
-    'show_lldp_statistics'
+    'show_lldp_statistics',
+    'show_ip_bgp_summary',
+    'show_ip_bgp_neighbors'
 ]
