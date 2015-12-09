@@ -2629,6 +2629,26 @@ def show_ip_bgp_neighbors(enode):
     ))
 
 
+def show_ip_bgp(enode):
+    """
+    Show bgp routing information.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show ip bgp
+
+    :return: A dictionary as returned by \
+        :func:`topology_lib_vtysh.parser.parse_show_ip_bgp`
+    """
+
+    return parse_show_ip_bgp(enode(
+        'show ip bgp'.format(**locals()),
+        shell='vtysh'
+    ))
+
+
 __all__ = [
     'ContextManager',
     'Configure',
@@ -2646,5 +2666,6 @@ __all__ = [
     'show_lldp_neighbor_info',
     'show_lldp_statistics',
     'show_ip_bgp_summary',
-    'show_ip_bgp_neighbors'
+    'show_ip_bgp_neighbors',
+    'show_ip_bgp'
 ]

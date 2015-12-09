@@ -31,7 +31,8 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_lldp_neighbor_info,
                                        parse_show_lldp_statistics,
                                        parse_show_ip_bgp_summary,
-                                       parse_show_ip_bgp_neighbors
+                                       parse_show_ip_bgp_neighbors,
+                                       parse_show_ip_bgp
                                        )
 
 
@@ -499,6 +500,86 @@ def test_parse_show_ip_bgp_neighbors():
             'bgp_peer_update_in_count': 0
         }
     }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ip_bgp():
+    raw_result = """\
+Status codes: s suppressed, d damped, h history, * valid, > best, = multipath,
+              i internal, S Stale, R Removed
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Local router-id 2.0.0.1
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 10.1.0.10/32     0.0.0.0                  0      0  32768  i
+*> 10.1.0.14/32     0.0.0.0                  0      0  32768  i
+*> 10.2.0.10/32     20.1.1.1                 0      0      0 65000 64100 i
+*  10.2.0.10/32     20.1.1.10                0      0      0 65000 64100 i
+*> 10.2.0.14/32     20.1.1.1                 0      0      0 65000 64100 i
+*  10.2.0.14/32     20.1.1.10                0      0      0 65000 64100 i
+Total number of entries 6
+    """
+
+    result = parse_show_ip_bgp(raw_result)
+
+    expected = [
+        {
+            'path': 'i',
+            'metric': 0,
+            'weight': 32768,
+            'network': '10.1.0.10/32',
+            'locprf': 0,
+            'next_hop': '0.0.0.0',
+            'route_status': '*>'
+        },
+        {
+            'path': 'i',
+            'metric': 0,
+            'weight': 32768,
+            'network': '10.1.0.14/32',
+            'locprf': 0,
+            'next_hop': '0.0.0.0',
+            'route_status': '*>'
+        },
+        {
+            'path': '65000 64100 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10.2.0.10/32',
+            'locprf': 0,
+            'next_hop': '20.1.1.1',
+            'route_status': '*>'
+        },
+        {
+            'path': '65000 64100 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10.2.0.10/32',
+            'locprf': 0,
+            'next_hop': '20.1.1.10',
+            'route_status': '*'
+        },
+        {
+            'path': '65000 64100 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10.2.0.14/32',
+            'locprf': 0,
+            'next_hop': '20.1.1.1',
+            'route_status': '*>'
+        },
+        {
+            'path': '65000 64100 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10.2.0.14/32',
+            'locprf': 0,
+            'next_hop': '20.1.1.10',
+            'route_status': '*'
+        }
+    ]
 
     ddiff = DeepDiff(result, expected)
     assert not ddiff
