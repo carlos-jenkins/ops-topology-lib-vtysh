@@ -116,6 +116,12 @@ VTYSH_SPEC = OrderedDict([
                 'doc': 'Show bgp neighbors information.',
                 'arguments': [],
                 'returns': True
+            },
+            {
+                'command': 'show ip bgp',
+                'doc': 'Show bgp routing information.',
+                'arguments': [],
+                'returns': True
             }
         ]
     }),
