@@ -585,6 +585,7 @@ def parse_show_ip_bgp(raw_result):
         list of dictionaries of the form:
 
      ::
+
         [
             {
                 'route_status': '*>',
