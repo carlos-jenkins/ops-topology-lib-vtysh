@@ -116,3 +116,22 @@ must manually define a function named "parse_show_house" on parser.py with a
 description on how to parse the result of the vtysh command.
 
 Usage is described on :class:`topology_lib_vtysh.library.ContextManager`
+
+Collisions between commands
+...........................
+
+It may happen that there are 2 or more vtysh commands that share the same
+instructions (the actual words that make the vtysh command) but have different
+types of parameters.
+
+For example, this could be one of those cases:
+
+- ``vtysh command ip`` where ``vtysh command`` are instructions and ``ip``
+  is an argument.
+- ``vtysh command group`` where ``vtysh command`` are instructions and
+  ``group`` is an argument.
+
+In that case, there must exist only one library function where its
+documentation clearly explains the multiple types of parameters that it may
+receive. You can find an example in the documentation for
+:func:`topology_lib_vtysh.library.Configure.ip_route`.
