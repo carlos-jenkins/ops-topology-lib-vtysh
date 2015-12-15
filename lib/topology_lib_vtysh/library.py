@@ -46,15 +46,15 @@ class ContextManager(object):
     """
 
 
-class Configure(ContextManager):
+class ConfigInterfaceVlan(ContextManager):
     """
-    Configuration terminal
+    VLAN configuration.
 
     pre_commands:
 
     ::
 
-            ['configure terminal']
+            ['config terminal', 'interface vlan {vlan_id}']
 
     post_commands:
 
@@ -62,12 +62,14 @@ class Configure(ContextManager):
 
             ['end']
     """
-    def __init__(self, enode):
+    def __init__(self, enode, vlan_id):
         self.enode = enode
+        self.vlan_id = vlan_id
 
     def __enter__(self):
         commands = """\
-            configure terminal
+            config terminal
+            interface vlan {vlan_id}
         """
 
         self.enode.libs.common.assert_batch(
@@ -89,187 +91,387 @@ class Configure(ContextManager):
             shell='vtysh'
         )
 
-    def no_vlan(self, vlan_id):
+    def ip_address(self, ipv4):
         """
-        Delete a VLAN
+        Set IP address
 
         This function runs the following vtysh command:
 
         ::
 
-            # no vlan {vlan_id}
+            # ip address {ipv4}
 
-        :param vlan_id: VLAN Identifier.
+        :param ipv4: A.B.C.D/M Interface IP address.
         """
 
         assert not self.enode(
-            'no vlan {vlan_id}'.format(
+            'ip address {ipv4}'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def no_interface_lag(self, lag_id):
+    def no_ip_address(self, ipv4):
         """
-        Delete a lag
+        Unset IP address
 
         This function runs the following vtysh command:
 
         ::
 
-            # no interface lag {lag_id}
+            # no ip address {ipv4}
 
-        :param lag_id: link-aggregation identifier.
+        :param ipv4: A.B.C.D/M Interface IP address.
         """
 
         assert not self.enode(
-            'no interface lag {lag_id}'.format(
+            'no ip address {ipv4}'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def ip_route(self, ipv4, next_hop, metric=''):
+    def ip_address_secondary(self, ipv4):
         """
-        Configure static routes
+        Set secondary IP address
 
         This function runs the following vtysh command:
 
         ::
 
-            # ip route {ipv4} {next_hop} {metric}
+            # ip address {ipv4} secondary
 
-        :param ipv4: A.B.C.D/M IP destination prefix.
-        :param next_hop: Can be an ip address or a interface.
-        :param metric: Optional, route address to configure.
+        :param ipv4: A.B.C.D/M Interface IP address.
         """
 
         assert not self.enode(
-            'ip route {ipv4} {next_hop} {metric}'.format(
+            'ip address {ipv4} secondary'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def no_ip_route(self, ipv4, next_hop, metric=''):
+    def no_ip_address_secondary(self, ipv4):
         """
-        Un-configure static routes
+        Unset secondary IP address
 
         This function runs the following vtysh command:
 
         ::
 
-            # no ip route {ipv4} {next_hop} {metric}
+            # no ip address {ipv4} secondary
 
-        :param ipv4: A.B.C.D/M IP destination prefix.
-        :param next_hop: Can be an ip address or a interface.
-        :param metric: Optional, route address to configure.
+        :param ipv4: A.B.C.D/M Interface IP address.
         """
 
         assert not self.enode(
-            'no ip route {ipv4} {next_hop} {metric}'.format(
+            'no ip address {ipv4} secondary'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def ipv6_route(self, ipv6, next_hop, metric=''):
+    def ipv6_address(self, ipv6):
         """
-        Configure static routes
+        Set IPv6 address
 
         This function runs the following vtysh command:
 
         ::
 
-            # ipv6 route {ipv6} {next_hop} {metric}
+            # ipv6 address {ipv6}
 
-        :param ipv6: X:X::X:X/M IP destination prefix.
-        :param next_hop: Can be an ip address or a interface.
-        :param metric: Optional, route address to configure.
+        :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
         assert not self.enode(
-            'ipv6 route {ipv6} {next_hop} {metric}'.format(
+            'ipv6 address {ipv6}'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def no_ipv6_route(self, ipv6, next_hop, metric=''):
+    def no_ipv6_address(self, ipv6):
         """
-        Un-configure static routes
+        Unset IPv6 address
 
         This function runs the following vtysh command:
 
         ::
 
-            # no ipv6 route {ipv6} {next_hop} {metric}
+            # no ipv6 address {ipv6}
 
-        :param ipv6: X:X::X:X/M IP destination prefix.
-        :param next_hop: Can be an ip address or a interface.
-        :param metric: Optional, route address to configure.
+        :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
         assert not self.enode(
-            'no ipv6 route {ipv6} {next_hop} {metric}'.format(
+            'no ipv6 address {ipv6}'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def lacp_system_priority(self, priority):
+    def ipv6_address_secondary(self, ipv6):
         """
-        Set LACP system priority.
+        Set secondary IPv6 address
 
         This function runs the following vtysh command:
 
         ::
 
-            # lacp system-priority {priority}
+            # ipv6 address {ipv6} secondary
 
-        :param priority: <0-65535>  The range is 0 to 65535.
+        :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
         assert not self.enode(
-            'lacp system-priority {priority}'.format(
+            'ipv6 address {ipv6} secondary'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def feature_lldp(self):
+    def no_ipv6_address_secondary(self, ipv6):
         """
-        Configure LLDP parameters.
+        Unset IPv6 address
 
         This function runs the following vtysh command:
 
         ::
 
-            # feature lldp
+            # no ipv6 address {ipv6} secondary
 
+        :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
         assert not self.enode(
-            'feature lldp'.format(
+            'no ipv6 address {ipv6} secondary'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def no_feature_lldp(self):
+    def shutdown(self):
         """
-        Un-configure LLDP parameters.
+        Enable an interface.
 
         This function runs the following vtysh command:
 
         ::
 
-            # no feature lldp
+            # shutdown
 
         """
 
         assert not self.enode(
-            'no feature lldp'.format(
+            'shutdown'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_shutdown(self):
+        """
+        Disable an interface.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no shutdown
+
+        """
+
+        assert not self.enode(
+            'no shutdown'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+
+class ConfigInterfaceMgmt(ContextManager):
+    """
+    Configure management interface.
+
+    pre_commands:
+
+    ::
+
+            ['config terminal', 'interface mgmt']
+
+    post_commands:
+
+    ::
+
+            ['end']
+    """
+    def __init__(self, enode):
+        self.enode = enode
+
+    def __enter__(self):
+        commands = """\
+            config terminal
+            interface mgmt
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+        return self
+
+    def __exit__(self, type, value, traceback):
+        commands = """\
+            end
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+    def ip_static(self, ip):
+        """
+        Set IP address
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ip static {ip}
+
+        :param ip: Interface IP (ipv4 or ipv6) address.
+        """
+
+        assert not self.enode(
+            'ip static {ip}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_ip_static(self, ip):
+        """
+        Unset IP address
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ip static {ip}
+
+        :param ip: Interface IP (ipv4 or ipv6) address.
+        """
+
+        assert not self.enode(
+            'no ip static {ip}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def default_gateway(self, gateway):
+        """
+        Configure the Default gateway address (IPv4 and IPv6)
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # default-gateway {gateway}
+
+        :param gateway: IP (ipv4 or ipv6) address.
+        """
+
+        assert not self.enode(
+            'default-gateway {gateway}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_default_gateway(self, gateway):
+        """
+        Remove the Default gateway address (IPv4 and IPv6)
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no default-gateway {gateway}
+
+        :param gateway: IP (ipv4 or ipv6) address.
+        """
+
+        assert not self.enode(
+            'no default-gateway {gateway}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def nameserver(self, primary_nameserver, secondary_nameserver=''):
+        """
+        Configure the nameserver
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # nameserver {primary_nameserver} {secondary_nameserver}
+
+        :param primary_nameserver: Primary nameserver (ipv4 or ipv6) address.
+        :param secondary_nameserver: Secondary nameserver (ipv4 or ipv6)
+            address.
+        """
+
+        assert not self.enode(
+            'nameserver {primary_nameserver} {secondary_nameserver}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_nameserver(self, primary_nameserver, secondary_nameserver=''):
+        """
+        Configure the nameserver
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no nameserver {primary_nameserver} {secondary_nameserver}
+
+        :param primary_nameserver: Primary nameserver (ipv4 or ipv6) address.
+        :param secondary_nameserver: Secondary nameserver (ipv4 or ipv6)
+            address.
+        """
+
+        assert not self.enode(
+            'no nameserver {primary_nameserver} {secondary_nameserver}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def ip_dhcp(self):
+        """
+        Set the mode as dhcp.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ip dhcp
+
+        """
+
+        assert not self.enode(
+            'ip dhcp'.format(
                 **locals()
             ),
             shell='vtysh'
@@ -294,7 +496,11 @@ class ConfigInterface(ContextManager):
     """
     def __init__(self, enode, portlbl):
         self.enode = enode
-        self.port = enode.ports.get(portlbl, portlbl)
+        if portlbl not in enode.ports.keys():
+            msg = 'Unknown portlbl, available portlbl are: {}'.format(
+                  ', '.join('\'{}\''.format(k) for k in enode.ports.keys()))
+            raise Exception(msg)
+        self.port = enode.ports[portlbl]
 
     def __enter__(self):
         commands = """\
@@ -872,15 +1078,15 @@ class ConfigInterface(ContextManager):
         )
 
 
-class ConfigInterfaceVlan(ContextManager):
+class Configure(ContextManager):
     """
-    VLAN configuration.
+    Configuration terminal
 
     pre_commands:
 
     ::
 
-            ['config terminal', 'interface vlan {vlan_id}']
+            ['configure terminal']
 
     post_commands:
 
@@ -888,14 +1094,12 @@ class ConfigInterfaceVlan(ContextManager):
 
             ['end']
     """
-    def __init__(self, enode, vlan_id):
+    def __init__(self, enode):
         self.enode = enode
-        self.vlan_id = vlan_id
 
     def __enter__(self):
         commands = """\
-            config terminal
-            interface vlan {vlan_id}
+            configure terminal
         """
 
         self.enode.libs.common.assert_batch(
@@ -917,199 +1121,187 @@ class ConfigInterfaceVlan(ContextManager):
             shell='vtysh'
         )
 
-    def ip_address(self, ipv4):
+    def no_vlan(self, vlan_id):
         """
-        Set IP address
+        Delete a VLAN
 
         This function runs the following vtysh command:
 
         ::
 
-            # ip address {ipv4}
+            # no vlan {vlan_id}
 
-        :param ipv4: A.B.C.D/M Interface IP address.
+        :param vlan_id: VLAN Identifier.
         """
 
         assert not self.enode(
-            'ip address {ipv4}'.format(
+            'no vlan {vlan_id}'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def no_ip_address(self, ipv4):
+    def no_interface_lag(self, lag_id):
         """
-        Unset IP address
+        Delete a lag
 
         This function runs the following vtysh command:
 
         ::
 
-            # no ip address {ipv4}
+            # no interface lag {lag_id}
 
-        :param ipv4: A.B.C.D/M Interface IP address.
+        :param lag_id: link-aggregation identifier.
         """
 
         assert not self.enode(
-            'no ip address {ipv4}'.format(
+            'no interface lag {lag_id}'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def ip_address_secondary(self, ipv4):
+    def ip_route(self, ipv4, next_hop, metric=''):
         """
-        Set secondary IP address
+        Configure static routes
 
         This function runs the following vtysh command:
 
         ::
 
-            # ip address {ipv4} secondary
+            # ip route {ipv4} {next_hop} {metric}
 
-        :param ipv4: A.B.C.D/M Interface IP address.
+        :param ipv4: A.B.C.D/M IP destination prefix.
+        :param next_hop: Can be an ip address or a interface.
+        :param metric: Optional, route address to configure.
         """
 
         assert not self.enode(
-            'ip address {ipv4} secondary'.format(
+            'ip route {ipv4} {next_hop} {metric}'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def no_ip_address_secondary(self, ipv4):
+    def no_ip_route(self, ipv4, next_hop, metric=''):
         """
-        Unset secondary IP address
+        Un-configure static routes
 
         This function runs the following vtysh command:
 
         ::
 
-            # no ip address {ipv4} secondary
+            # no ip route {ipv4} {next_hop} {metric}
 
-        :param ipv4: A.B.C.D/M Interface IP address.
+        :param ipv4: A.B.C.D/M IP destination prefix.
+        :param next_hop: Can be an ip address or a interface.
+        :param metric: Optional, route address to configure.
         """
 
         assert not self.enode(
-            'no ip address {ipv4} secondary'.format(
+            'no ip route {ipv4} {next_hop} {metric}'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def ipv6_address(self, ipv6):
+    def ipv6_route(self, ipv6, next_hop, metric=''):
         """
-        Set IPv6 address
+        Configure static routes
 
         This function runs the following vtysh command:
 
         ::
 
-            # ipv6 address {ipv6}
+            # ipv6 route {ipv6} {next_hop} {metric}
 
-        :param ipv6: X:X::X:X/M  Interface IPv6 address
+        :param ipv6: X:X::X:X/M IP destination prefix.
+        :param next_hop: Can be an ip address or a interface.
+        :param metric: Optional, route address to configure.
         """
 
         assert not self.enode(
-            'ipv6 address {ipv6}'.format(
+            'ipv6 route {ipv6} {next_hop} {metric}'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def no_ipv6_address(self, ipv6):
+    def no_ipv6_route(self, ipv6, next_hop, metric=''):
         """
-        Unset IPv6 address
+        Un-configure static routes
 
         This function runs the following vtysh command:
 
         ::
 
-            # no ipv6 address {ipv6}
+            # no ipv6 route {ipv6} {next_hop} {metric}
 
-        :param ipv6: X:X::X:X/M  Interface IPv6 address
+        :param ipv6: X:X::X:X/M IP destination prefix.
+        :param next_hop: Can be an ip address or a interface.
+        :param metric: Optional, route address to configure.
         """
 
         assert not self.enode(
-            'no ipv6 address {ipv6}'.format(
+            'no ipv6 route {ipv6} {next_hop} {metric}'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def ipv6_address_secondary(self, ipv6):
+    def lacp_system_priority(self, priority):
         """
-        Set secondary IPv6 address
+        Set LACP system priority.
 
         This function runs the following vtysh command:
 
         ::
 
-            # ipv6 address {ipv6} secondary
+            # lacp system-priority {priority}
 
-        :param ipv6: X:X::X:X/M  Interface IPv6 address
+        :param priority: <0-65535>  The range is 0 to 65535.
         """
 
         assert not self.enode(
-            'ipv6 address {ipv6} secondary'.format(
+            'lacp system-priority {priority}'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def no_ipv6_address_secondary(self, ipv6):
+    def feature_lldp(self):
         """
-        Unset IPv6 address
+        Configure LLDP parameters.
 
         This function runs the following vtysh command:
 
         ::
 
-            # no ipv6 address {ipv6} secondary
+            # feature lldp
 
-        :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
         assert not self.enode(
-            'no ipv6 address {ipv6} secondary'.format(
+            'feature lldp'.format(
                 **locals()
             ),
             shell='vtysh'
         )
 
-    def shutdown(self):
+    def no_feature_lldp(self):
         """
-        Enable an interface.
+        Un-configure LLDP parameters.
 
         This function runs the following vtysh command:
 
         ::
 
-            # shutdown
+            # no feature lldp
 
         """
 
         assert not self.enode(
-            'shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_shutdown(self):
-        """
-        Disable an interface.
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no shutdown
-
-        """
-
-        assert not self.enode(
-            'no shutdown'.format(
+            'no feature lldp'.format(
                 **locals()
             ),
             shell='vtysh'
@@ -1359,6 +1551,84 @@ class ConfigInterfaceLag(ContextManager):
             shell='vtysh'
         )
 
+    def routing(self):
+        """
+        Configure interface as L3.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # routing
+
+        """
+
+        assert not self.enode(
+            'routing'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_routing(self):
+        """
+        Unconfigure interface as L3.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no routing
+
+        """
+
+        assert not self.enode(
+            'no routing'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def vlan_access(self, vlan_id):
+        """
+        Access configuration
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # vlan access {vlan_id}
+
+        :param vlan_id: <1-4094>  VLAN identifier
+        """
+
+        assert not self.enode(
+            'vlan access {vlan_id}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_vlan_access(self, vlan_id):
+        """
+        Remove vlan access
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no vlan access {vlan_id}
+
+        :param vlan_id: <1-4094>  VLAN identifier
+        """
+
+        assert not self.enode(
+            'no vlan access {vlan_id}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
     def lacp_mode_passive(self):
         """
         Sets an interface as LACP passive.
@@ -1531,793 +1801,6 @@ class ConfigInterfaceLag(ContextManager):
         )
 
 
-class ConfigInterfaceMgmt(ContextManager):
-    """
-    Configure management interface.
-
-    pre_commands:
-
-    ::
-
-            ['config terminal', 'interface mgmt']
-
-    post_commands:
-
-    ::
-
-            ['end']
-    """
-    def __init__(self, enode):
-        self.enode = enode
-
-    def __enter__(self):
-        commands = """\
-            config terminal
-            interface mgmt
-        """
-
-        self.enode.libs.common.assert_batch(
-            commands,
-            replace=self.__dict__,
-            shell='vtysh'
-        )
-
-        return self
-
-    def __exit__(self, type, value, traceback):
-        commands = """\
-            end
-        """
-
-        self.enode.libs.common.assert_batch(
-            commands,
-            replace=self.__dict__,
-            shell='vtysh'
-        )
-
-    def ip_static(self, ip):
-        """
-        Set IP address
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # ip static {ip}
-
-        :param ip: Interface IP (ipv4 or ipv6) address.
-        """
-
-        assert not self.enode(
-            'ip static {ip}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_ip_static(self, ip):
-        """
-        Unset IP address
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no ip static {ip}
-
-        :param ip: Interface IP (ipv4 or ipv6) address.
-        """
-
-        assert not self.enode(
-            'no ip static {ip}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def default_gateway(self, gateway):
-        """
-        Configure the Default gateway address (IPv4 and IPv6)
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # default-gateway {gateway}
-
-        :param gateway: IP (ipv4 or ipv6) address.
-        """
-
-        assert not self.enode(
-            'default-gateway {gateway}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_default_gateway(self, gateway):
-        """
-        Remove the Default gateway address (IPv4 and IPv6)
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no default-gateway {gateway}
-
-        :param gateway: IP (ipv4 or ipv6) address.
-        """
-
-        assert not self.enode(
-            'no default-gateway {gateway}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def nameserver(self, primary_nameserver, secondary_nameserver=''):
-        """
-        Configure the nameserver
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # nameserver {primary_nameserver} {secondary_nameserver}
-
-        :param primary_nameserver: Primary nameserver (ipv4 or ipv6) address.
-        :param secondary_nameserver: Secondary nameserver (ipv4 or ipv6)
-            address.
-        """
-
-        assert not self.enode(
-            'nameserver {primary_nameserver} {secondary_nameserver}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_nameserver(self, primary_nameserver, secondary_nameserver=''):
-        """
-        Configure the nameserver
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no nameserver {primary_nameserver} {secondary_nameserver}
-
-        :param primary_nameserver: Primary nameserver (ipv4 or ipv6) address.
-        :param secondary_nameserver: Secondary nameserver (ipv4 or ipv6)
-            address.
-        """
-
-        assert not self.enode(
-            'no nameserver {primary_nameserver} {secondary_nameserver}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def ip_dhcp(self):
-        """
-        Set the mode as dhcp.
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # ip dhcp
-
-        """
-
-        assert not self.enode(
-            'ip dhcp'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-
-class ConfigRouterBgp(ContextManager):
-    """
-    BGP configuration.
-
-    pre_commands:
-
-    ::
-
-            ['config terminal', 'router bgp {asn}']
-
-    post_commands:
-
-    ::
-
-            ['end']
-    """
-    def __init__(self, enode, asn):
-        self.enode = enode
-        self.asn = asn
-
-    def __enter__(self):
-        commands = """\
-            config terminal
-            router bgp {asn}
-        """
-
-        self.enode.libs.common.assert_batch(
-            commands,
-            replace=self.__dict__,
-            shell='vtysh'
-        )
-
-        return self
-
-    def __exit__(self, type, value, traceback):
-        commands = """\
-            end
-        """
-
-        self.enode.libs.common.assert_batch(
-            commands,
-            replace=self.__dict__,
-            shell='vtysh'
-        )
-
-    def bgp_router_id(self, id):
-        """
-        Specifies the BGP router-ID for a BGP Router
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # bgp router-id {id}
-
-        :param id: <A.B.C.D> IPv4 address
-        """
-
-        assert not self.enode(
-            'bgp router-id {id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_bgp_router_id(self, id):
-        """
-        Removes the BGP router-ID for a BGP Router
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no bgp router-id {id}
-
-        :param id: <A.B.C.D> IPv4 address
-        """
-
-        assert not self.enode(
-            'no bgp router-id {id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def network(self, network):
-        """
-        Adds the announcement network for BGP
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # network {network}
-
-        :param network: <A.B.C.D/M> IPv4 address with the prefix len
-        """
-
-        assert not self.enode(
-            'network {network}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_network(self, network):
-        """
-        Removes the announcement network for BGP
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no network {network}
-
-        :param network: <A.B.C.D/M> IPv4 address with the prefix length
-        """
-
-        assert not self.enode(
-            'no network {network}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def maximum_paths(self, num):
-        """
-        Sets the maximum number of paths for a BGP route
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # maximum-paths {num}
-
-        :param num: <1-255> Maximum number of paths. Default is 1
-        """
-
-        assert not self.enode(
-            'maximum-paths {num}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_maximum_paths(self, num):
-        """
-        Set the max number of paths to the default value of 1
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no maximum-paths {num}
-
-        :param num: <1-255> Maximum number of paths. Default is 1
-        """
-
-        assert not self.enode(
-            'no maximum-paths {num}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def timers_bgp(self, keepalive, hold):
-        """
-        Sets the keepalive interval and hold time for a BGP router
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # timers bgp {keepalive} {hold}
-
-        :param keepalive: <0-65535> Keepalive interval in seconds. Default is
-            60
-        :param hold: <0 - 65535> Hold time in seconds. Default is 180
-        """
-
-        assert not self.enode(
-            'timers bgp {keepalive} {hold}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_timers_bgp(self, keepalive='', hold=''):
-        """
-        Sets the default values for keepalive interval and hold time for a BGP
-        router
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no timers bgp {keepalive} {hold}
-
-        :param keepalive: <0 - 65535> Keepalive interval in seconds. Default
-            is 60
-        :param hold: <0 - 65535> Hold time in seconds. Default is 180
-        """
-
-        assert not self.enode(
-            'no timers bgp {keepalive} {hold}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def neighbor_remote_as(self, ip, asn):
-        """
-        Configures a BGP neighbor
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # neighbor {ip} remote-as {asn}
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param asn: <1 - 4294967295> Neighbor AS number. Ranges from 1 to
-            4294967295
-        """
-
-        assert not self.enode(
-            'neighbor {ip} remote-as {asn}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_neighbor_remote_as(self, ip, asn):
-        """
-        Removes a BGP neighbor
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no neighbor {ip} remote-as {asn}
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param asn: <1 - 4294967295> Neighbor AS number. Ranges from 1 to
-            4294967295
-        """
-
-        assert not self.enode(
-            'no neighbor {ip} remote-as {asn}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def neighbor_description(self, ip, text):
-        """
-        Removes a BGP neighbor
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # neighbor {ip} description {text}
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param text: Description of the peer router. String of maximum length
-            80 chars
-        """
-
-        assert not self.enode(
-            'neighbor {ip} description {text}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_neighbor_description(self, ip, text=''):
-        """
-        Removes a BGP neighbor
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no neighbor {ip} description {text}
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param text: Description of the peer router.String of maximum length
-            80 chars
-        """
-
-        assert not self.enode(
-            'no neighbor {ip} description {text}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def neighbor_password(self, ip, pwd):
-        """
-        Enables MD5 authentication on a TCP connection between BGP peers.
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # neighbor {ip} password {pwd}
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param pwd: Password in plain text.String of maximum length 80 chars
-        """
-
-        assert not self.enode(
-            'neighbor {ip} password {pwd}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_neighbor_password(self, ip, pwd=''):
-        """
-        Removes MD5 authentication on a TCP connection between BGP peers.
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no neighbor {ip} password {pwd}
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param pwd: Password in plain text.String of maximum length 80 chars
-        """
-
-        assert not self.enode(
-            'no neighbor {ip} password {pwd}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def neighbor_timers(self, ip, keepalive, hold):
-        """
-        Sets the keepalive interval and hold time for a specific BGP peer
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # neighbor {ip} timers {keepalive} {hold}
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param keepalive: <0 - 65535> Keepalive interval in seconds.Default is
-            60
-        :param hold: <0-65535> Hold time in seconds. Default is 180
-        """
-
-        assert not self.enode(
-            'neighbor {ip} timers {keepalive} {hold}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_neighbor_timers(self, ip, keepalive='', hold=''):
-        """
-        Sets the default values for keepalive interval and hold time for a
-        specific BGP peer
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no neighbor {ip} timers {keepalive} {hold}
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param keepalive: <0 - 65535> Keepalive interval in seconds.Default is
-            0
-        :param hold: <0 - 65535> Hold time in seconds. Default is 0
-        """
-
-        assert not self.enode(
-            'no neighbor {ip} timers {keepalive} {hold}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def neighbor_allowas_in(self, ip, val=''):
-        """
-        Specifies an allow-as-in occurrence number for an AS to be in the AS
-        path
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # neighbor {ip} allowas-in {val}
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param val: <0 - 10> Number of times BGP can allow an instance of AS
-            to be in the AS_PATH
-        """
-
-        assert not self.enode(
-            'neighbor {ip} allowas-in {val}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_neighbor_allowas_in(self, ip, val=''):
-        """
-        Clears the allow-as-in occurrence number for an AS to be in the AS path
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no neighbor {ip} allowas-in {val}
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param val: <0 - 10> Number of times BGP can allow aninstance of AS to
-            be in the AS_PATH
-        """
-
-        assert not self.enode(
-            'no neighbor {ip} allowas-in {val}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def neighbor_remove_private_as(self, ip):
-        """
-        Removes private AS numbers from the AS pathin outbound routing updates
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # neighbor {ip} remove-private-AS
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        """
-
-        assert not self.enode(
-            'neighbor {ip} remove-private-AS'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_neighbor_remove_private_as(self, ip):
-        """
-        Resets to a cleared state (default)
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no neighbor {ip} remove-private-AS
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        """
-
-        assert not self.enode(
-            'no neighbor {ip} remove-private-AS'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def neighbor_soft_reconfiguration_inbound(self, ip):
-        """
-        Enables software-based reconfiguration to generate updates from a
-        neighbor without clearing the BGP session
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # neighbor {ip} soft-reconfiguration inbound
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        """
-
-        assert not self.enode(
-            'neighbor {ip} soft-reconfiguration inbound'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_neighbor_soft_reconfiguration_inbound(self, ip):
-        """
-        Resets to a cleared state (default)
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no neighbor {ip} soft-reconfiguration inbound
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        """
-
-        assert not self.enode(
-            'no neighbor {ip} soft-reconfiguration inbound'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def neighbor_shutdown(self, ip):
-        """
-        Shuts down the neighbor. This disables the peer routerbut preserves
-        neighbor configuration
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # neighbor {ip} shutdown
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        """
-
-        assert not self.enode(
-            'neighbor {ip} shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_neighbor_shutdown(self, ip):
-        """
-        Re-enables the neighbor
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no neighbor {ip} shutdown
-
-        :param ip: <A.B.C.D> Neighbor IPv4 address
-        """
-
-        assert not self.enode(
-            'no neighbor {ip} shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def neighbor_peer_group(self, ip_or_group, group=''):
-        """
-        Assigns a neighbor to a peer-group
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # neighbor {ip_or_group} peer-group {group}
-
-        :param ip_or_group: <A.B.C.D> Neighbor IPv4 address<X:X::X:X> Neighbor
-            IPv6 address<WORD> Neighbor group
-        :param group: ('Peer-group name.String of maximum length 80 chars',)
-        """
-
-        assert not self.enode(
-            'neighbor {ip_or_group} peer-group {group}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-    def no_neighbor_peer_group(self, ip_or_group, group=''):
-        """
-        Removes the neighbor from the peer-group
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # no neighbor {ip_or_group} peer-group {group}
-
-        :param ip_or_group: <A.B.C.D> Neighbor IPv4 address<X:X::X:X> Neighbor
-            IPv6 address<WORD> Neighbor group
-        :param group: Peer-group name. String of maximum length 80 chars
-        """
-
-        assert not self.enode(
-            'no neighbor {ip_or_group} peer-group {group}'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )
-
-
 class ConfigVlan(ContextManager):
     """
     VLAN configuration.
@@ -2456,7 +1939,11 @@ def show_interface(enode, portlbl):
     :return: A dictionary as returned by \
         :func:`topology_lib_vtysh.parser.parse_show_interface`
     """
-    port = enode.ports.get(portlbl, portlbl)
+    if portlbl not in enode.ports.keys():
+        msg = 'Unknown portlbl, available portlbl are: {}'.format(
+              ', '.join('\'{}\''.format(k) for k in enode.ports.keys()))
+        raise Exception(msg)
+    port = enode.ports[portlbl]
 
     return parse_show_interface(enode(
         'show interface {port}'.format(**locals()),
@@ -2498,7 +1985,11 @@ def show_lacp_interface(enode, portlbl):
     :return: A dictionary as returned by \
         :func:`topology_lib_vtysh.parser.parse_show_lacp_interface`
     """
-    port = enode.ports.get(portlbl, portlbl)
+    if portlbl not in enode.ports.keys():
+        msg = 'Unknown portlbl, available portlbl are: {}'.format(
+              ', '.join('\'{}\''.format(k) for k in enode.ports.keys()))
+        raise Exception(msg)
+    port = enode.ports[portlbl]
 
     return parse_show_lacp_interface(enode(
         'show lacp interface {port}'.format(**locals()),
@@ -2561,7 +2052,11 @@ def show_lldp_neighbor_info(enode, portlbl):
     :return: A dictionary as returned by \
         :func:`topology_lib_vtysh.parser.parse_show_lldp_neighbor_info`
     """
-    port = enode.ports.get(portlbl, portlbl)
+    if portlbl not in enode.ports.keys():
+        msg = 'Unknown portlbl, available portlbl are: {}'.format(
+              ', '.join('\'{}\''.format(k) for k in enode.ports.keys()))
+        raise Exception(msg)
+    port = enode.ports[portlbl]
 
     return parse_show_lldp_neighbor_info(enode(
         'show lldp neighbor-info {port}'.format(**locals()),
@@ -2589,74 +2084,13 @@ def show_lldp_statistics(enode):
     ))
 
 
-def show_ip_bgp_summary(enode):
-    """
-    Show bgp neighbors information summary.
-
-    This function runs the following vtysh command:
-
-    ::
-
-        # show ip bgp summary
-
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_ip_bgp_summary`
-    """
-
-    return parse_show_ip_bgp_summary(enode(
-        'show ip bgp summary'.format(**locals()),
-        shell='vtysh'
-    ))
-
-
-def show_ip_bgp_neighbors(enode):
-    """
-    Show bgp neighbors information.
-
-    This function runs the following vtysh command:
-
-    ::
-
-        # show ip bgp neighbors
-
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_ip_bgp_neighbors`
-    """
-
-    return parse_show_ip_bgp_neighbors(enode(
-        'show ip bgp neighbors'.format(**locals()),
-        shell='vtysh'
-    ))
-
-
-def show_ip_bgp(enode):
-    """
-    Show bgp routing information.
-
-    This function runs the following vtysh command:
-
-    ::
-
-        # show ip bgp
-
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_ip_bgp`
-    """
-
-    return parse_show_ip_bgp(enode(
-        'show ip bgp'.format(**locals()),
-        shell='vtysh'
-    ))
-
-
 __all__ = [
     'ContextManager',
-    'Configure',
-    'ConfigInterface',
     'ConfigInterfaceVlan',
-    'ConfigInterfaceLag',
     'ConfigInterfaceMgmt',
-    'ConfigRouterBgp',
+    'ConfigInterface',
+    'Configure',
+    'ConfigInterfaceLag',
     'ConfigVlan',
     'show_interface',
     'show_vlan',
@@ -2664,8 +2098,5 @@ __all__ = [
     'show_lacp_aggregates',
     'show_lacp_configuration',
     'show_lldp_neighbor_info',
-    'show_lldp_statistics',
-    'show_ip_bgp_summary',
-    'show_ip_bgp_neighbors',
-    'show_ip_bgp'
+    'show_lldp_statistics'
 ]

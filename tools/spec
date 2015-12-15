@@ -24,19 +24,17 @@ from __future__ import unicode_literals, absolute_import
 from __future__ import print_function, division
 
 import logging
-from re import sub
-from collections import OrderedDict
 from os.path import abspath, normpath, dirname, join
 
 from inflection import parameterize, underscore, camelize
 from jinja2 import FunctionLoader, Environment, StrictUndefined
-
+from re import sub
 
 log = logging.getLogger(__name__)
 
 
-VTYSH_SPEC = OrderedDict([
-    ('root', {
+VTYSH_SPEC = {
+    'root': {
         'doc': '',
         'arguments': [],
         'pre_commands': [],
@@ -104,28 +102,10 @@ VTYSH_SPEC = OrderedDict([
                 'doc': 'Show LLDP statistics.',
                 'arguments': [],
                 'returns': True
-            },
-            {
-                'command': 'show ip bgp summary',
-                'doc': 'Show bgp neighbors information summary.',
-                'arguments': [],
-                'returns': True
-            },
-            {
-                'command': 'show ip bgp neighbors',
-                'doc': 'Show bgp neighbors information.',
-                'arguments': [],
-                'returns': True
-            },
-            {
-                'command': 'show ip bgp',
-                'doc': 'Show bgp routing information.',
-                'arguments': [],
-                'returns': True
             }
         ]
-    }),
-    ('configure', {
+    },
+    'configure': {
         'doc': 'Configuration terminal',
         'arguments': [],
         'pre_commands': ['configure terminal'],
@@ -248,8 +228,8 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
             },
         ]
-    }),
-    ('config_interface', {
+    },
+    'config_interface': {
         'doc': 'Interface configuration.',
         'arguments': [
             {
@@ -491,8 +471,8 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
             },
         ]
-    }),
-    ('config_interface_vlan', {
+    },
+    'config_interface_vlan': {
         'doc': 'VLAN configuration.',
         'arguments': [
             {
@@ -595,8 +575,8 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
             },
         ]
-    }),
-    ('config_interface_lag', {
+    },
+    'config_interface_lag': {
         'doc': 'Configure link-aggregation parameters.',
         'arguments': [
             {
@@ -698,6 +678,36 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
             },
             {
+                'command': 'routing',
+                'doc': 'Configure interface as L3.',
+                'arguments': [],
+            },
+            {
+                'command': 'no routing',
+                'doc': 'Unconfigure interface as L3.',
+                'arguments': [],
+            },
+            {
+                'command': 'vlan access {vlan_id}',
+                'doc': 'Access configuration',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
+                'command': 'no vlan access {vlan_id}',
+                'doc': 'Remove vlan access',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
                 'command': 'lacp mode passive',
                 'doc': 'Sets an interface as LACP passive.',
                 'arguments': [],
@@ -745,8 +755,8 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
             },
         ]
-    }),
-    ('config_interface_mgmt', {
+    },
+    'config_interface_mgmt': {
         'doc': 'Configure management interface.',
         'arguments': [],
         'pre_commands': ['config terminal', 'interface mgmt'],
@@ -830,412 +840,8 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
             },
         ]
-    }),
-    ('config_router_bgp', {
-        'doc': 'BGP configuration.',
-        'arguments': [
-            {
-                'name': 'asn',
-                'doc': '<1-4294967295> AS number ranges from 1 to 4294967295'
-            }
-        ],
-        'pre_commands': ['config terminal', 'router bgp {asn}'],
-        'post_commands': ['end'],
-        'commands': [
-            {
-                'command': 'bgp router-id {id}',
-                'doc': 'Specifies the BGP router-ID for a BGP Router',
-                'arguments': [
-                    {
-                        'name': 'id',
-                        'doc': '<A.B.C.D> IPv4 address',
-                    },
-                ],
-            },
-            {
-                'command': 'no bgp router-id {id}',
-                'doc': 'Removes the BGP router-ID for a BGP Router',
-                'arguments': [
-                    {
-                        'name': 'id',
-                        'doc': '<A.B.C.D> IPv4 address',
-                    },
-                ],
-            },
-            {
-                'command': 'network {network}',
-                'doc': 'Adds the announcement network for BGP',
-                'arguments': [
-                    {
-                        'name': 'network',
-                        'doc': '<A.B.C.D/M> IPv4 address with the prefix len',
-                    },
-                ],
-            },
-            {
-                'command': 'no network {network}',
-                'doc': 'Removes the announcement network for BGP',
-                'arguments': [
-                    {
-                        'name': 'network',
-                        'doc': '<A.B.C.D/M> IPv4 address'
-                                ' with the prefix length',
-                    },
-                ],
-            },
-            {
-                'command': 'maximum-paths {num}',
-                'doc': 'Sets the maximum number of paths for a BGP route',
-                'arguments': [
-                    {
-                        'name': 'num',
-                        'doc': '<1-255> Maximum number of paths. Default is 1',
-                    },
-                ],
-            },
-            {
-                'command': 'no maximum-paths {num}',
-                'doc': 'Set the max number of paths to the default value of 1',
-                'arguments': [
-                    {
-                        'name': 'num',
-                        'doc': '<1-255> Maximum number of paths. Default is 1',
-                    },
-                ],
-            },
-            {
-                'command': 'timers bgp {keepalive} {hold}',
-                'doc': 'Sets the keepalive interval and hold time '
-                       'for a BGP router',
-                'arguments': [
-                    {
-                        'name': 'keepalive',
-                        'doc': '<0-65535> Keepalive interval in seconds. '
-                               'Default is 60',
-                    },
-                    {
-                        'name': 'hold',
-                        'doc': '<0 - 65535> Hold time in seconds. '
-                               'Default is 180',
-                    },
-                ],
-            },
-            {
-                'command': 'no timers bgp {keepalive} {hold}',
-                'doc': 'Sets the default values for keepalive interval and '
-                       'hold time for a BGP router',
-                'arguments': [
-                    {
-                        'name': 'keepalive',
-                        'doc': '<0 - 65535> Keepalive interval in seconds. '
-                               'Default is 60',
-                        'optional': True
-                    },
-                    {
-                        'name': 'hold',
-                        'doc': '<0 - 65535> Hold time in seconds. '
-                               'Default is 180',
-                        'optional': True
-                    },
-                ],
-            },
-            {
-                'command': 'neighbor {ip} remote-as {asn}',
-                'doc': 'Configures a BGP neighbor',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                    {
-                        'name': 'asn',
-                        'doc': '<1 - 4294967295> Neighbor AS number. '
-                               'Ranges from 1 to 4294967295',
-                    },
-                ],
-            },
-            {
-                'command': 'no neighbor {ip} remote-as {asn}',
-                'doc': 'Removes a BGP neighbor',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                    {
-                        'name': 'asn',
-                        'doc': '<1 - 4294967295> Neighbor AS number. '
-                               'Ranges from 1 to 4294967295',
-                    },
-                ],
-            },
-            {
-                'command': 'neighbor {ip} description {text}',
-                'doc': 'Removes a BGP neighbor',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                    {
-                        'name': 'text',
-                        'doc': 'Description of the peer router. '
-                               'String of maximum length 80 chars',
-                    },
-                ],
-            },
-            {
-                'command': 'no neighbor {ip} description {text}',
-                'doc': 'Removes a BGP neighbor',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                    {
-                        'name': 'text',
-                        'doc': (
-                            'Description of the peer router.'
-                            'String of maximum length 80 chars'
-                        ),
-                        'optional': True
-                    },
-                ],
-            },
-            {
-                'command': 'neighbor {ip} password {pwd}',
-                'doc': 'Enables MD5 authentication on a TCP connection '
-                       'between BGP peers.',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                    {
-                        'name': 'pwd',
-                        'doc': (
-                            'Password in plain text.'
-                            'String of maximum length 80 chars'
-                        ),
-                    },
-                ],
-            },
-            {
-                'command': 'no neighbor {ip} password {pwd}',
-                'doc': 'Removes MD5 authentication on a TCP connection '
-                       'between BGP peers.',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                    {
-                        'name': 'pwd',
-                        'doc': (
-                            'Password in plain text.'
-                            'String of maximum length 80 chars'
-                        ),
-                        'optional': True
-                    },
-                ],
-            },
-            {
-                'command': 'neighbor {ip} timers {keepalive} {hold}',
-                'doc': 'Sets the keepalive interval and hold time '
-                       'for a specific BGP peer',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                    {
-                        'name': 'keepalive',
-                        'doc': (
-                            '<0 - 65535> Keepalive interval in seconds.'
-                            'Default is 60'
-                        ),
-                    },
-                    {
-                        'name': 'hold',
-                        'doc': '<0-65535> Hold time in seconds. Default is 180'
-                    },
-                ],
-            },
-            {
-                'command': 'no neighbor {ip} timers {keepalive} {hold}',
-                'doc': 'Sets the default values for keepalive interval '
-                       'and hold time for a specific BGP peer',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                    {
-                        'name': 'keepalive',
-                        'doc': (
-                            '<0 - 65535> Keepalive interval in seconds.'
-                            'Default is 0'
-                        ),
-                        'optional': True
-                    },
-                    {
-                        'name': 'hold',
-                        'doc': '<0 - 65535> Hold time in seconds. '
-                               'Default is 0',
-                        'optional': True
-                    },
-                ],
-            },
-            {
-                'command': 'neighbor {ip} allowas-in {val}',
-                'doc': 'Specifies an allow-as-in occurrence number '
-                       'for an AS to be in the AS path',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                    {
-                        'name': 'val',
-                        'doc': (
-                            '<0 - 10> Number of times BGP can allow an '
-                            'instance of AS to be in the AS_PATH'
-                        ),
-                        'optional': True
-                    },
-                ],
-            },
-            {
-                'command': 'no neighbor {ip} allowas-in {val}',
-                'doc': 'Clears the allow-as-in occurrence number for '
-                       'an AS to be in the AS path',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                    {
-                        'name': 'val',
-                        'doc': (
-                            '<0 - 10> Number of times BGP can allow an'
-                            'instance of AS to be in the AS_PATH'
-                        ),
-                        'optional': True
-                    },
-                ],
-            },
-            {
-                'command': 'neighbor {ip} remove-private-AS',
-                'doc': (
-                    'Removes private AS numbers from the AS path'
-                    'in outbound routing updates'
-                ),
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                ],
-            },
-            {
-                'command': 'no neighbor {ip} remove-private-AS',
-                'doc': 'Resets to a cleared state (default)',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                ],
-            },
-            {
-                'command': 'neighbor {ip} soft-reconfiguration inbound',
-                'doc': 'Enables software-based reconfiguration to generate '
-                       'updates from a neighbor without clearing the BGP session',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                ],
-            },
-            {
-                'command': 'no neighbor {ip} soft-reconfiguration inbound',
-                'doc': 'Resets to a cleared state (default)',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                ],
-            },
-            {
-                'command': 'neighbor {ip} shutdown',
-                'doc': (
-                    'Shuts down the neighbor. This disables the peer router'
-                    'but preserves neighbor configuration'
-                ),
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                ],
-            },
-            {
-                'command': 'no neighbor {ip} shutdown',
-                'doc': 'Re-enables the neighbor',
-                'arguments': [
-                    {
-                        'name': 'ip',
-                        'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                ],
-            },
-            {
-                'command': 'neighbor {ip_or_group} peer-group {group}',
-                'doc': 'Assigns a neighbor to a peer-group',
-                'arguments': [
-                    {
-                        'name': 'ip_or_group',
-                        'doc': (
-                            '<A.B.C.D> Neighbor IPv4 address'
-                            '<X:X::X:X> Neighbor IPv6 address'
-                            '<WORD> Neighbor group'
-                        ),
-                    },
-                    {
-                        'name': 'group',
-                        'doc': (
-                            'Peer-group name.'
-                            'String of maximum length 80 chars',
-                        ),
-                        'optional': True
-                    },
-                ],
-            },
-            {
-                'command': 'no neighbor {ip_or_group} peer-group {group}',
-                'doc': 'Removes the neighbor from the peer-group',
-                'arguments': [
-                    {
-                        'name': 'ip_or_group',
-                        'doc': (
-                            '<A.B.C.D> Neighbor IPv4 address'
-                            '<X:X::X:X> Neighbor IPv6 address'
-                            '<WORD> Neighbor group'
-                        ),
-                    },
-                    {
-                        'name': 'group',
-                        'doc': 'Peer-group name. '
-                               'String of maximum length 80 chars',
-                        'optional': True
-                    },
-                ],
-            },
-        ]
-    }),
-    ('config_vlan', {
+    },
+    'config_vlan': {
         'doc': 'VLAN configuration.',
         'arguments': [
             {
@@ -1278,8 +884,7 @@ VTYSH_SPEC = OrderedDict([
             }
         ]
     },
-    )
-])
+}
 
 """VTYSH Specification as a Python dictionary"""
 
@@ -1362,7 +967,11 @@ class {{ context_name|objectize }}(ContextManager):
         self.enode = enode
         {%- for arg in context.arguments %}
         {% if arg.name == 'portlbl' -%}
-        self.port = enode.ports.get(portlbl, portlbl)
+        if portlbl not in enode.ports.keys():
+            msg = 'Unknown portlbl, available portlbl are: {}'.format(
+                  ', '.join('\\'{}\\''.format(k) for k in enode.ports.keys()))
+            raise Exception(msg)
+        self.port = enode.ports[portlbl]
         {%- else -%}
         self.{{ arg.name }} = {{ arg.name }}
         {%- endif %}
@@ -1416,7 +1025,14 @@ class {{ context_name|objectize }}(ContextManager):
         \"""
         {%- for attr in command.arguments -%}
             {% if attr.name == 'portlbl' %}
-        port = self.enode.ports(portlbl, portlbl)
+        if portlbl not in self.enode.ports.keys():
+            msg = 'Unknown portlbl, available portlbl are: {}'.format(
+                  ', '.join(
+                      '\\'{}\\''.format(k) for k in self.enode.ports.keys()
+                  )
+            )
+            raise Exception(msg)
+        port = self.enode.ports[portlbl]
             {%- endif -%}
         {%- endfor %}
 
@@ -1454,7 +1070,11 @@ def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arg
     \"""
     {%- for attr in command.arguments -%}
         {% if attr.name == 'portlbl' %}
-    port = enode.ports.get(portlbl, portlbl)
+    if portlbl not in enode.ports.keys():
+        msg = 'Unknown portlbl, available portlbl are: {}'.format(
+              ', '.join('\\'{}\\''.format(k) for k in enode.ports.keys()))
+        raise Exception(msg)
+    port = enode.ports[portlbl]
         {%- endif -%}
     {%- endfor %}
 
@@ -1490,7 +1110,7 @@ def filter_objectize(token):
 def filter_methodize(token):
     if token is None:
         return None
-    return underscore(parameterize(underscore(sub('{\S+}', '', token))))
+    return underscore(parameterize(underscore(sub('{.*}', '', token))))
 
 
 def filter_variablize(token):
