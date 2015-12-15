@@ -62,15 +62,17 @@ def parse_show_interface(raw_result):
             'tx_dropped': 0,
             'tx_errors': 0,
             'tx_packets': 0
+            'ipv4': '20.1.1.2/30'
         }
     """
 
     show_re = (
-        r'\s+Interface (?P<port>\d+) is (?P<interface_state>\S+) '
+        r'\s+Interface (?P<port>\d+) is (?P<interface_state>\S+)\s*'
         r'(\((?P<state_description>.*)\))?\s*'
         r'Admin state is (?P<admin_state>\S+)\s+'
         r'(State information: (?P<state_information>\S+))?\s*'
         r'Hardware: (?P<hardware>\S+), MAC Address: (?P<mac_address>\S+)\s+'
+        r'(IPv4 address (?P<ipv4>\S+))?\s*'
         r'MTU (?P<mtu>\d+)\s+'
         r'(?P<conection_type>\S+)\s+'
         r'Speed (?P<speed>\d+) (?P<speed_unit>\S+)\s+'
