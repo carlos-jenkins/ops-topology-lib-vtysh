@@ -698,6 +698,86 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
             },
             {
+                'command': 'routing',
+                'doc': 'Configure interface as L3.',
+                'arguments': [],
+            },
+            {
+                'command': 'no routing',
+                'doc': 'Unconfigure interface as L3.',
+                'arguments': [],
+            },
+            {
+                'command': 'vlan access {vlan_id}',
+                'doc': 'Access configuration',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
+                'command': 'no vlan access {vlan_id}',
+                'doc': 'Remove vlan access',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
+                'command': 'vlan trunk allowed {vlan_id}',
+                'doc': 'Allow VLAN on the trunk port',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
+                'command': 'no vlan trunk allowed {vlan_id}',
+                'doc': 'Disallow VLAN on the trunk port',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
+                'command': 'vlan trunk native tag',
+                'doc': 'Tag configuration on the trunk port',
+                'arguments': [],
+            },
+            {
+                'command': 'no vlan trunk native tag',
+                'doc': 'Remove tag configuration on the trunk port',
+                'arguments': [],
+            },
+            {
+                'command': 'vlan trunk native {vlan_id}',
+                'doc': 'Native VLAN on the trunk port',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
+                'command': 'no vlan trunk native {vlan_id}',
+                'doc': 'Remove native VLAN on the trunk port',
+                'arguments': [
+                    {
+                        'name': 'vlan_id',
+                        'doc': '<1-4094>  VLAN identifier'
+                    }
+                ],
+            },
+            {
                 'command': 'lacp mode passive',
                 'doc': 'Sets an interface as LACP passive.',
                 'arguments': [],
