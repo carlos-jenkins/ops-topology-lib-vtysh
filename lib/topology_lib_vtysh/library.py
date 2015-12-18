@@ -1359,6 +1359,202 @@ class ConfigInterfaceLag(ContextManager):
             shell='vtysh'
         )
 
+    def routing(self):
+        """
+        Configure interface as L3.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # routing
+
+        """
+
+        assert not self.enode(
+            'routing'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_routing(self):
+        """
+        Unconfigure interface as L3.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no routing
+
+        """
+
+        assert not self.enode(
+            'no routing'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def vlan_access(self, vlan_id):
+        """
+        Access configuration
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # vlan access {vlan_id}
+
+        :param vlan_id: <1-4094>  VLAN identifier
+        """
+
+        assert not self.enode(
+            'vlan access {vlan_id}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_vlan_access(self, vlan_id):
+        """
+        Remove vlan access
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no vlan access {vlan_id}
+
+        :param vlan_id: <1-4094>  VLAN identifier
+        """
+
+        assert not self.enode(
+            'no vlan access {vlan_id}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def vlan_trunk_allowed(self, vlan_id):
+        """
+        Allow VLAN on the trunk port
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # vlan trunk allowed {vlan_id}
+
+        :param vlan_id: <1-4094>  VLAN identifier
+        """
+
+        assert not self.enode(
+            'vlan trunk allowed {vlan_id}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_vlan_trunk_allowed(self, vlan_id):
+        """
+        Disallow VLAN on the trunk port
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no vlan trunk allowed {vlan_id}
+
+        :param vlan_id: <1-4094>  VLAN identifier
+        """
+
+        assert not self.enode(
+            'no vlan trunk allowed {vlan_id}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def vlan_trunk_native_tag(self):
+        """
+        Tag configuration on the trunk port
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # vlan trunk native tag
+
+        """
+
+        assert not self.enode(
+            'vlan trunk native tag'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_vlan_trunk_native_tag(self):
+        """
+        Remove tag configuration on the trunk port
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no vlan trunk native tag
+
+        """
+
+        assert not self.enode(
+            'no vlan trunk native tag'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def vlan_trunk_native(self, vlan_id):
+        """
+        Native VLAN on the trunk port
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # vlan trunk native {vlan_id}
+
+        :param vlan_id: <1-4094>  VLAN identifier
+        """
+
+        assert not self.enode(
+            'vlan trunk native {vlan_id}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_vlan_trunk_native(self, vlan_id):
+        """
+        Remove native VLAN on the trunk port
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no vlan trunk native {vlan_id}
+
+        :param vlan_id: <1-4094>  VLAN identifier
+        """
+
+        assert not self.enode(
+            'no vlan trunk native {vlan_id}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
     def lacp_mode_passive(self):
         """
         Sets an interface as LACP passive.
