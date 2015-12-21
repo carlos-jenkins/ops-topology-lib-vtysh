@@ -62,6 +62,7 @@ class Configure(ContextManager):
 
             ['end']
     """
+
     def __init__(self, enode):
         self.enode = enode
 
@@ -292,6 +293,7 @@ class ConfigInterface(ContextManager):
 
             ['end']
     """
+
     def __init__(self, enode, portlbl):
         self.enode = enode
         self.port = enode.ports.get(portlbl, portlbl)
@@ -888,6 +890,7 @@ class ConfigInterfaceVlan(ContextManager):
 
             ['end']
     """
+
     def __init__(self, enode, vlan_id):
         self.enode = enode
         self.vlan_id = vlan_id
@@ -1132,6 +1135,7 @@ class ConfigInterfaceLag(ContextManager):
 
             ['end']
     """
+
     def __init__(self, enode, lag):
         self.enode = enode
         self.lag = lag
@@ -1743,6 +1747,7 @@ class ConfigInterfaceMgmt(ContextManager):
 
             ['end']
     """
+
     def __init__(self, enode):
         self.enode = enode
 
@@ -1931,6 +1936,7 @@ class ConfigRouterBgp(ContextManager):
 
             ['end']
     """
+
     def __init__(self, enode, asn):
         self.enode = enode
         self.asn = asn
@@ -2530,6 +2536,7 @@ class ConfigVlan(ContextManager):
 
             ['end']
     """
+
     def __init__(self, enode, vlan_id):
         self.enode = enode
         self.vlan_id = vlan_id
@@ -2632,6 +2639,267 @@ class ConfigVlan(ContextManager):
 
         assert not self.enode(
             'no description {description}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+
+class ConfigDhcp(ContextManager):
+    """
+    DHCP configuration.
+
+    pre_commands:
+
+    ::
+
+            ['config terminal', 'dhcp-server']
+
+    post_commands:
+
+    ::
+
+            ['end']
+    """
+
+    def __init__(self, enode):
+        self.enode = enode
+
+    def __enter__(self):
+        commands = """\
+            config terminal
+            dhcp-server
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+        return self
+
+    def __exit__(self, type, value, traceback):
+        commands = """\
+            end
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+    def option_number(self, opt_number, opt_value):
+        """
+        Set DHCP option number with value
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # option set option-number {opt_number} option-value {opt_value}
+
+        :param opt_number: 0-255 Option number for DHCP server
+        :param opt_value: Text for the value of DHCP option
+        """
+
+        assert not self.enode(
+            ' '.join(['option set option-number {opt_number} option-value',
+                      '{opt_value}']).format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_option_number(self, opt_number, opt_value):
+        """
+        Unset DHCP option number with value
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no option set option-number {opt_number} option-value
+                {opt_value}
+
+        :param opt_number: 0-255 Option number for DHCP server
+        :param opt_value: Text for the value of DHCP option
+        """
+
+        assert not self.enode(
+            ' '.join('no option set option-number {opt_number} option-value',
+                     '{opt_value}').format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def range(self, name, start, end, netmask):
+        """
+        Set DHCP range
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # range {name} start-ip-address {start} end-ip-address {end}
+                netmask {netmask}
+
+        :param opt_number: 0-255 Option number for DHCP server
+        :param opt_value: Text for the value of DHCP option
+        """
+
+        assert not self.enode(
+            ' '.join(['range {name} start-ip-address {start} end-ip-address',
+                      '{end} netmask {netmask}']).format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_range(self, name, start, end, netmask):
+        """
+        Set DHCP range
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # range {name} start-ip-address {start} end-ip-address {end}
+                netmask {netmask}
+
+        :param opt_number: 0-255 Option number for DHCP server
+        :param opt_value: Text for the value of DHCP option
+        """
+
+        assert not self.enode(
+            ' '.join(['no range {name} start-ip-address {start}',
+                      'end-ip-address {end} netmask {netmask}']).format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+
+class ConfigTftp(ContextManager):
+    """
+    TFTP configuration.
+
+    pre_commands:
+
+    ::
+
+            ['config terminal', 'tftp-server']
+
+    post_commands:
+
+    ::
+
+            ['end']
+    """
+
+    def __init__(self, enode):
+        self.enode = enode
+
+    def __enter__(self):
+        commands = """\
+            config terminal
+            tftp-server
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+        return self
+
+    def __exit__(self, type, value, traceback):
+        commands = """\
+            end
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+    def path(self, path):
+        """
+        Set TFTP server folder path
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # path {path}
+
+        :param path: /path/to/files Folder where files are served
+        """
+
+        assert not self.enode(
+            'path {path}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_path(self, path):
+        """
+        Unset TFTP server folder path
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no path {path}
+
+        :param path: /path/to/files Folder where files are served
+        """
+
+        assert not self.enode(
+            'no path {path}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def enable(self):
+        """
+        Enable TFTP server
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # enable
+
+        """
+
+        assert not self.enode(
+            'enable'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+    def no_enable(self):
+        """
+        Disable TFTP server
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no enable
+
+        """
+
+        assert not self.enode(
+            'no enable'.format(
                 **locals()
             ),
             shell='vtysh'
@@ -2854,6 +3122,8 @@ __all__ = [
     'ConfigInterfaceMgmt',
     'ConfigRouterBgp',
     'ConfigVlan',
+    'ConfigDhcp',
+    'ConfigTftp',
     'show_interface',
     'show_vlan',
     'show_lacp_interface',
