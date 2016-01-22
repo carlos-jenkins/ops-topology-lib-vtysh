@@ -190,6 +190,94 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
+                'command': (
+                    'ip prefix-list {prefix_name} seq {seq}'
+                    ' {permission} {network}'
+                ),
+                'doc': 'Configure prefix list',
+                'arguments': [
+                    {
+                        'name': 'prefix_name',
+                        'doc': 'WORD  Name of a prefix list.',
+                    },
+                    {
+                        'name': 'seq',
+                        'doc': '<1-4294967295>  Sequence number.',
+                    },
+                    {
+                        'name': 'permission',
+                        'doc': (
+                            'deny    Specify packets to reject'
+                            'permit  Specify packets to forward'
+                        ),
+                    },
+                    {
+                        'name': 'network',
+                        'doc': (
+                            'A.B.C.D/M  IP prefix <network>/<length>, e.g., '
+                            '35.0.0.0/8 any Any prefix match. Same as '
+                            '"0.0.0.0/0 le 32"'
+                        ),
+                    },
+                ],
+            },
+            {
+                'command': (
+                    'no ip prefix-list {prefix_name} seq {seq}'
+                    ' {permission} {network}'
+                ),
+                'doc': 'Un-configure prefix list',
+                'arguments': [
+                    {
+                        'name': 'prefix_name',
+                        'doc': 'WORD  Name of a prefix list.',
+                    },
+                    {
+                        'name': 'seq',
+                        'doc': '<1-4294967295>  Sequence number.',
+                    },
+                    {
+                        'name': 'permission',
+                        'doc': (
+                            'deny    Specify packets to reject'
+                            'permit  Specify packets to forward'
+                        ),
+                    },
+                    {
+                        'name': 'network',
+                        'doc': (
+                            'A.B.C.D/M  IP prefix <network>/<length>, e.g., '
+                            '35.0.0.0/8 any Any prefix match. Same as '
+                            '"0.0.0.0/0 le 32"'
+                        ),
+                    },
+                ],
+            },
+            {
+                'command': 'no route-map {routemap_name} {permission} {seq}',
+                'doc': 'Route-map configuration',
+                'arguments': [
+                    {
+                        'name': 'routemap_name',
+                        'doc': 'WORD  Route map tag',
+                    },
+                    {
+                        'name': 'permission',
+                        'doc': (
+                            'deny  Route map denies set operations'
+                            'permit  Route map permits set operations'
+                        ),
+                    },
+                    {
+                        'name': 'seq',
+                        'doc': (
+                            '<1-65535>  Sequence to insert to/delete from '
+                            'existing route-map entry'
+                        ),
+                    },
+                ],
+            },
+            {
                 'command': 'ipv6 route {ipv6} {next_hop} {metric}',
                 'doc': 'Configure static routes',
                 'arguments': [
@@ -248,6 +336,127 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
             },
         ]
+    }),
+    ('route_map', {
+        'doc': 'Route-map configuration',
+        'arguments': [
+            {
+                'name': 'routemap_name',
+                'doc': 'WORD  Route map tag',
+            },
+            {
+                'name': 'permission',
+                'doc': (
+                    'deny  Route map denies set operations'
+                    'permit  Route map permits set operations'
+                ),
+            },
+            {
+                'name': 'seq',
+                'doc': (
+                    'xr<1-65535>  Sequence to insert to/delete from existing '
+                    'route-map entry'
+                ),
+            },
+        ],
+        'pre_commands': [
+            'config terminal',
+            'route-map {routemap_name} {permission} {seq}'
+        ],
+        'post_commands': ['end'],
+        'commands': [
+            {
+                'command': 'description {description}',
+                'doc': 'Set description',
+                'arguments': [
+                    {
+                        'name': 'description',
+                        'doc': 'LINE  Comment describing this route-map rule',
+                    },
+                ],
+            },
+            {
+                'command': 'no description {description}',
+                'doc': 'Unset description',
+                'arguments': [
+                    {
+                        'name': 'description',
+                        'doc': 'LINE  Comment describing this route-map rule',
+                    },
+                ],
+            },
+            {
+                'command': 'match ip address prefix-list {prefix_name}',
+                'doc': 'Set prefix-list',
+                'arguments': [
+                    {
+                        'name': 'prefix_name',
+                        'doc': 'WORD  IP prefix-list name',
+                    },
+                ],
+            },
+            {
+                'command': 'no match ip address prefix-list {prefix_name}',
+                'doc': 'Unset prefix-list',
+                'arguments': [
+                    {
+                        'name': 'prefix_name',
+                        'doc': 'WORD  IP prefix-list name',
+                        'optional': True,
+                    },
+                ],
+            },
+            {
+                'command': 'set metric {metric}',
+                'doc': 'Set metric',
+                'arguments': [
+                    {
+                        'name': 'metric',
+                        'doc': '<0-4294967295>  Metric value',
+                    },
+                ],
+            },
+            {
+                'command': 'no set metric {metric}',
+                'doc': 'Unset metric',
+                'arguments': [
+                    {
+                        'name': 'metric',
+                        'doc': '<0-4294967295>  Metric value',
+                        'optional': True,
+                    },
+                ],
+            },
+            {
+                'command': 'set community {community}',
+                'doc': 'Set community',
+                'arguments': [
+                    {
+                        'name': 'community',
+                        'doc': (
+                            'AA:NN  Community number in aa:nn format or '
+                            'local-AS\|no-advertise\|no-export\|internet or '
+                            'additive'
+                        ),
+                    },
+                ],
+            },
+            {
+                'command': 'no set community {community}',
+                'doc': 'Unset community',
+                'arguments': [
+                    {
+                        'name': 'community',
+                        'doc': (
+                            'AA:NN  Community number in aa:nn format or'
+                            'local-AS\|no-advertise\|no-export\|internet or '
+                            'additive'
+                        ),
+                        'optional': True,
+                    },
+                ],
+            },
+        ],
     }),
     ('config_interface', {
         'doc': 'Interface configuration.',
@@ -1035,17 +1244,62 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no neighbor {ip} remote-as {asn}',
+                'command': 'no neighbor {ip}',
                 'doc': 'Removes a BGP neighbor',
                 'arguments': [
                     {
                         'name': 'ip',
                         'doc': '<A.B.C.D> Neighbor IPv4 address',
                     },
+                ],
+            },
+            {
+                'command': 'neighbor {ip} route-map {route_name} {action}',
+                'doc': 'Configures a BGP neighbor route-map',
+                'arguments': [
                     {
-                        'name': 'asn',
-                        'doc': '<1 - 4294967295> Neighbor AS number. '
-                               'Ranges from 1 to 4294967295',
+                        'name': 'ip',
+                        'doc': '<A.B.C.D> Neighbor IPv4 address',
+                    },
+                    {
+                        'name': 'route_name',
+                        'doc': 'WORD  Name of route map',
+                    },
+                    {
+                        'name': 'action',
+                        'doc': (
+                            'export  Apply map to routes coming\n'
+                            'from a Route-Server client\n'
+                            'import  Apply map to routes going into\n'
+                            'a Route-Server client\'s table\n'
+                            'in      Apply map to incoming routes\n'
+                            'out     Apply map to outbound routes\n'
+                        ),
+                    },
+                ],
+            },
+            {
+                'command': 'no neighbor {ip} route-map {route_name} {action}',
+                'doc': 'Unconfigures a BGP neighbor route-map',
+                'arguments': [
+                    {
+                        'name': 'ip',
+                        'doc': '<A.B.C.D> Neighbor IPv4 address',
+                    },
+                    {
+                        'name': 'route_name',
+                        'doc': 'WORD  Name of route map',
+                    },
+                    {
+                        'name': 'action',
+                        'doc': (
+                            'export  Apply map to routes coming\n'
+                            'from a Route-Server client\n'
+                            'import  Apply map to routes going into\n'
+                            'a Route-Server client\'s table\n'
+                            'in      Apply map to incoming routes\n'
+                            'out     Apply map to outbound routes\n'
+                        ),
                     },
                 ],
             },
@@ -1101,21 +1355,13 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no neighbor {ip} password {pwd}',
+                'command': 'no neighbor {ip} password',
                 'doc': 'Removes MD5 authentication on a TCP connection '
                        'between BGP peers.',
                 'arguments': [
                     {
                         'name': 'ip',
                         'doc': '<A.B.C.D> Neighbor IPv4 address',
-                    },
-                    {
-                        'name': 'pwd',
-                        'doc': (
-                            'Password in plain text.'
-                            'String of maximum length 80 chars'
-                        ),
-                        'optional': True
                     },
                 ],
             },

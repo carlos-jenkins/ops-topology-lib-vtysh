@@ -181,6 +181,86 @@ class Configure(ContextManager):
 
         assert not result
 
+    def ip_prefix_list_seq(self, prefix_name, seq, permission, network):
+        """
+        Configure prefix list
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ip prefix-list {prefix_name} seq {seq} {permission} {network}
+
+        :param prefix_name: WORD  Name of a prefix list.
+        :param seq: <1-4294967295>  Sequence number.
+        :param permission: deny    Specify packets to rejectpermit  Specify
+            packets to forward
+        :param network: A.B.C.D/M  IP prefix <network>/<length>, e.g.,
+            35.0.0.0/8 any Any prefix match. Same as "0.0.0.0/0 le 32"
+        """
+
+        result = self.enode(
+            'ip prefix-list {prefix_name} seq {seq} {permission} {network}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def no_ip_prefix_list_seq(self, prefix_name, seq, permission, network):
+        """
+        Un-configure prefix list
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ip prefix-list {prefix_name} seq {seq} {permission} {network}
+
+        :param prefix_name: WORD  Name of a prefix list.
+        :param seq: <1-4294967295>  Sequence number.
+        :param permission: deny    Specify packets to rejectpermit  Specify
+            packets to forward
+        :param network: A.B.C.D/M  IP prefix <network>/<length>, e.g.,
+            35.0.0.0/8 any Any prefix match. Same as "0.0.0.0/0 le 32"
+        """
+
+        result = self.enode(
+            'no ip prefix-list {prefix_name} seq {seq} {permission} {network}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def no_route_map(self, routemap_name, permission, seq):
+        """
+        Route-map configuration
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no route-map {routemap_name} {permission} {seq}
+
+        :param routemap_name: WORD  Route map tag
+        :param permission: deny  Route map denies set operationspermit  Route
+            map permits set operations
+        :param seq: <1-65535>  Sequence to insert to/delete from existing
+            route-map entry
+        """
+
+        result = self.enode(
+            'no route-map {routemap_name} {permission} {seq}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
     def ipv6_route(self, ipv6, next_hop, metric=''):
         """
         Configure static routes
@@ -286,6 +366,232 @@ class Configure(ContextManager):
 
         result = self.enode(
             'no feature lldp'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+
+class RouteMap(ContextManager):
+    """
+    Route-map configuration
+
+    pre_commands:
+
+    ::
+
+            ['config terminal', 'route-map {routemap_name} {permission} {seq}']
+
+    post_commands:
+
+    ::
+
+            ['end']
+    """
+    def __init__(self, enode, routemap_name, permission, seq):
+        self.enode = enode
+        self.routemap_name = routemap_name
+        self.permission = permission
+        self.seq = seq
+
+    def __enter__(self):
+        commands = """\
+            config terminal
+            route-map {routemap_name} {permission} {seq}
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+        return self
+
+    def __exit__(self, type, value, traceback):
+        commands = """\
+            end
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+    def description(self, description):
+        """
+        Set description
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # description {description}
+
+        :param description: LINE  Comment describing this route-map rule
+        """
+
+        result = self.enode(
+            'description {description}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def no_description(self, description):
+        """
+        Unset description
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no description {description}
+
+        :param description: LINE  Comment describing this route-map rule
+        """
+
+        result = self.enode(
+            'no description {description}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def match_ip_address_prefix_list(self, prefix_name):
+        """
+        Set prefix-list
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # match ip address prefix-list {prefix_name}
+
+        :param prefix_name: WORD  IP prefix-list name
+        """
+
+        result = self.enode(
+            'match ip address prefix-list {prefix_name}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def no_match_ip_address_prefix_list(self, prefix_name=''):
+        """
+        Unset prefix-list
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no match ip address prefix-list {prefix_name}
+
+        :param prefix_name: WORD  IP prefix-list name
+        """
+
+        result = self.enode(
+            'no match ip address prefix-list {prefix_name}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def set_metric(self, metric):
+        """
+        Set metric
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # set metric {metric}
+
+        :param metric: <0-4294967295>  Metric value
+        """
+
+        result = self.enode(
+            'set metric {metric}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def no_set_metric(self, metric=''):
+        """
+        Unset metric
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no set metric {metric}
+
+        :param metric: <0-4294967295>  Metric value
+        """
+
+        result = self.enode(
+            'no set metric {metric}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def set_community(self, community):
+        """
+        Set community
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # set community {community}
+
+        :param community: AA:NN  Community number in aa:nn format or local-AS
+            \|no-advertise\|no-export\|internet or additive
+        """
+
+        result = self.enode(
+            'set community {community}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def no_set_community(self, community=''):
+        """
+        Unset community
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no set community {community}
+
+        :param community: AA:NN  Community number in aa:nn format orlocal-AS
+            \|no-advertise\|no-export\|internet or additive
+        """
+
+        result = self.enode(
+            'no set community {community}'.format(
                 **locals()
             ),
             shell='vtysh'
@@ -2331,7 +2637,7 @@ class ConfigRouterBgp(ContextManager):
 
         assert not result
 
-    def no_neighbor_remote_as(self, ip, asn):
+    def no_neighbor(self, ip):
         """
         Removes a BGP neighbor
 
@@ -2339,15 +2645,77 @@ class ConfigRouterBgp(ContextManager):
 
         ::
 
-            # no neighbor {ip} remote-as {asn}
+            # no neighbor {ip}
 
         :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param asn: <1 - 4294967295> Neighbor AS number. Ranges from 1 to
-            4294967295
         """
 
         result = self.enode(
-            'no neighbor {ip} remote-as {asn}'.format(
+            'no neighbor {ip}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def neighbor_route_map(self, ip, route_name, action):
+        """
+        Configures a BGP neighbor route-map
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # neighbor {ip} route-map {route_name} {action}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param route_name: WORD  Name of route map
+        :param action: export  Apply map to routes coming
+            from a Route-Server
+            client
+            import  Apply map to routes going into
+            a Route-Server client's
+            table
+            in      Apply map to incoming routes
+            out     Apply map to
+            outbound routes
+        """
+
+        result = self.enode(
+            'neighbor {ip} route-map {route_name} {action}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def no_neighbor_route_map(self, ip, route_name, action):
+        """
+        Unconfigures a BGP neighbor route-map
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no neighbor {ip} route-map {route_name} {action}
+
+        :param ip: <A.B.C.D> Neighbor IPv4 address
+        :param route_name: WORD  Name of route map
+        :param action: export  Apply map to routes coming
+            from a Route-Server
+            client
+            import  Apply map to routes going into
+            a Route-Server client's
+            table
+            in      Apply map to incoming routes
+            out     Apply map to
+            outbound routes
+        """
+
+        result = self.enode(
+            'no neighbor {ip} route-map {route_name} {action}'.format(
                 **locals()
             ),
             shell='vtysh'
@@ -2426,7 +2794,7 @@ class ConfigRouterBgp(ContextManager):
 
         assert not result
 
-    def no_neighbor_password(self, ip, pwd=''):
+    def no_neighbor_password(self, ip):
         """
         Removes MD5 authentication on a TCP connection between BGP peers.
 
@@ -2434,14 +2802,13 @@ class ConfigRouterBgp(ContextManager):
 
         ::
 
-            # no neighbor {ip} password {pwd}
+            # no neighbor {ip} password
 
         :param ip: <A.B.C.D> Neighbor IPv4 address
-        :param pwd: Password in plain text.String of maximum length 80 chars
         """
 
         result = self.enode(
-            'no neighbor {ip} password {pwd}'.format(
+            'no neighbor {ip} password'.format(
                 **locals()
             ),
             shell='vtysh'
@@ -3094,6 +3461,7 @@ def show_ip_bgp(enode):
 __all__ = [
     'ContextManager',
     'Configure',
+    'RouteMap',
     'ConfigInterface',
     'ConfigInterfaceVlan',
     'ConfigInterfaceLag',
