@@ -373,6 +373,138 @@ class Configure(ContextManager):
 
         assert not result
 
+    def sflow_enable(self):
+        """
+        Configure sFlow.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # sflow enable
+
+        """
+
+        result = self.enode(
+            'sflow enable'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def no_sflow_enable(self):
+        """
+        Un-configure sFlow.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no sflow enable
+
+        """
+
+        result = self.enode(
+            'no sflow enable'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def sflow_sampling(self, rate):
+        """
+        Set sFlow sampling rate.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # sflow sampling {rate}
+
+        :param rate: <1-1000000000>  The range is 1 to 1000000000.
+        """
+
+        result = self.enode(
+            'sflow sampling {rate}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def no_sflow_sampling(self):
+        """
+        Reset sFlow sampling rate to default.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no sflow sampling
+
+        """
+
+        result = self.enode(
+            'no sflow sampling'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def sflow_agent_interface_agent_address_family(self, interface, address_family=''):
+        """
+        Set sFlow agent interface
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # sflow agent-interface {interface} agent-address-family {address_family}
+
+        :param interface: Valid L3 interface name.
+        :param address_family: Optional, IPv4 or IPv6 (Default : IPv4).
+        """
+
+        result = self.enode(
+            'sflow agent-interface {interface} agent-address-family {address_family}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
+    def sflow_collector_port_vrf(self, ip, port='', vrf=''):
+        """
+        Set sFlow collector configuration
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # sflow collector {ip} port {port} vrf {vrf}
+
+        :param ip: IP address of collector.
+        :param port: Optional, Port of collector <0-65535> (Default : 6343).
+        :param vrf: Optional, Name of VRF (Default : vrf_default).
+        """
+
+        result = self.enode(
+            'sflow collector {ip} port {port} vrf {vrf}'.format(
+                **locals()
+            ),
+            shell='vtysh'
+        )
+
+        assert not result
+
 
 class RouteMap(ContextManager):
     """
