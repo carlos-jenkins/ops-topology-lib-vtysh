@@ -1230,7 +1230,8 @@ VTYSH_SPEC = OrderedDict([
             {
                 'command': 'neighbor {ip} soft-reconfiguration inbound',
                 'doc': 'Enables software-based reconfiguration to generate '
-                       'updates from a neighbor without clearing the BGP session',
+                       'updates from a neighbor without clearing the BGP '
+                       'session',
                 'arguments': [
                     {
                         'name': 'ip',
@@ -1500,16 +1501,18 @@ class {{ context_name|objectize }}(ContextManager):
             {%- endif -%}
         {%- endfor %}
 
-        {% set template='assert not %s' -%}
-        {% if 'returns' in command.keys() and command.returns -%}
-            {% set template='return parse_%s(%s)'|format(command.command|methodize, '%s') -%}
-        {% endif -%}
-        {{ template|format("self.enode(
+        {{ 'result = %s'|format("self.enode(
             '%s'.format(
                 **locals()
             ),
             shell='vtysh'
         )")|format(command.command) }}
+
+        {% if 'returns' in command.keys() and command.returns -%}
+        {{ 'return parse_%s(result)'|format(command.command|methodize) }}
+        {%- else -%}
+        assert not result
+        {%- endif %}
 {% endfor %}
 {% endfor -%}
 
@@ -1538,14 +1541,16 @@ def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arg
         {%- endif -%}
     {%- endfor %}
 
-    {% set template='assert not %s' -%}
-    {% if 'returns' in command.keys() and command.returns -%}
-        {% set template='return parse_%s(%s)'|format(command.command|methodize, '%s') -%}
-    {% endif -%}
-    {{ template|format("enode(
+    {{ 'result = %s'|format("enode(
         '%s'.format(**locals()),
         shell='vtysh'
     )")|format(command.command) }}
+
+    {% if 'returns' in command.keys() and command.returns -%}
+    {{ 'return parse_%s(result)'|format(command.command|methodize) }}
+    {%- else %}
+    assert not result
+    {% endif %}
 
 {% endfor %}
 __all__ = [
