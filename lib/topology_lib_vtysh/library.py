@@ -89,7 +89,8 @@ class Configure(ContextManager):
             shell='vtysh'
         )
 
-    def no_vlan(self, vlan_id):
+    def no_vlan(
+            self, vlan_id):
         """
         Delete a VLAN
 
@@ -102,16 +103,15 @@ class Configure(ContextManager):
         :param vlan_id: VLAN Identifier.
         """
 
-        result = self.enode(
-            'no vlan {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no vlan {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_interface_lag(self, lag_id):
+    def no_interface_lag(
+            self, lag_id):
         """
         Delete a lag
 
@@ -124,16 +124,15 @@ class Configure(ContextManager):
         :param lag_id: link-aggregation identifier.
         """
 
-        result = self.enode(
-            'no interface lag {lag_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no interface lag {lag_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ip_route(self, ipv4, next_hop, metric=''):
+    def ip_route(
+            self, ipv4, next_hop, metric=''):
         """
         Configure static routes
 
@@ -148,16 +147,15 @@ class Configure(ContextManager):
         :param metric: Optional, route address to configure.
         """
 
-        result = self.enode(
-            'ip route {ipv4} {next_hop} {metric}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ip route {ipv4} {next_hop} {metric}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ip_route(self, ipv4, next_hop, metric=''):
+    def no_ip_route(
+            self, ipv4, next_hop, metric=''):
         """
         Un-configure static routes
 
@@ -172,16 +170,15 @@ class Configure(ContextManager):
         :param metric: Optional, route address to configure.
         """
 
-        result = self.enode(
-            'no ip route {ipv4} {next_hop} {metric}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ip route {ipv4} {next_hop} {metric}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ip_prefix_list_seq(self, prefix_name, seq, permission, network):
+    def ip_prefix_list_seq(
+            self, prefix_name, seq, permission, network):
         """
         Configure prefix list
 
@@ -199,16 +196,15 @@ class Configure(ContextManager):
             35.0.0.0/8 any Any prefix match. Same as "0.0.0.0/0 le 32"
         """
 
-        result = self.enode(
-            'ip prefix-list {prefix_name} seq {seq} {permission} {network}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ip prefix-list {prefix_name} seq {seq} {permission} {network}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ip_prefix_list_seq(self, prefix_name, seq, permission, network):
+    def no_ip_prefix_list_seq(
+            self, prefix_name, seq, permission, network):
         """
         Un-configure prefix list
 
@@ -226,16 +222,15 @@ class Configure(ContextManager):
             35.0.0.0/8 any Any prefix match. Same as "0.0.0.0/0 le 32"
         """
 
-        result = self.enode(
-            'no ip prefix-list {prefix_name} seq {seq} {permission} {network}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ip prefix-list {prefix_name} seq {seq} {permission} {network}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_route_map(self, routemap_name, permission, seq):
+    def no_route_map(
+            self, routemap_name, permission, seq):
         """
         Route-map configuration
 
@@ -252,16 +247,15 @@ class Configure(ContextManager):
             route-map entry
         """
 
-        result = self.enode(
-            'no route-map {routemap_name} {permission} {seq}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no route-map {routemap_name} {permission} {seq}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ipv6_route(self, ipv6, next_hop, metric=''):
+    def ipv6_route(
+            self, ipv6, next_hop, metric=''):
         """
         Configure static routes
 
@@ -276,16 +270,15 @@ class Configure(ContextManager):
         :param metric: Optional, route address to configure.
         """
 
-        result = self.enode(
-            'ipv6 route {ipv6} {next_hop} {metric}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ipv6 route {ipv6} {next_hop} {metric}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ipv6_route(self, ipv6, next_hop, metric=''):
+    def no_ipv6_route(
+            self, ipv6, next_hop, metric=''):
         """
         Un-configure static routes
 
@@ -300,16 +293,15 @@ class Configure(ContextManager):
         :param metric: Optional, route address to configure.
         """
 
-        result = self.enode(
-            'no ipv6 route {ipv6} {next_hop} {metric}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ipv6 route {ipv6} {next_hop} {metric}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def lacp_system_priority(self, priority):
+    def lacp_system_priority(
+            self, priority):
         """
         Set LACP system priority.
 
@@ -322,16 +314,15 @@ class Configure(ContextManager):
         :param priority: <0-65535>  The range is 0 to 65535.
         """
 
-        result = self.enode(
-            'lacp system-priority {priority}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'lacp system-priority {priority}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def feature_lldp(self):
+    def feature_lldp(
+            self):
         """
         Configure LLDP parameters.
 
@@ -343,16 +334,15 @@ class Configure(ContextManager):
 
         """
 
-        result = self.enode(
-            'feature lldp'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'feature lldp'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_feature_lldp(self):
+    def no_feature_lldp(
+            self):
         """
         Un-configure LLDP parameters.
 
@@ -364,16 +354,15 @@ class Configure(ContextManager):
 
         """
 
-        result = self.enode(
-            'no feature lldp'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no feature lldp'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def sflow_enable(self):
+    def sflow_enable(
+            self):
         """
         Configure sFlow.
 
@@ -385,16 +374,15 @@ class Configure(ContextManager):
 
         """
 
-        result = self.enode(
-            'sflow enable'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'sflow enable'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_sflow_enable(self):
+    def no_sflow_enable(
+            self):
         """
         Un-configure sFlow.
 
@@ -406,16 +394,15 @@ class Configure(ContextManager):
 
         """
 
-        result = self.enode(
-            'no sflow enable'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no sflow enable'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def sflow_sampling(self, rate):
+    def sflow_sampling(
+            self, rate):
         """
         Set sFlow sampling rate.
 
@@ -428,16 +415,15 @@ class Configure(ContextManager):
         :param rate: <1-1000000000>  The range is 1 to 1000000000.
         """
 
-        result = self.enode(
-            'sflow sampling {rate}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'sflow sampling {rate}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_sflow_sampling(self):
+    def no_sflow_sampling(
+            self):
         """
         Reset sFlow sampling rate to default.
 
@@ -449,16 +435,15 @@ class Configure(ContextManager):
 
         """
 
-        result = self.enode(
-            'no sflow sampling'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no sflow sampling'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def sflow_agent_interface_agent_address_family(self, interface, address_family=''):
+    def sflow_agent_interface_agent_address_family(
+            self, interface, address_family=''):
         """
         Set sFlow agent interface
 
@@ -470,18 +455,18 @@ class Configure(ContextManager):
 
         :param interface: Valid L3 interface name.
         :param address_family: Optional, IPv4 or IPv6 (Default : IPv4).
-        """
+        """  # noqa
 
-        result = self.enode(
-            'sflow agent-interface {interface} agent-address-family {address_family}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'sflow agent-interface {interface} agent-address-family '
+            '{address_family}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def sflow_collector_port_vrf(self, ip, port='', vrf=''):
+    def sflow_collector_port_vrf(
+            self, ip, port='', vrf=''):
         """
         Set sFlow collector configuration
 
@@ -496,12 +481,10 @@ class Configure(ContextManager):
         :param vrf: Optional, Name of VRF (Default : vrf_default).
         """
 
-        result = self.enode(
-            'sflow collector {ip} port {port} vrf {vrf}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'sflow collector {ip} port {port} vrf {vrf}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -553,7 +536,8 @@ class RouteMap(ContextManager):
             shell='vtysh'
         )
 
-    def description(self, description):
+    def description(
+            self, description):
         """
         Set description
 
@@ -566,16 +550,15 @@ class RouteMap(ContextManager):
         :param description: LINE  Comment describing this route-map rule
         """
 
-        result = self.enode(
-            'description {description}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'description {description}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_description(self, description):
+    def no_description(
+            self, description):
         """
         Unset description
 
@@ -588,16 +571,15 @@ class RouteMap(ContextManager):
         :param description: LINE  Comment describing this route-map rule
         """
 
-        result = self.enode(
-            'no description {description}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no description {description}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def match_ip_address_prefix_list(self, prefix_name):
+    def match_ip_address_prefix_list(
+            self, prefix_name):
         """
         Set prefix-list
 
@@ -610,16 +592,15 @@ class RouteMap(ContextManager):
         :param prefix_name: WORD  IP prefix-list name
         """
 
-        result = self.enode(
-            'match ip address prefix-list {prefix_name}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'match ip address prefix-list {prefix_name}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_match_ip_address_prefix_list(self, prefix_name=''):
+    def no_match_ip_address_prefix_list(
+            self, prefix_name=''):
         """
         Unset prefix-list
 
@@ -632,16 +613,15 @@ class RouteMap(ContextManager):
         :param prefix_name: WORD  IP prefix-list name
         """
 
-        result = self.enode(
-            'no match ip address prefix-list {prefix_name}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no match ip address prefix-list {prefix_name}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def set_metric(self, metric):
+    def set_metric(
+            self, metric):
         """
         Set metric
 
@@ -654,16 +634,15 @@ class RouteMap(ContextManager):
         :param metric: <0-4294967295>  Metric value
         """
 
-        result = self.enode(
-            'set metric {metric}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'set metric {metric}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_set_metric(self, metric=''):
+    def no_set_metric(
+            self, metric=''):
         """
         Unset metric
 
@@ -676,16 +655,15 @@ class RouteMap(ContextManager):
         :param metric: <0-4294967295>  Metric value
         """
 
-        result = self.enode(
-            'no set metric {metric}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no set metric {metric}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def set_community(self, community):
+    def set_community(
+            self, community):
         """
         Set community
 
@@ -699,16 +677,15 @@ class RouteMap(ContextManager):
             \|no-advertise\|no-export\|internet or additive
         """
 
-        result = self.enode(
-            'set community {community}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'set community {community}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_set_community(self, community=''):
+    def no_set_community(
+            self, community=''):
         """
         Unset community
 
@@ -722,12 +699,10 @@ class RouteMap(ContextManager):
             \|no-advertise\|no-export\|internet or additive
         """
 
-        result = self.enode(
-            'no set community {community}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no set community {community}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -777,7 +752,8 @@ class ConfigInterface(ContextManager):
             shell='vtysh'
         )
 
-    def ip_address(self, ipv4):
+    def ip_address(
+            self, ipv4):
         """
         Set IP address
 
@@ -790,16 +766,15 @@ class ConfigInterface(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'ip address {ipv4}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ip address {ipv4}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ip_address(self, ipv4):
+    def no_ip_address(
+            self, ipv4):
         """
         Unset IP address
 
@@ -812,16 +787,15 @@ class ConfigInterface(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'no ip address {ipv4}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ip address {ipv4}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ip_address_secondary(self, ipv4):
+    def ip_address_secondary(
+            self, ipv4):
         """
         Set secondary IP address
 
@@ -834,16 +808,15 @@ class ConfigInterface(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'ip address {ipv4} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ip address {ipv4} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ip_address_secondary(self, ipv4):
+    def no_ip_address_secondary(
+            self, ipv4):
         """
         Unset secondary IP address
 
@@ -856,16 +829,15 @@ class ConfigInterface(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'no ip address {ipv4} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ip address {ipv4} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ipv6_address(self, ipv6):
+    def ipv6_address(
+            self, ipv6):
         """
         Set IPv6 address
 
@@ -878,16 +850,15 @@ class ConfigInterface(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'ipv6 address {ipv6}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ipv6 address {ipv6}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ipv6_address(self, ipv6):
+    def no_ipv6_address(
+            self, ipv6):
         """
         Unset IPv6 address
 
@@ -900,16 +871,15 @@ class ConfigInterface(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'no ipv6 address {ipv6}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ipv6 address {ipv6}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ipv6_address_secondary(self, ipv6):
+    def ipv6_address_secondary(
+            self, ipv6):
         """
         Set secondary IPv6 address
 
@@ -922,16 +892,15 @@ class ConfigInterface(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'ipv6 address {ipv6} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ipv6 address {ipv6} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ipv6_address_secondary(self, ipv6):
+    def no_ipv6_address_secondary(
+            self, ipv6):
         """
         Unset IPv6 address
 
@@ -944,16 +913,15 @@ class ConfigInterface(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'no ipv6 address {ipv6} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ipv6 address {ipv6} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def routing(self):
+    def routing(
+            self):
         """
         Configure interface as L3.
 
@@ -965,16 +933,15 @@ class ConfigInterface(ContextManager):
 
         """
 
-        result = self.enode(
-            'routing'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'routing'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_routing(self):
+    def no_routing(
+            self):
         """
         Unconfigure interface as L3.
 
@@ -986,16 +953,15 @@ class ConfigInterface(ContextManager):
 
         """
 
-        result = self.enode(
-            'no routing'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no routing'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def shutdown(self):
+    def shutdown(
+            self):
         """
         Enable an interface.
 
@@ -1007,16 +973,15 @@ class ConfigInterface(ContextManager):
 
         """
 
-        result = self.enode(
-            'shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'shutdown'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_shutdown(self):
+    def no_shutdown(
+            self):
         """
         Disable an interface.
 
@@ -1028,16 +993,15 @@ class ConfigInterface(ContextManager):
 
         """
 
-        result = self.enode(
-            'no shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no shutdown'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def vlan_access(self, vlan_id):
+    def vlan_access(
+            self, vlan_id):
         """
         Access configuration
 
@@ -1050,16 +1014,15 @@ class ConfigInterface(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'vlan access {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'vlan access {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_vlan_access(self, vlan_id):
+    def no_vlan_access(
+            self, vlan_id):
         """
         Remove vlan access
 
@@ -1072,16 +1035,15 @@ class ConfigInterface(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'no vlan access {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no vlan access {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def vlan_trunk_allowed(self, vlan_id):
+    def vlan_trunk_allowed(
+            self, vlan_id):
         """
         Allow VLAN on the trunk port
 
@@ -1094,16 +1056,15 @@ class ConfigInterface(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'vlan trunk allowed {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'vlan trunk allowed {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_vlan_trunk_allowed(self, vlan_id):
+    def no_vlan_trunk_allowed(
+            self, vlan_id):
         """
         Disallow VLAN on the trunk port
 
@@ -1116,16 +1077,15 @@ class ConfigInterface(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'no vlan trunk allowed {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no vlan trunk allowed {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def vlan_trunk_native_tag(self):
+    def vlan_trunk_native_tag(
+            self):
         """
         Tag configuration on the trunk port
 
@@ -1137,16 +1097,15 @@ class ConfigInterface(ContextManager):
 
         """
 
-        result = self.enode(
-            'vlan trunk native tag'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'vlan trunk native tag'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_vlan_trunk_native_tag(self):
+    def no_vlan_trunk_native_tag(
+            self):
         """
         Remove tag configuration on the trunk port
 
@@ -1158,16 +1117,15 @@ class ConfigInterface(ContextManager):
 
         """
 
-        result = self.enode(
-            'no vlan trunk native tag'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no vlan trunk native tag'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def vlan_trunk_native(self, vlan_id):
+    def vlan_trunk_native(
+            self, vlan_id):
         """
         Native VLAN on the trunk port
 
@@ -1180,16 +1138,15 @@ class ConfigInterface(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'vlan trunk native {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'vlan trunk native {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_vlan_trunk_native(self, vlan_id):
+    def no_vlan_trunk_native(
+            self, vlan_id):
         """
         Remove native VLAN on the trunk port
 
@@ -1202,16 +1159,15 @@ class ConfigInterface(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'no vlan trunk native {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no vlan trunk native {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def lacp_port_id(self, port_id):
+    def lacp_port_id(
+            self, port_id):
         """
         Set port ID used in LACP negotiation.
 
@@ -1224,16 +1180,15 @@ class ConfigInterface(ContextManager):
         :param port_id: <1-65535>  .The range is 1 to 65535
         """
 
-        result = self.enode(
-            'lacp port-id {port_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'lacp port-id {port_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def lacp_port_priority(self, port_priority):
+    def lacp_port_priority(
+            self, port_priority):
         """
         Set port priority is used in LACP negotiation.
 
@@ -1246,16 +1201,15 @@ class ConfigInterface(ContextManager):
         :param port_priority: <1-65535>  The range is 1 to 65535
         """
 
-        result = self.enode(
-            'lacp port-priority {port_priority}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'lacp port-priority {port_priority}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def lag(self, lag_id):
+    def lag(
+            self, lag_id):
         """
         Add the current interface to link aggregation.
 
@@ -1268,16 +1222,15 @@ class ConfigInterface(ContextManager):
         :param lag_id: <1-2000>  LAG number ranges from 1 to 2000
         """
 
-        result = self.enode(
-            'lag {lag_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'lag {lag_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_lag(self, lag_id):
+    def no_lag(
+            self, lag_id):
         """
         Remove the current interface to link aggregation.
 
@@ -1290,16 +1243,15 @@ class ConfigInterface(ContextManager):
         :param lag_id: <1-2000>  LAG number ranges from 1 to 2000
         """
 
-        result = self.enode(
-            'no lag {lag_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no lag {lag_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def lldp_transmission(self):
+    def lldp_transmission(
+            self):
         """
         Set the transmission on lldp.
 
@@ -1311,16 +1263,15 @@ class ConfigInterface(ContextManager):
 
         """
 
-        result = self.enode(
-            'lldp transmission'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'lldp transmission'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_lldp_transmission(self):
+    def no_lldp_transmission(
+            self):
         """
         Un-set the transmission on lldp.
 
@@ -1332,16 +1283,15 @@ class ConfigInterface(ContextManager):
 
         """
 
-        result = self.enode(
-            'no lldp transmission'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no lldp transmission'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def lldp_reception(self):
+    def lldp_reception(
+            self):
         """
         Set the reception on lldp.
 
@@ -1353,16 +1303,15 @@ class ConfigInterface(ContextManager):
 
         """
 
-        result = self.enode(
-            'lldp reception'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'lldp reception'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_lldp_reception(self):
+    def no_lldp_reception(
+            self):
         """
         Un-set the reception on lldp.
 
@@ -1374,12 +1323,10 @@ class ConfigInterface(ContextManager):
 
         """
 
-        result = self.enode(
-            'no lldp reception'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no lldp reception'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1429,7 +1376,8 @@ class ConfigInterfaceVlan(ContextManager):
             shell='vtysh'
         )
 
-    def ip_address(self, ipv4):
+    def ip_address(
+            self, ipv4):
         """
         Set IP address
 
@@ -1442,16 +1390,15 @@ class ConfigInterfaceVlan(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'ip address {ipv4}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ip address {ipv4}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ip_address(self, ipv4):
+    def no_ip_address(
+            self, ipv4):
         """
         Unset IP address
 
@@ -1464,16 +1411,15 @@ class ConfigInterfaceVlan(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'no ip address {ipv4}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ip address {ipv4}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ip_address_secondary(self, ipv4):
+    def ip_address_secondary(
+            self, ipv4):
         """
         Set secondary IP address
 
@@ -1486,16 +1432,15 @@ class ConfigInterfaceVlan(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'ip address {ipv4} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ip address {ipv4} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ip_address_secondary(self, ipv4):
+    def no_ip_address_secondary(
+            self, ipv4):
         """
         Unset secondary IP address
 
@@ -1508,16 +1453,15 @@ class ConfigInterfaceVlan(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'no ip address {ipv4} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ip address {ipv4} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ipv6_address(self, ipv6):
+    def ipv6_address(
+            self, ipv6):
         """
         Set IPv6 address
 
@@ -1530,16 +1474,15 @@ class ConfigInterfaceVlan(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'ipv6 address {ipv6}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ipv6 address {ipv6}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ipv6_address(self, ipv6):
+    def no_ipv6_address(
+            self, ipv6):
         """
         Unset IPv6 address
 
@@ -1552,16 +1495,15 @@ class ConfigInterfaceVlan(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'no ipv6 address {ipv6}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ipv6 address {ipv6}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ipv6_address_secondary(self, ipv6):
+    def ipv6_address_secondary(
+            self, ipv6):
         """
         Set secondary IPv6 address
 
@@ -1574,16 +1516,15 @@ class ConfigInterfaceVlan(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'ipv6 address {ipv6} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ipv6 address {ipv6} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ipv6_address_secondary(self, ipv6):
+    def no_ipv6_address_secondary(
+            self, ipv6):
         """
         Unset IPv6 address
 
@@ -1596,16 +1537,15 @@ class ConfigInterfaceVlan(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'no ipv6 address {ipv6} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ipv6 address {ipv6} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def shutdown(self):
+    def shutdown(
+            self):
         """
         Enable an interface.
 
@@ -1617,16 +1557,15 @@ class ConfigInterfaceVlan(ContextManager):
 
         """
 
-        result = self.enode(
-            'shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'shutdown'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_shutdown(self):
+    def no_shutdown(
+            self):
         """
         Disable an interface.
 
@@ -1638,12 +1577,10 @@ class ConfigInterfaceVlan(ContextManager):
 
         """
 
-        result = self.enode(
-            'no shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no shutdown'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1693,7 +1630,8 @@ class ConfigInterfaceLag(ContextManager):
             shell='vtysh'
         )
 
-    def ip_address(self, ipv4):
+    def ip_address(
+            self, ipv4):
         """
         Set IP address
 
@@ -1706,16 +1644,15 @@ class ConfigInterfaceLag(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'ip address {ipv4}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ip address {ipv4}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ip_address(self, ipv4):
+    def no_ip_address(
+            self, ipv4):
         """
         Unset IP address
 
@@ -1728,16 +1665,15 @@ class ConfigInterfaceLag(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'no ip address {ipv4}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ip address {ipv4}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ip_address_secondary(self, ipv4):
+    def ip_address_secondary(
+            self, ipv4):
         """
         Set secondary IP address
 
@@ -1750,16 +1686,15 @@ class ConfigInterfaceLag(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'ip address {ipv4} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ip address {ipv4} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ip_address_secondary(self, ipv4):
+    def no_ip_address_secondary(
+            self, ipv4):
         """
         Unset secondary IP address
 
@@ -1772,16 +1707,15 @@ class ConfigInterfaceLag(ContextManager):
         :param ipv4: A.B.C.D/M Interface IP address.
         """
 
-        result = self.enode(
-            'no ip address {ipv4} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ip address {ipv4} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ipv6_address(self, ipv6):
+    def ipv6_address(
+            self, ipv6):
         """
         Set IPv6 address
 
@@ -1794,16 +1728,15 @@ class ConfigInterfaceLag(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'ipv6 address {ipv6}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ipv6 address {ipv6}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ipv6_address(self, ipv6):
+    def no_ipv6_address(
+            self, ipv6):
         """
         Unset IPv6 address
 
@@ -1816,16 +1749,15 @@ class ConfigInterfaceLag(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'no ipv6 address {ipv6}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ipv6 address {ipv6}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ipv6_address_secondary(self, ipv6):
+    def ipv6_address_secondary(
+            self, ipv6):
         """
         Set secondary IPv6 address
 
@@ -1838,16 +1770,15 @@ class ConfigInterfaceLag(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'ipv6 address {ipv6} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ipv6 address {ipv6} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ipv6_address_secondary(self, ipv6):
+    def no_ipv6_address_secondary(
+            self, ipv6):
         """
         Unset IPv6 address
 
@@ -1860,16 +1791,15 @@ class ConfigInterfaceLag(ContextManager):
         :param ipv6: X:X::X:X/M  Interface IPv6 address
         """
 
-        result = self.enode(
-            'no ipv6 address {ipv6} secondary'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ipv6 address {ipv6} secondary'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def shutdown(self):
+    def shutdown(
+            self):
         """
         Enable an interface.
 
@@ -1881,16 +1811,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'shutdown'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_shutdown(self):
+    def no_shutdown(
+            self):
         """
         Disable an interface.
 
@@ -1902,16 +1831,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'no shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no shutdown'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def routing(self):
+    def routing(
+            self):
         """
         Configure interface as L3.
 
@@ -1923,16 +1851,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'routing'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'routing'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_routing(self):
+    def no_routing(
+            self):
         """
         Unconfigure interface as L3.
 
@@ -1944,16 +1871,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'no routing'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no routing'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def vlan_access(self, vlan_id):
+    def vlan_access(
+            self, vlan_id):
         """
         Access configuration
 
@@ -1966,16 +1892,15 @@ class ConfigInterfaceLag(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'vlan access {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'vlan access {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_vlan_access(self, vlan_id):
+    def no_vlan_access(
+            self, vlan_id):
         """
         Remove vlan access
 
@@ -1988,16 +1913,15 @@ class ConfigInterfaceLag(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'no vlan access {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no vlan access {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def vlan_trunk_allowed(self, vlan_id):
+    def vlan_trunk_allowed(
+            self, vlan_id):
         """
         Allow VLAN on the trunk port
 
@@ -2010,16 +1934,15 @@ class ConfigInterfaceLag(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'vlan trunk allowed {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'vlan trunk allowed {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_vlan_trunk_allowed(self, vlan_id):
+    def no_vlan_trunk_allowed(
+            self, vlan_id):
         """
         Disallow VLAN on the trunk port
 
@@ -2032,16 +1955,15 @@ class ConfigInterfaceLag(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'no vlan trunk allowed {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no vlan trunk allowed {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def vlan_trunk_native_tag(self):
+    def vlan_trunk_native_tag(
+            self):
         """
         Tag configuration on the trunk port
 
@@ -2053,16 +1975,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'vlan trunk native tag'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'vlan trunk native tag'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_vlan_trunk_native_tag(self):
+    def no_vlan_trunk_native_tag(
+            self):
         """
         Remove tag configuration on the trunk port
 
@@ -2074,16 +1995,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'no vlan trunk native tag'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no vlan trunk native tag'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def vlan_trunk_native(self, vlan_id):
+    def vlan_trunk_native(
+            self, vlan_id):
         """
         Native VLAN on the trunk port
 
@@ -2096,16 +2016,15 @@ class ConfigInterfaceLag(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'vlan trunk native {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'vlan trunk native {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_vlan_trunk_native(self, vlan_id):
+    def no_vlan_trunk_native(
+            self, vlan_id):
         """
         Remove native VLAN on the trunk port
 
@@ -2118,16 +2037,15 @@ class ConfigInterfaceLag(ContextManager):
         :param vlan_id: <1-4094>  VLAN identifier
         """
 
-        result = self.enode(
-            'no vlan trunk native {vlan_id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no vlan trunk native {vlan_id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def lacp_mode_passive(self):
+    def lacp_mode_passive(
+            self):
         """
         Sets an interface as LACP passive.
 
@@ -2139,16 +2057,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'lacp mode passive'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'lacp mode passive'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_lacp_mode_passive(self):
+    def no_lacp_mode_passive(
+            self):
         """
         Sets an LACP passive interface off.
 
@@ -2160,16 +2077,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'no lacp mode passive'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no lacp mode passive'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def lacp_mode_active(self):
+    def lacp_mode_active(
+            self):
         """
         Sets an interface as LACP active.
 
@@ -2181,16 +2097,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'lacp mode active'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'lacp mode active'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_lacp_mode_active(self):
+    def no_lacp_mode_active(
+            self):
         """
         Sets an LACP active interface off.
 
@@ -2202,16 +2117,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'no lacp mode active'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no lacp mode active'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def lacp_fallback(self):
+    def lacp_fallback(
+            self):
         """
         Enable LACP fallback mode.
 
@@ -2223,16 +2137,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'lacp fallback'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'lacp fallback'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def hash_l2_src_dst(self):
+    def hash_l2_src_dst(
+            self):
         """
         Base the hash on l2-src-dst.
 
@@ -2244,16 +2157,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'hash l2-src-dst'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'hash l2-src-dst'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def hash_l3_src_dst(self):
+    def hash_l3_src_dst(
+            self):
         """
         Base the hash on l3-src-dst.
 
@@ -2265,16 +2177,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'hash l3-src-dst'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'hash l3-src-dst'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def lacp_rate_fast(self):
+    def lacp_rate_fast(
+            self):
         """
         Set LACP heartbeats are requested at the rate of one per second.
 
@@ -2286,16 +2197,15 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'lacp rate fast'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'lacp rate fast'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_lacp_rate_fast(self):
+    def no_lacp_rate_fast(
+            self):
         """
         Set LACP heartbeats slow which is once every  30 seconds.
 
@@ -2307,12 +2217,10 @@ class ConfigInterfaceLag(ContextManager):
 
         """
 
-        result = self.enode(
-            'no lacp rate fast'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no lacp rate fast'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2361,7 +2269,8 @@ class ConfigInterfaceMgmt(ContextManager):
             shell='vtysh'
         )
 
-    def ip_static(self, ip):
+    def ip_static(
+            self, ip):
         """
         Set IP address
 
@@ -2374,16 +2283,15 @@ class ConfigInterfaceMgmt(ContextManager):
         :param ip: Interface IP (ipv4 or ipv6) address.
         """
 
-        result = self.enode(
-            'ip static {ip}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ip static {ip}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_ip_static(self, ip):
+    def no_ip_static(
+            self, ip):
         """
         Unset IP address
 
@@ -2396,16 +2304,15 @@ class ConfigInterfaceMgmt(ContextManager):
         :param ip: Interface IP (ipv4 or ipv6) address.
         """
 
-        result = self.enode(
-            'no ip static {ip}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no ip static {ip}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def default_gateway(self, gateway):
+    def default_gateway(
+            self, gateway):
         """
         Configure the Default gateway address (IPv4 and IPv6)
 
@@ -2418,16 +2325,15 @@ class ConfigInterfaceMgmt(ContextManager):
         :param gateway: IP (ipv4 or ipv6) address.
         """
 
-        result = self.enode(
-            'default-gateway {gateway}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'default-gateway {gateway}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_default_gateway(self, gateway):
+    def no_default_gateway(
+            self, gateway):
         """
         Remove the Default gateway address (IPv4 and IPv6)
 
@@ -2440,16 +2346,15 @@ class ConfigInterfaceMgmt(ContextManager):
         :param gateway: IP (ipv4 or ipv6) address.
         """
 
-        result = self.enode(
-            'no default-gateway {gateway}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no default-gateway {gateway}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def nameserver(self, primary_nameserver, secondary_nameserver=''):
+    def nameserver(
+            self, primary_nameserver, secondary_nameserver=''):
         """
         Configure the nameserver
 
@@ -2464,16 +2369,15 @@ class ConfigInterfaceMgmt(ContextManager):
             address.
         """
 
-        result = self.enode(
-            'nameserver {primary_nameserver} {secondary_nameserver}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'nameserver {primary_nameserver} {secondary_nameserver}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_nameserver(self, primary_nameserver, secondary_nameserver=''):
+    def no_nameserver(
+            self, primary_nameserver, secondary_nameserver=''):
         """
         Configure the nameserver
 
@@ -2488,16 +2392,15 @@ class ConfigInterfaceMgmt(ContextManager):
             address.
         """
 
-        result = self.enode(
-            'no nameserver {primary_nameserver} {secondary_nameserver}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no nameserver {primary_nameserver} {secondary_nameserver}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def ip_dhcp(self):
+    def ip_dhcp(
+            self):
         """
         Set the mode as dhcp.
 
@@ -2509,12 +2412,10 @@ class ConfigInterfaceMgmt(ContextManager):
 
         """
 
-        result = self.enode(
-            'ip dhcp'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'ip dhcp'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2564,7 +2465,8 @@ class ConfigRouterBgp(ContextManager):
             shell='vtysh'
         )
 
-    def bgp_router_id(self, id):
+    def bgp_router_id(
+            self, id):
         """
         Specifies the BGP router-ID for a BGP Router
 
@@ -2577,16 +2479,15 @@ class ConfigRouterBgp(ContextManager):
         :param id: <A.B.C.D> IPv4 address
         """
 
-        result = self.enode(
-            'bgp router-id {id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'bgp router-id {id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_bgp_router_id(self, id):
+    def no_bgp_router_id(
+            self, id):
         """
         Removes the BGP router-ID for a BGP Router
 
@@ -2599,16 +2500,15 @@ class ConfigRouterBgp(ContextManager):
         :param id: <A.B.C.D> IPv4 address
         """
 
-        result = self.enode(
-            'no bgp router-id {id}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no bgp router-id {id}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def network(self, network):
+    def network(
+            self, network):
         """
         Adds the announcement network for BGP
 
@@ -2621,16 +2521,15 @@ class ConfigRouterBgp(ContextManager):
         :param network: <A.B.C.D/M> IPv4 address with the prefix len
         """
 
-        result = self.enode(
-            'network {network}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'network {network}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_network(self, network):
+    def no_network(
+            self, network):
         """
         Removes the announcement network for BGP
 
@@ -2643,16 +2542,15 @@ class ConfigRouterBgp(ContextManager):
         :param network: <A.B.C.D/M> IPv4 address with the prefix length
         """
 
-        result = self.enode(
-            'no network {network}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no network {network}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def maximum_paths(self, num):
+    def maximum_paths(
+            self, num):
         """
         Sets the maximum number of paths for a BGP route
 
@@ -2665,16 +2563,15 @@ class ConfigRouterBgp(ContextManager):
         :param num: <1-255> Maximum number of paths. Default is 1
         """
 
-        result = self.enode(
-            'maximum-paths {num}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'maximum-paths {num}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_maximum_paths(self, num):
+    def no_maximum_paths(
+            self, num):
         """
         Set the max number of paths to the default value of 1
 
@@ -2687,16 +2584,15 @@ class ConfigRouterBgp(ContextManager):
         :param num: <1-255> Maximum number of paths. Default is 1
         """
 
-        result = self.enode(
-            'no maximum-paths {num}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no maximum-paths {num}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def timers_bgp(self, keepalive, hold):
+    def timers_bgp(
+            self, keepalive, hold):
         """
         Sets the keepalive interval and hold time for a BGP router
 
@@ -2711,16 +2607,15 @@ class ConfigRouterBgp(ContextManager):
         :param hold: <0 - 65535> Hold time in seconds. Default is 180
         """
 
-        result = self.enode(
-            'timers bgp {keepalive} {hold}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'timers bgp {keepalive} {hold}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_timers_bgp(self, keepalive='', hold=''):
+    def no_timers_bgp(
+            self, keepalive='', hold=''):
         """
         Sets the default values for keepalive interval and hold time for a BGP
         router
@@ -2736,16 +2631,15 @@ class ConfigRouterBgp(ContextManager):
         :param hold: <0 - 65535> Hold time in seconds. Default is 180
         """
 
-        result = self.enode(
-            'no timers bgp {keepalive} {hold}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no timers bgp {keepalive} {hold}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def neighbor_remote_as(self, ip, asn):
+    def neighbor_remote_as(
+            self, ip, asn):
         """
         Configures a BGP neighbor
 
@@ -2760,16 +2654,15 @@ class ConfigRouterBgp(ContextManager):
             4294967295
         """
 
-        result = self.enode(
-            'neighbor {ip} remote-as {asn}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'neighbor {ip} remote-as {asn}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_neighbor(self, ip):
+    def no_neighbor(
+            self, ip):
         """
         Removes a BGP neighbor
 
@@ -2782,16 +2675,15 @@ class ConfigRouterBgp(ContextManager):
         :param ip: <A.B.C.D> Neighbor IPv4 address
         """
 
-        result = self.enode(
-            'no neighbor {ip}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no neighbor {ip}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def neighbor_route_map(self, ip, route_name, action):
+    def neighbor_route_map(
+            self, ip, route_name, action):
         """
         Configures a BGP neighbor route-map
 
@@ -2814,16 +2706,15 @@ class ConfigRouterBgp(ContextManager):
             outbound routes
         """
 
-        result = self.enode(
-            'neighbor {ip} route-map {route_name} {action}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'neighbor {ip} route-map {route_name} {action}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_neighbor_route_map(self, ip, route_name, action):
+    def no_neighbor_route_map(
+            self, ip, route_name, action):
         """
         Unconfigures a BGP neighbor route-map
 
@@ -2846,16 +2737,15 @@ class ConfigRouterBgp(ContextManager):
             outbound routes
         """
 
-        result = self.enode(
-            'no neighbor {ip} route-map {route_name} {action}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no neighbor {ip} route-map {route_name} {action}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def neighbor_description(self, ip, text):
+    def neighbor_description(
+            self, ip, text):
         """
         Removes a BGP neighbor
 
@@ -2870,16 +2760,15 @@ class ConfigRouterBgp(ContextManager):
             80 chars
         """
 
-        result = self.enode(
-            'neighbor {ip} description {text}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'neighbor {ip} description {text}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_neighbor_description(self, ip, text=''):
+    def no_neighbor_description(
+            self, ip, text=''):
         """
         Removes a BGP neighbor
 
@@ -2894,16 +2783,15 @@ class ConfigRouterBgp(ContextManager):
             80 chars
         """
 
-        result = self.enode(
-            'no neighbor {ip} description {text}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no neighbor {ip} description {text}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def neighbor_password(self, ip, pwd):
+    def neighbor_password(
+            self, ip, pwd):
         """
         Enables MD5 authentication on a TCP connection between BGP peers.
 
@@ -2917,16 +2805,15 @@ class ConfigRouterBgp(ContextManager):
         :param pwd: Password in plain text.String of maximum length 80 chars
         """
 
-        result = self.enode(
-            'neighbor {ip} password {pwd}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'neighbor {ip} password {pwd}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_neighbor_password(self, ip):
+    def no_neighbor_password(
+            self, ip):
         """
         Removes MD5 authentication on a TCP connection between BGP peers.
 
@@ -2939,16 +2826,15 @@ class ConfigRouterBgp(ContextManager):
         :param ip: <A.B.C.D> Neighbor IPv4 address
         """
 
-        result = self.enode(
-            'no neighbor {ip} password'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no neighbor {ip} password'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def neighbor_timers(self, ip, keepalive, hold):
+    def neighbor_timers(
+            self, ip, keepalive, hold):
         """
         Sets the keepalive interval and hold time for a specific BGP peer
 
@@ -2964,16 +2850,15 @@ class ConfigRouterBgp(ContextManager):
         :param hold: <0-65535> Hold time in seconds. Default is 180
         """
 
-        result = self.enode(
-            'neighbor {ip} timers {keepalive} {hold}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'neighbor {ip} timers {keepalive} {hold}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_neighbor_timers(self, ip, keepalive='', hold=''):
+    def no_neighbor_timers(
+            self, ip, keepalive='', hold=''):
         """
         Sets the default values for keepalive interval and hold time for a
         specific BGP peer
@@ -2990,16 +2875,15 @@ class ConfigRouterBgp(ContextManager):
         :param hold: <0 - 65535> Hold time in seconds. Default is 0
         """
 
-        result = self.enode(
-            'no neighbor {ip} timers {keepalive} {hold}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no neighbor {ip} timers {keepalive} {hold}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def neighbor_allowas_in(self, ip, val=''):
+    def neighbor_allowas_in(
+            self, ip, val=''):
         """
         Specifies an allow-as-in occurrence number for an AS to be in the AS
         path
@@ -3015,16 +2899,15 @@ class ConfigRouterBgp(ContextManager):
             to be in the AS_PATH
         """
 
-        result = self.enode(
-            'neighbor {ip} allowas-in {val}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'neighbor {ip} allowas-in {val}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_neighbor_allowas_in(self, ip, val=''):
+    def no_neighbor_allowas_in(
+            self, ip, val=''):
         """
         Clears the allow-as-in occurrence number for an AS to be in the AS path
 
@@ -3039,16 +2922,15 @@ class ConfigRouterBgp(ContextManager):
             be in the AS_PATH
         """
 
-        result = self.enode(
-            'no neighbor {ip} allowas-in {val}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no neighbor {ip} allowas-in {val}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def neighbor_remove_private_as(self, ip):
+    def neighbor_remove_private_as(
+            self, ip):
         """
         Removes private AS numbers from the AS pathin outbound routing updates
 
@@ -3061,16 +2943,15 @@ class ConfigRouterBgp(ContextManager):
         :param ip: <A.B.C.D> Neighbor IPv4 address
         """
 
-        result = self.enode(
-            'neighbor {ip} remove-private-AS'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'neighbor {ip} remove-private-AS'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_neighbor_remove_private_as(self, ip):
+    def no_neighbor_remove_private_as(
+            self, ip):
         """
         Resets to a cleared state (default)
 
@@ -3083,16 +2964,15 @@ class ConfigRouterBgp(ContextManager):
         :param ip: <A.B.C.D> Neighbor IPv4 address
         """
 
-        result = self.enode(
-            'no neighbor {ip} remove-private-AS'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no neighbor {ip} remove-private-AS'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def neighbor_soft_reconfiguration_inbound(self, ip):
+    def neighbor_soft_reconfiguration_inbound(
+            self, ip):
         """
         Enables software-based reconfiguration to generate updates from a
         neighbor without clearing the BGP session
@@ -3106,16 +2986,15 @@ class ConfigRouterBgp(ContextManager):
         :param ip: <A.B.C.D> Neighbor IPv4 address
         """
 
-        result = self.enode(
-            'neighbor {ip} soft-reconfiguration inbound'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'neighbor {ip} soft-reconfiguration inbound'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_neighbor_soft_reconfiguration_inbound(self, ip):
+    def no_neighbor_soft_reconfiguration_inbound(
+            self, ip):
         """
         Resets to a cleared state (default)
 
@@ -3128,16 +3007,15 @@ class ConfigRouterBgp(ContextManager):
         :param ip: <A.B.C.D> Neighbor IPv4 address
         """
 
-        result = self.enode(
-            'no neighbor {ip} soft-reconfiguration inbound'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no neighbor {ip} soft-reconfiguration inbound'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def neighbor_shutdown(self, ip):
+    def neighbor_shutdown(
+            self, ip):
         """
         Shuts down the neighbor. This disables the peer routerbut preserves
         neighbor configuration
@@ -3151,16 +3029,15 @@ class ConfigRouterBgp(ContextManager):
         :param ip: <A.B.C.D> Neighbor IPv4 address
         """
 
-        result = self.enode(
-            'neighbor {ip} shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'neighbor {ip} shutdown'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_neighbor_shutdown(self, ip):
+    def no_neighbor_shutdown(
+            self, ip):
         """
         Re-enables the neighbor
 
@@ -3173,16 +3050,15 @@ class ConfigRouterBgp(ContextManager):
         :param ip: <A.B.C.D> Neighbor IPv4 address
         """
 
-        result = self.enode(
-            'no neighbor {ip} shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no neighbor {ip} shutdown'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def neighbor_peer_group(self, ip_or_group, group=''):
+    def neighbor_peer_group(
+            self, ip_or_group, group=''):
         """
         Assigns a neighbor to a peer-group
 
@@ -3197,16 +3073,15 @@ class ConfigRouterBgp(ContextManager):
         :param group: ('Peer-group name.String of maximum length 80 chars',)
         """
 
-        result = self.enode(
-            'neighbor {ip_or_group} peer-group {group}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'neighbor {ip_or_group} peer-group {group}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_neighbor_peer_group(self, ip_or_group, group=''):
+    def no_neighbor_peer_group(
+            self, ip_or_group, group=''):
         """
         Removes the neighbor from the peer-group
 
@@ -3221,12 +3096,10 @@ class ConfigRouterBgp(ContextManager):
         :param group: Peer-group name. String of maximum length 80 chars
         """
 
-        result = self.enode(
-            'no neighbor {ip_or_group} peer-group {group}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no neighbor {ip_or_group} peer-group {group}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -3276,7 +3149,8 @@ class ConfigVlan(ContextManager):
             shell='vtysh'
         )
 
-    def shutdown(self):
+    def shutdown(
+            self):
         """
         Enable the VLAN.
 
@@ -3288,16 +3162,15 @@ class ConfigVlan(ContextManager):
 
         """
 
-        result = self.enode(
-            'shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'shutdown'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_shutdown(self):
+    def no_shutdown(
+            self):
         """
         Disable the VLAN.
 
@@ -3309,16 +3182,15 @@ class ConfigVlan(ContextManager):
 
         """
 
-        result = self.enode(
-            'no shutdown'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no shutdown'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def description(self, description):
+    def description(
+            self, description):
         """
         Set VLAN description
 
@@ -3331,16 +3203,15 @@ class ConfigVlan(ContextManager):
         :param description: VLAN description.
         """
 
-        result = self.enode(
-            'description {description}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'description {description}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_description(self, description):
+    def no_description(
+            self, description):
         """
         Un-set VLAN description
 
@@ -3353,17 +3224,16 @@ class ConfigVlan(ContextManager):
         :param description: VLAN description.
         """
 
-        result = self.enode(
-            'no description {description}'.format(
-                **locals()
-            ),
-            shell='vtysh'
+        cmd = (
+            'no description {description}'
         )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
 
-def show_interface(enode, portlbl):
+def show_interface(
+        enode, portlbl):
     """
     Interface infomation.
 
@@ -3374,20 +3244,21 @@ def show_interface(enode, portlbl):
         # show interface {port}
 
     :param portlbl: Label that identifies interface.
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_interface`
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_interface`
     """
     port = enode.ports.get(portlbl, portlbl)
 
-    result = enode(
-        'show interface {port}'.format(**locals()),
-        shell='vtysh'
+    cmd = (
+        'show interface {port}'
     )
+    result = enode(cmd.format(**locals()), shell='vtysh')
 
     return parse_show_interface(result)
 
 
-def show_vlan(enode):
+def show_vlan(
+        enode):
     """
     Show VLAN configuration.
 
@@ -3397,19 +3268,20 @@ def show_vlan(enode):
 
         # show vlan
 
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_vlan`
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_vlan`
     """
 
-    result = enode(
-        'show vlan'.format(**locals()),
-        shell='vtysh'
+    cmd = (
+        'show vlan'
     )
+    result = enode(cmd.format(**locals()), shell='vtysh')
 
     return parse_show_vlan(result)
 
 
-def show_lacp_interface(enode, portlbl):
+def show_lacp_interface(
+        enode, portlbl):
     """
     Show LACP interface.
 
@@ -3420,20 +3292,21 @@ def show_lacp_interface(enode, portlbl):
         # show lacp interface {port}
 
     :param portlbl: Label that identifies interface.
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_lacp_interface`
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_lacp_interface`
     """
     port = enode.ports.get(portlbl, portlbl)
 
-    result = enode(
-        'show lacp interface {port}'.format(**locals()),
-        shell='vtysh'
+    cmd = (
+        'show lacp interface {port}'
     )
+    result = enode(cmd.format(**locals()), shell='vtysh')
 
     return parse_show_lacp_interface(result)
 
 
-def show_lacp_aggregates(enode, lag=''):
+def show_lacp_aggregates(
+        enode, lag=''):
     """
     Show LACP aggregates.
 
@@ -3444,19 +3317,20 @@ def show_lacp_aggregates(enode, lag=''):
         # show lacp aggregates {lag}
 
     :param lag: Link-aggregate name.
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_lacp_aggregates`
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_lacp_aggregates`
     """
 
-    result = enode(
-        'show lacp aggregates {lag}'.format(**locals()),
-        shell='vtysh'
+    cmd = (
+        'show lacp aggregates {lag}'
     )
+    result = enode(cmd.format(**locals()), shell='vtysh')
 
     return parse_show_lacp_aggregates(result)
 
 
-def show_lacp_configuration(enode):
+def show_lacp_configuration(
+        enode):
     """
     Show LACP configuration.
 
@@ -3466,19 +3340,20 @@ def show_lacp_configuration(enode):
 
         # show lacp configuration
 
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_lacp_configuration`
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_lacp_configuration`
     """
 
-    result = enode(
-        'show lacp configuration'.format(**locals()),
-        shell='vtysh'
+    cmd = (
+        'show lacp configuration'
     )
+    result = enode(cmd.format(**locals()), shell='vtysh')
 
     return parse_show_lacp_configuration(result)
 
 
-def show_lldp_neighbor_info(enode, portlbl):
+def show_lldp_neighbor_info(
+        enode, portlbl):
     """
     Show global LLDP neighbor information.
 
@@ -3489,20 +3364,21 @@ def show_lldp_neighbor_info(enode, portlbl):
         # show lldp neighbor-info {port}
 
     :param portlbl: Label that identifies interface.
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_lldp_neighbor_info`
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_lldp_neighbor_info`
     """
     port = enode.ports.get(portlbl, portlbl)
 
-    result = enode(
-        'show lldp neighbor-info {port}'.format(**locals()),
-        shell='vtysh'
+    cmd = (
+        'show lldp neighbor-info {port}'
     )
+    result = enode(cmd.format(**locals()), shell='vtysh')
 
     return parse_show_lldp_neighbor_info(result)
 
 
-def show_lldp_statistics(enode):
+def show_lldp_statistics(
+        enode):
     """
     Show LLDP statistics.
 
@@ -3512,19 +3388,20 @@ def show_lldp_statistics(enode):
 
         # show lldp statistics
 
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_lldp_statistics`
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_lldp_statistics`
     """
 
-    result = enode(
-        'show lldp statistics'.format(**locals()),
-        shell='vtysh'
+    cmd = (
+        'show lldp statistics'
     )
+    result = enode(cmd.format(**locals()), shell='vtysh')
 
     return parse_show_lldp_statistics(result)
 
 
-def show_ip_bgp_summary(enode):
+def show_ip_bgp_summary(
+        enode):
     """
     Show bgp neighbors information summary.
 
@@ -3534,19 +3411,20 @@ def show_ip_bgp_summary(enode):
 
         # show ip bgp summary
 
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_ip_bgp_summary`
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_ip_bgp_summary`
     """
 
-    result = enode(
-        'show ip bgp summary'.format(**locals()),
-        shell='vtysh'
+    cmd = (
+        'show ip bgp summary'
     )
+    result = enode(cmd.format(**locals()), shell='vtysh')
 
     return parse_show_ip_bgp_summary(result)
 
 
-def show_ip_bgp_neighbors(enode):
+def show_ip_bgp_neighbors(
+        enode):
     """
     Show bgp neighbors information.
 
@@ -3556,19 +3434,20 @@ def show_ip_bgp_neighbors(enode):
 
         # show ip bgp neighbors
 
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_ip_bgp_neighbors`
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_ip_bgp_neighbors`
     """
 
-    result = enode(
-        'show ip bgp neighbors'.format(**locals()),
-        shell='vtysh'
+    cmd = (
+        'show ip bgp neighbors'
     )
+    result = enode(cmd.format(**locals()), shell='vtysh')
 
     return parse_show_ip_bgp_neighbors(result)
 
 
-def show_ip_bgp(enode):
+def show_ip_bgp(
+        enode):
     """
     Show bgp routing information.
 
@@ -3578,14 +3457,14 @@ def show_ip_bgp(enode):
 
         # show ip bgp
 
-    :return: A dictionary as returned by \
-        :func:`topology_lib_vtysh.parser.parse_show_ip_bgp`
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_ip_bgp`
     """
 
-    result = enode(
-        'show ip bgp'.format(**locals()),
-        shell='vtysh'
+    cmd = (
+        'show ip bgp'
     )
+    result = enode(cmd.format(**locals()), shell='vtysh')
 
     return parse_show_ip_bgp(result)
 

@@ -1789,7 +1789,8 @@ class {{ context_name|objectize }}(ContextManager):
             shell='vtysh'
         )
 {% for command in context.commands %}
-    def {{ command.command|methodize }}({{ 'self%s):'|format(param_attrs(command.arguments))|wordwrap(56)|indent(12) }}
+    def {{ command.command|methodize }}(
+            {{ 'self%s):'|format(param_attrs(command.arguments))|wordwrap(56)|indent(12) }}
         \"""
         {{ command.doc|wordwrap(71)|indent(8) }}
 
@@ -1803,22 +1804,20 @@ class {{ context_name|objectize }}(ContextManager):
         {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(70)|indent(12) }}
         {% endfor -%}
         {%- if 'returns' in command.keys() and command.returns -%}
-        :return: A dictionary as returned by \\
-            :func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
+        :return: A dictionary as returned by
+         :func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
         {% endif -%}
-        \"""
+        \"""{% if command.command|length > 66%}  # noqa{% endif %}
         {%- for attr in command.arguments -%}
             {% if attr.name == 'portlbl' %}
         port = self.enode.ports(portlbl, portlbl)
             {%- endif -%}
         {%- endfor %}
 
-        {{ 'result = %s'|format("self.enode(
-            '%s'.format(
-                **locals()
-            ),
-            shell='vtysh'
-        )")|format(command.command) }}
+        cmd = (
+            '{{ command.command|wordwrap(64, wrapstring=" \'\n\'")|indent(12)}}'
+        )
+        result = enode(cmd.format(**locals()), shell='vtysh')
 
         {% if 'returns' in command.keys() and command.returns -%}
         {{ 'return parse_%s(result)'|format(command.command|methodize) }}
@@ -1829,7 +1828,8 @@ class {{ context_name|objectize }}(ContextManager):
 {% endfor -%}
 
 {% for command in spec.root.commands %}
-def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arguments))|wordwrap(67)|indent(8) }}
+def {{ command.command|methodize }}(
+        {{'enode%s):'|format(param_attrs(command.arguments))|wordwrap(67)|indent(8) }}
     \"""
     {{ command.doc|wordwrap(71)|indent(4) }}
 
@@ -1843,20 +1843,20 @@ def {{ command.command|methodize }}({{'enode%s):'|format(param_attrs(command.arg
     {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(75)|indent(5) }}
     {% endfor -%}
     {%- if 'returns' in command.keys() and command.returns -%}
-    :return: A dictionary as returned by \\
-        :func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
     {% endif -%}
-    \"""
+    \"""{% if command.command|length > 69%}  # noqa{% endif %}
     {%- for attr in command.arguments -%}
         {% if attr.name == 'portlbl' %}
     port = enode.ports.get(portlbl, portlbl)
         {%- endif -%}
     {%- endfor %}
 
-    {{ 'result = %s'|format("enode(
-        '%s'.format(**locals()),
-        shell='vtysh'
-    )")|format(command.command) }}
+    cmd = (
+        '{{ command.command|wordwrap(67, wrapstring=" \'\n\'")|indent(8)}}'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
 
     {% if 'returns' in command.keys() and command.returns -%}
     {{ 'return parse_%s(result)'|format(command.command|methodize) }}
