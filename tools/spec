@@ -335,6 +335,72 @@ VTYSH_SPEC = OrderedDict([
                 'doc': 'Un-configure LLDP parameters.',
                 'arguments': [],
             },
+            {
+                'command': 'sflow enable',
+                'doc': 'Configure sFlow.',
+                'arguments': [],
+            },
+            {
+                'command': 'no sflow enable',
+                'doc': 'Un-configure sFlow.',
+                'arguments': [],
+            },
+            {
+                'command': 'sflow sampling {rate}',
+                'doc': 'Set sFlow sampling rate.',
+                'arguments': [
+                    {
+                        'name': 'rate',
+                        'doc': '<1-1000000000>  The range is 1 to 1000000000.',
+                    },
+                ],
+            },
+            {
+                'command': 'no sflow sampling',
+                'doc': 'Reset sFlow sampling rate to default.',
+                'arguments': [],
+            },
+            {
+                'command': (
+                    'sflow agent-interface {interface} '
+                    'agent-address-family {address_family}'
+                ),
+                'doc': 'Set sFlow agent interface',
+                'arguments': [
+                    {
+                        'name': 'interface',
+                        'doc': 'Valid L3 interface name.',
+                    },
+                    {
+                        'name': 'address_family',
+                        'doc': 'Optional, IPv4 or IPv6 (Default : IPv4).',
+                        'optional': True
+                    },
+                ],
+            },
+            {
+                'command': 'sflow collector {ip} port {port} vrf {vrf}',
+                'doc': 'Set sFlow collector configuration',
+                'arguments': [
+                    {
+                        'name': 'ip',
+                        'doc': 'IP address of collector.',
+                    },
+                    {
+                        'name': 'port',
+                        'doc':
+                            'Optional, Port of collector <0-65535> '
+                            '(Default : 6343).',
+                        'optional': True
+                    },
+                    {
+                        'name': 'vrf',
+                        'doc':
+                            'Optional, Name of VRF (Default : vrf_default).',
+                        'optional': True
+                    },
+                ],
+            },
         ]
     }),
     ('route_map', {
