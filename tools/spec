@@ -1817,7 +1817,7 @@ class {{ context_name|objectize }}(ContextManager):
         cmd = (
             '{{ command.command|wordwrap(64, wrapstring=" \'\n\'")|indent(12)}}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         {% if 'returns' in command.keys() and command.returns -%}
         {{ 'return parse_%s(result)'|format(command.command|methodize) }}

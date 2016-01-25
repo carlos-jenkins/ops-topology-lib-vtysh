@@ -106,7 +106,7 @@ class Configure(ContextManager):
         cmd = (
             'no vlan {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -127,7 +127,7 @@ class Configure(ContextManager):
         cmd = (
             'no interface lag {lag_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -150,7 +150,7 @@ class Configure(ContextManager):
         cmd = (
             'ip route {ipv4} {next_hop} {metric}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -173,7 +173,7 @@ class Configure(ContextManager):
         cmd = (
             'no ip route {ipv4} {next_hop} {metric}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -199,7 +199,7 @@ class Configure(ContextManager):
         cmd = (
             'ip prefix-list {prefix_name} seq {seq} {permission} {network}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -225,7 +225,7 @@ class Configure(ContextManager):
         cmd = (
             'no ip prefix-list {prefix_name} seq {seq} {permission} {network}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -250,7 +250,7 @@ class Configure(ContextManager):
         cmd = (
             'no route-map {routemap_name} {permission} {seq}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -273,7 +273,7 @@ class Configure(ContextManager):
         cmd = (
             'ipv6 route {ipv6} {next_hop} {metric}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -296,7 +296,7 @@ class Configure(ContextManager):
         cmd = (
             'no ipv6 route {ipv6} {next_hop} {metric}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -317,7 +317,7 @@ class Configure(ContextManager):
         cmd = (
             'lacp system-priority {priority}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -337,7 +337,7 @@ class Configure(ContextManager):
         cmd = (
             'feature lldp'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -357,7 +357,7 @@ class Configure(ContextManager):
         cmd = (
             'no feature lldp'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -377,7 +377,7 @@ class Configure(ContextManager):
         cmd = (
             'sflow enable'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -397,7 +397,7 @@ class Configure(ContextManager):
         cmd = (
             'no sflow enable'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -418,7 +418,7 @@ class Configure(ContextManager):
         cmd = (
             'sflow sampling {rate}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -438,7 +438,7 @@ class Configure(ContextManager):
         cmd = (
             'no sflow sampling'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -461,7 +461,7 @@ class Configure(ContextManager):
             'sflow agent-interface {interface} agent-address-family '
             '{address_family}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -484,7 +484,7 @@ class Configure(ContextManager):
         cmd = (
             'sflow collector {ip} port {port} vrf {vrf}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -553,7 +553,7 @@ class RouteMap(ContextManager):
         cmd = (
             'description {description}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -574,7 +574,7 @@ class RouteMap(ContextManager):
         cmd = (
             'no description {description}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -595,7 +595,7 @@ class RouteMap(ContextManager):
         cmd = (
             'match ip address prefix-list {prefix_name}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -616,7 +616,7 @@ class RouteMap(ContextManager):
         cmd = (
             'no match ip address prefix-list {prefix_name}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -637,7 +637,7 @@ class RouteMap(ContextManager):
         cmd = (
             'set metric {metric}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -658,7 +658,7 @@ class RouteMap(ContextManager):
         cmd = (
             'no set metric {metric}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -680,7 +680,7 @@ class RouteMap(ContextManager):
         cmd = (
             'set community {community}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -702,7 +702,7 @@ class RouteMap(ContextManager):
         cmd = (
             'no set community {community}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -769,7 +769,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'ip address {ipv4}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -790,7 +790,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no ip address {ipv4}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -811,7 +811,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'ip address {ipv4} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -832,7 +832,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no ip address {ipv4} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -853,7 +853,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'ipv6 address {ipv6}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -874,7 +874,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no ipv6 address {ipv6}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -895,7 +895,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'ipv6 address {ipv6} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -916,7 +916,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no ipv6 address {ipv6} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -936,7 +936,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'routing'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -956,7 +956,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no routing'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -976,7 +976,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'shutdown'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -996,7 +996,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no shutdown'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1017,7 +1017,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'vlan access {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1038,7 +1038,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no vlan access {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1059,7 +1059,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'vlan trunk allowed {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1080,7 +1080,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no vlan trunk allowed {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1100,7 +1100,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'vlan trunk native tag'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1120,7 +1120,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no vlan trunk native tag'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1141,7 +1141,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'vlan trunk native {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1162,7 +1162,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no vlan trunk native {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1183,7 +1183,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'lacp port-id {port_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1204,7 +1204,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'lacp port-priority {port_priority}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1225,7 +1225,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'lag {lag_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1246,7 +1246,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no lag {lag_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1266,7 +1266,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'lldp transmission'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1286,7 +1286,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no lldp transmission'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1306,7 +1306,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'lldp reception'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1326,7 +1326,7 @@ class ConfigInterface(ContextManager):
         cmd = (
             'no lldp reception'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1393,7 +1393,7 @@ class ConfigInterfaceVlan(ContextManager):
         cmd = (
             'ip address {ipv4}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1414,7 +1414,7 @@ class ConfigInterfaceVlan(ContextManager):
         cmd = (
             'no ip address {ipv4}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1435,7 +1435,7 @@ class ConfigInterfaceVlan(ContextManager):
         cmd = (
             'ip address {ipv4} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1456,7 +1456,7 @@ class ConfigInterfaceVlan(ContextManager):
         cmd = (
             'no ip address {ipv4} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1477,7 +1477,7 @@ class ConfigInterfaceVlan(ContextManager):
         cmd = (
             'ipv6 address {ipv6}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1498,7 +1498,7 @@ class ConfigInterfaceVlan(ContextManager):
         cmd = (
             'no ipv6 address {ipv6}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1519,7 +1519,7 @@ class ConfigInterfaceVlan(ContextManager):
         cmd = (
             'ipv6 address {ipv6} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1540,7 +1540,7 @@ class ConfigInterfaceVlan(ContextManager):
         cmd = (
             'no ipv6 address {ipv6} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1560,7 +1560,7 @@ class ConfigInterfaceVlan(ContextManager):
         cmd = (
             'shutdown'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1580,7 +1580,7 @@ class ConfigInterfaceVlan(ContextManager):
         cmd = (
             'no shutdown'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1647,7 +1647,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'ip address {ipv4}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1668,7 +1668,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no ip address {ipv4}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1689,7 +1689,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'ip address {ipv4} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1710,7 +1710,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no ip address {ipv4} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1731,7 +1731,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'ipv6 address {ipv6}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1752,7 +1752,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no ipv6 address {ipv6}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1773,7 +1773,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'ipv6 address {ipv6} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1794,7 +1794,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no ipv6 address {ipv6} secondary'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1814,7 +1814,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'shutdown'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1834,7 +1834,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no shutdown'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1854,7 +1854,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'routing'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1874,7 +1874,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no routing'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1895,7 +1895,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'vlan access {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1916,7 +1916,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no vlan access {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1937,7 +1937,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'vlan trunk allowed {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1958,7 +1958,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no vlan trunk allowed {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1978,7 +1978,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'vlan trunk native tag'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -1998,7 +1998,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no vlan trunk native tag'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2019,7 +2019,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'vlan trunk native {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2040,7 +2040,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no vlan trunk native {vlan_id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2060,7 +2060,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'lacp mode passive'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2080,7 +2080,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no lacp mode passive'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2100,7 +2100,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'lacp mode active'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2120,7 +2120,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no lacp mode active'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2140,7 +2140,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'lacp fallback'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2160,7 +2160,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'hash l2-src-dst'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2180,7 +2180,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'hash l3-src-dst'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2200,7 +2200,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'lacp rate fast'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2220,7 +2220,7 @@ class ConfigInterfaceLag(ContextManager):
         cmd = (
             'no lacp rate fast'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2286,7 +2286,7 @@ class ConfigInterfaceMgmt(ContextManager):
         cmd = (
             'ip static {ip}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2307,7 +2307,7 @@ class ConfigInterfaceMgmt(ContextManager):
         cmd = (
             'no ip static {ip}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2328,7 +2328,7 @@ class ConfigInterfaceMgmt(ContextManager):
         cmd = (
             'default-gateway {gateway}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2349,7 +2349,7 @@ class ConfigInterfaceMgmt(ContextManager):
         cmd = (
             'no default-gateway {gateway}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2372,7 +2372,7 @@ class ConfigInterfaceMgmt(ContextManager):
         cmd = (
             'nameserver {primary_nameserver} {secondary_nameserver}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2395,7 +2395,7 @@ class ConfigInterfaceMgmt(ContextManager):
         cmd = (
             'no nameserver {primary_nameserver} {secondary_nameserver}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2415,7 +2415,7 @@ class ConfigInterfaceMgmt(ContextManager):
         cmd = (
             'ip dhcp'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2482,7 +2482,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'bgp router-id {id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2503,7 +2503,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no bgp router-id {id}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2524,7 +2524,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'network {network}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2545,7 +2545,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no network {network}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2566,7 +2566,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'maximum-paths {num}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2587,7 +2587,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no maximum-paths {num}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2610,7 +2610,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'timers bgp {keepalive} {hold}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2634,7 +2634,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no timers bgp {keepalive} {hold}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2657,7 +2657,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'neighbor {ip} remote-as {asn}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2678,7 +2678,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no neighbor {ip}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2709,7 +2709,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'neighbor {ip} route-map {route_name} {action}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2740,7 +2740,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no neighbor {ip} route-map {route_name} {action}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2763,7 +2763,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'neighbor {ip} description {text}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2786,7 +2786,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no neighbor {ip} description {text}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2808,7 +2808,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'neighbor {ip} password {pwd}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2829,7 +2829,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no neighbor {ip} password'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2853,7 +2853,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'neighbor {ip} timers {keepalive} {hold}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2878,7 +2878,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no neighbor {ip} timers {keepalive} {hold}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2902,7 +2902,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'neighbor {ip} allowas-in {val}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2925,7 +2925,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no neighbor {ip} allowas-in {val}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2946,7 +2946,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'neighbor {ip} remove-private-AS'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2967,7 +2967,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no neighbor {ip} remove-private-AS'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -2989,7 +2989,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'neighbor {ip} soft-reconfiguration inbound'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -3010,7 +3010,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no neighbor {ip} soft-reconfiguration inbound'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -3032,7 +3032,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'neighbor {ip} shutdown'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -3053,7 +3053,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no neighbor {ip} shutdown'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -3076,7 +3076,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'neighbor {ip_or_group} peer-group {group}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -3099,7 +3099,7 @@ class ConfigRouterBgp(ContextManager):
         cmd = (
             'no neighbor {ip_or_group} peer-group {group}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -3165,7 +3165,7 @@ class ConfigVlan(ContextManager):
         cmd = (
             'shutdown'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -3185,7 +3185,7 @@ class ConfigVlan(ContextManager):
         cmd = (
             'no shutdown'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -3206,7 +3206,7 @@ class ConfigVlan(ContextManager):
         cmd = (
             'description {description}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
@@ -3227,7 +3227,7 @@ class ConfigVlan(ContextManager):
         cmd = (
             'no description {description}'
         )
-        result = enode(cmd.format(**locals()), shell='vtysh')
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
