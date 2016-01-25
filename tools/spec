@@ -352,7 +352,7 @@ VTYSH_SPEC = OrderedDict([
                     {
                         'name': 'rate',
                         'doc': '<1-1000000000>  The range is 1 to 1000000000.',
-                    },
+                    }
                 ],
             },
             {
@@ -362,10 +362,22 @@ VTYSH_SPEC = OrderedDict([
             },
             {
                 'command': (
+                    'sflow agent-interface {interface}'
+                ),
+                'doc': 'Set sFlow agent interface',
+                'arguments': [
+                    {
+                        'name': 'interface',
+                        'doc': 'Valid L3 interface name.',
+                    }
+                ],
+            },
+            {
+                'command': (
                     'sflow agent-interface {interface} '
                     'agent-address-family {address_family}'
                 ),
-                'doc': 'Set sFlow agent interface',
+                'doc': 'Set sFlow agent interface and address family',
                 'arguments': [
                     {
                         'name': 'interface',
@@ -373,14 +385,23 @@ VTYSH_SPEC = OrderedDict([
                     },
                     {
                         'name': 'address_family',
-                        'doc': 'Optional, IPv4 or IPv6 (Default : IPv4).',
-                        'optional': True
-                    },
+                        'doc': 'IPv4 or IPv6 (Default : IPv4).',
+                    }
                 ],
             },
             {
-                'command': 'sflow collector {ip} port {port} vrf {vrf}',
-                'doc': 'Set sFlow collector configuration',
+                'command': 'sflow collector {ip}',
+                'doc': 'Set sFlow collector configuration (IP)',
+                'arguments': [
+                    {
+                        'name': 'ip',
+                        'doc': 'IP address of collector.',
+                    }
+                ],
+            },
+            {
+                'command': 'sflow collector {ip} port {port}',
+                'doc': 'Set sFlow collector configuration (IP, port)',
                 'arguments': [
                     {
                         'name': 'ip',
@@ -388,17 +409,40 @@ VTYSH_SPEC = OrderedDict([
                     },
                     {
                         'name': 'port',
-                        'doc':
-                            'Optional, Port of collector <0-65535> '
-                            '(Default : 6343).',
-                        'optional': True
+                        'doc': 'Port of collector <0-65535> (Default : 6343).',
+                    }
+                ],
+            },
+            {
+                'command': 'sflow collector {ip} vrf {vrf}',
+                'doc': 'Set sFlow collector configuration (IP, vrf)',
+                'arguments': [
+                    {
+                        'name': 'ip',
+                        'doc': 'IP address of collector.',
                     },
                     {
                         'name': 'vrf',
-                        'doc':
-                            'Optional, Name of VRF (Default : vrf_default).',
-                        'optional': True
+                        'doc': 'Name of VRF (Default : vrf_default).',
+                    }
+                ],
+            },
+            {
+                'command': 'sflow collector {ip} port {port} vrf {vrf}',
+                'doc': 'Set sFlow collector configuration (IP, port, vrf)',
+                'arguments': [
+                    {
+                        'name': 'ip',
+                        'doc': 'IP address of collector.',
                     },
+                    {
+                        'name': 'port',
+                        'doc': 'Port of collector <0-65535> (Default : 6343).',
+                    },
+                    {
+                        'name': 'vrf',
+                        'doc': 'Name of VRF (Default : vrf_default).',
+                    }
                 ],
             },
         ]
