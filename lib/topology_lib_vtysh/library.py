@@ -442,10 +442,31 @@ class Configure(ContextManager):
 
         assert not result
 
-    def sflow_agent_interface_agent_address_family(
-            self, interface, address_family=''):
+    def sflow_agent_interface(
+            self, interface):
         """
         Set sFlow agent interface
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # sflow agent-interface {interface}
+
+        :param interface: Valid L3 interface name.
+        """
+
+        cmd = (
+            'sflow agent-interface {interface}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def sflow_agent_interface_agent_address_family(
+            self, interface, address_family):
+        """
+        Set sFlow agent interface and address family
 
         This function runs the following vtysh command:
 
@@ -454,7 +475,7 @@ class Configure(ContextManager):
             # sflow agent-interface {interface} agent-address-family {address_family}
 
         :param interface: Valid L3 interface name.
-        :param address_family: Optional, IPv4 or IPv6 (Default : IPv4).
+        :param address_family: IPv4 or IPv6 (Default : IPv4).
         """  # noqa
 
         cmd = (
@@ -465,10 +486,75 @@ class Configure(ContextManager):
 
         assert not result
 
-    def sflow_collector_port_vrf(
-            self, ip, port='', vrf=''):
+    def sflow_collector(
+            self, ip):
         """
-        Set sFlow collector configuration
+        Set sFlow collector configuration (IP)
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # sflow collector {ip}
+
+        :param ip: IP address of collector.
+        """
+
+        cmd = (
+            'sflow collector {ip}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def sflow_collector_port(
+            self, ip, port):
+        """
+        Set sFlow collector configuration (IP, port)
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # sflow collector {ip} port {port}
+
+        :param ip: IP address of collector.
+        :param port: Port of collector <0-65535> (Default : 6343).
+        """
+
+        cmd = (
+            'sflow collector {ip} port {port}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def sflow_collector_vrf(
+            self, ip, vrf):
+        """
+        Set sFlow collector configuration (IP, vrf)
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # sflow collector {ip} vrf {vrf}
+
+        :param ip: IP address of collector.
+        :param vrf: Name of VRF (Default : vrf_default).
+        """
+
+        cmd = (
+            'sflow collector {ip} vrf {vrf}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def sflow_collector_port_vrf(
+            self, ip, port, vrf):
+        """
+        Set sFlow collector configuration (IP, port, vrf)
 
         This function runs the following vtysh command:
 
@@ -477,8 +563,8 @@ class Configure(ContextManager):
             # sflow collector {ip} port {port} vrf {vrf}
 
         :param ip: IP address of collector.
-        :param port: Optional, Port of collector <0-65535> (Default : 6343).
-        :param vrf: Optional, Name of VRF (Default : vrf_default).
+        :param port: Port of collector <0-65535> (Default : 6343).
+        :param vrf: Name of VRF (Default : vrf_default).
         """
 
         cmd = (
