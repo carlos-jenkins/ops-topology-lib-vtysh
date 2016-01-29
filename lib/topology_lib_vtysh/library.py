@@ -1438,6 +1438,109 @@ class ConfigInterface(ContextManager):
 
         assert not result
 
+    def udld_enable(
+            self):
+        """
+        Enable UDLD in the interface.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # udld enable
+
+        """
+
+        cmd = (
+            'udld enable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_udld_enable(
+            self):
+        """
+        Disable UDLD in the interface.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no udld enable
+
+        """
+
+        cmd = (
+            'no udld enable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def udld_interval(
+            self, interval):
+        """
+        Set the packet interval
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # udld interval {interval}
+
+        :param interval: <100-10000> Allowed is 100 ms to 10,000 ms
+        """
+
+        cmd = (
+            'udld interval {interval}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def udld_retries(
+            self, retries):
+        """
+        Set the retries
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # udld retries {retries}
+
+        :param retries: <3-10> Allowed is from 3 to 10 retries.
+        """
+
+        cmd = (
+            'udld retries {retries}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def udld_mode(
+            self, mode):
+        """
+        Set the operation mode
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # udld mode {mode}
+
+        :param mode: <forward_then_verify | verify_then_forward>
+        """
+
+        cmd = (
+            'udld mode {mode}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
 
 class ConfigInterfaceVlan(ContextManager):
     """
@@ -3577,6 +3680,75 @@ def show_ip_bgp(
     return parse_show_ip_bgp(result)
 
 
+def show_udld_interface(
+        enode, portlbl):
+    """
+    Show UDLD information for the interface.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show udld interface {port}
+
+    :param portlbl: Label that identifies interface.
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_udld_interface`
+    """
+    port = enode.ports.get(portlbl, portlbl)
+
+    cmd = (
+        'show udld interface {port}'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_udld_interface(result)
+
+
+def clear_udld_statistics(
+        enode):
+    """
+    Clear UDLD statistics from all interfaces.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # clear udld statistics
+
+    """
+
+    cmd = (
+        'clear udld statistics'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    assert not result
+
+
+def clear_udld_statistics_interface(
+        enode, portlbl):
+    """
+    Clear UDLD statistics for the interface.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # clear udld statistics interface {port}
+
+    :param portlbl: Label that identifies interface.
+    """
+    port = enode.ports.get(portlbl, portlbl)
+
+    cmd = (
+        'clear udld statistics interface {port}'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    assert not result
+
+
 __all__ = [
     'ContextManager',
     'Configure',
@@ -3596,5 +3768,8 @@ __all__ = [
     'show_lldp_statistics',
     'show_ip_bgp_summary',
     'show_ip_bgp_neighbors',
-    'show_ip_bgp'
+    'show_ip_bgp',
+    'show_udld_interface',
+    'clear_udld_statistics',
+    'clear_udld_statistics_interface'
 ]

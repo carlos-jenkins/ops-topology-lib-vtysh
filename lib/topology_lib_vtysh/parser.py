@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2015 Hewlett Packard Enterprise Development LP
+# Copyright (C) 2015-2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -105,6 +105,65 @@ def parse_show_interface(raw_result):
                 result[key] = True
             elif value == 'off':
                 result[key] = False
+    return result
+
+
+def parse_show_udld_interface(raw_result):
+    """
+    Parse the 'show udld interface {intf}' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show udld command in a \
+        dictionary of the form:
+
+     ::
+
+        {
+            'interface': '1',
+            'status': 'Unblock',
+            'mode': 'Verify then forward',
+            'interval': 3000,
+            'retries': 10,
+            'port_transition': 0,
+            'rx': 0,
+            'rx_discard': 0,
+            'tx': 0,
+        }
+
+    This is the current output of "show udld interface 1":
+
+    switch# show udld interface 1
+
+    Interface 1
+     Status: Not running
+     Mode: Verify then forward
+     Interval: 5000 milliseconds
+     Retries: 4
+     Port transitions: 0
+     RX: 0 valid packets, 0 discarded packets
+     TX: 0 packets
+    """
+
+    show_re = (
+        r'\s*Interface (?P<interface>.*)\n'
+        r' Status: (?P<status>.*)\n'
+        r' Mode: (?P<mode>.*)\n'
+        r' Interval: (?P<interval>\d+) milliseconds\n'
+        r' Retries: (?P<retries>\d+)\n'
+        r' Port transitions: (?P<port_transition>\d+)\n'
+        r' RX: (?P<rx>\d+) valid packets, (?P<rx_discard>\d+) discarded.*\n'
+        r' TX: (?P<tx>\d+) packets$'
+    )
+
+    re_result = re.match(show_re, raw_result)
+    assert re_result
+
+    result = re_result.groupdict()
+    for key, value in result.items():
+        if value is not None:
+            if value.isdigit():
+                result[key] = int(value)
     return result
 
 
@@ -634,5 +693,6 @@ __all__ = [
     'parse_show_lacp_interface', 'parse_show_interface',
     'parse_show_lacp_configuration', 'parse_show_lldp_neighbor_info',
     'parse_show_lldp_statistics', 'parse_show_ip_bgp_summary',
-    'parse_show_ip_bgp_neighbors', 'parse_show_ip_bgp'
+    'parse_show_ip_bgp_neighbors', 'parse_show_ip_bgp',
+    'parse_show_udld_interface'
 ]

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2015 Hewlett Packard Enterprise Development LP
+# Copyright (C) 2015-2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -122,7 +122,34 @@ VTYSH_SPEC = OrderedDict([
                 'doc': 'Show bgp routing information.',
                 'arguments': [],
                 'returns': True
-            }
+            },
+            # TODO: Add support for the show udld (shows all interfaces) cmd
+            {
+                'command': 'show udld interface {port}',
+                'doc': 'Show UDLD information for the interface.',
+                'arguments': [
+                    {
+                        'name': 'portlbl',
+                        'doc': 'Label that identifies interface.',
+                    },
+                ],
+                'returns': True
+            },
+            {
+                'command': 'clear udld statistics',
+                'doc': 'Clear UDLD statistics from all interfaces.',
+                'arguments': [],
+            },
+            {
+                'command': 'clear udld statistics interface {port}',
+                'doc': 'Clear UDLD statistics for the interface.',
+                'arguments': [
+                    {
+                        'name': 'portlbl',
+                        'doc': 'Label that identifies interface.',
+                    },
+                ],
+            },
         ]
     }),
     ('configure', {
@@ -813,6 +840,46 @@ VTYSH_SPEC = OrderedDict([
                 'command': 'no lldp reception',
                 'doc': 'Un-set the reception on lldp.',
                 'arguments': [],
+            },
+            {
+                'command': 'udld enable',
+                'doc': 'Enable UDLD in the interface.',
+                'arguments': [],
+            },
+            {
+                'command': 'no udld enable',
+                'doc': 'Disable UDLD in the interface.',
+                'arguments': [],
+            },
+            {
+                'command': 'udld interval {interval}',
+                'doc': 'Set the packet interval',
+                'arguments': [
+                    {
+                        'name': 'interval',
+                        'doc': '<100-10000> Allowed is 100 ms to 10,000 ms'
+                    }
+                ],
+            },
+            {
+                'command': 'udld retries {retries}',
+                'doc': 'Set the retries',
+                'arguments': [
+                    {
+                        'name': 'retries',
+                        'doc': '<3-10> Allowed is from 3 to 10 retries.'
+                    }
+                ],
+            },
+            {
+                'command': 'udld mode {mode}',
+                'doc': 'Set the operation mode',
+                'arguments': [
+                    {
+                        'name': 'mode',
+                        'doc': '<forward_then_verify | verify_then_forward>'
+                    }
+                ],
             },
         ]
     }),

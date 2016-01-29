@@ -108,10 +108,10 @@ To add a new command to the library, a developer needs to:
 4. Execute the generator script. To do this:
 
    1. Go to the ``topology_lib_vtysh`` root folder.
-   2. Run ``source .tox/py34/bin/activate``.
-   3. Run ``./tools/spec``.
-   4. Run ``deactivate``.
-
+   2. Run ``tox`` which validates your script and prepares the py34 environment
+   3. Run ``source .tox/py34/bin/activate``.
+   4. Run ``./tools/spec``.
+   5. Run ``deactivate``.
 
 If the vtysh command has output (by example any *show* command), a parser
 function has to be defined in **parser.py**. The name of this function must be
