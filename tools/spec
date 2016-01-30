@@ -1904,9 +1904,9 @@ def {{ command.command|methodize }}(
 
     {% if 'returns' in command.keys() and command.returns -%}
     {{ 'return parse_%s(result)'|format(command.command|methodize) }}
-    {%- else %}
+    {%- else -%}
     assert not result
-    {% endif %}
+    {%- endif %}
 
 {% endfor %}
 __all__ = [
