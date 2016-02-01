@@ -443,7 +443,7 @@ class Configure(ContextManager):
         assert not result
 
     def sflow_agent_interface(
-            self, interface):
+            self, portlbl):
         """
         Set sFlow agent interface
 
@@ -451,20 +451,21 @@ class Configure(ContextManager):
 
         ::
 
-            # sflow agent-interface {interface}
+            # sflow agent-interface {port}
 
-        :param interface: Valid L3 interface name.
+        :param portlbl: Valid L3 interface name.
         """
+        port = self.enode.ports.get(portlbl, portlbl)
 
         cmd = (
-            'sflow agent-interface {interface}'
+            'sflow agent-interface {port}'
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
     def sflow_agent_interface_agent_address_family(
-            self, interface, address_family):
+            self, portlbl, address_family):
         """
         Set sFlow agent interface and address family
 
@@ -472,14 +473,15 @@ class Configure(ContextManager):
 
         ::
 
-            # sflow agent-interface {interface} agent-address-family {address_family}
+            # sflow agent-interface {port} agent-address-family {address_family}  # noqa
 
-        :param interface: Valid L3 interface name.
+        :param portlbl: Valid L3 interface name.
         :param address_family: IPv4 or IPv6 (Default : IPv4).
-        """  # noqa
+        """
+        port = self.enode.ports.get(portlbl, portlbl)
 
         cmd = (
-            'sflow agent-interface {interface} agent-address-family '
+            'sflow agent-interface {port} agent-address-family '
             '{address_family}'
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')

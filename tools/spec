@@ -362,25 +362,25 @@ VTYSH_SPEC = OrderedDict([
             },
             {
                 'command': (
-                    'sflow agent-interface {interface}'
+                    'sflow agent-interface {port}'
                 ),
                 'doc': 'Set sFlow agent interface',
                 'arguments': [
                     {
-                        'name': 'interface',
+                        'name': 'portlbl',
                         'doc': 'Valid L3 interface name.',
                     }
                 ],
             },
             {
                 'command': (
-                    'sflow agent-interface {interface} '
+                    'sflow agent-interface {port} '
                     'agent-address-family {address_family}'
                 ),
                 'doc': 'Set sFlow agent interface and address family',
                 'arguments': [
                     {
-                        'name': 'interface',
+                        'name': 'portlbl',
                         'doc': 'Valid L3 interface name.',
                     },
                     {
