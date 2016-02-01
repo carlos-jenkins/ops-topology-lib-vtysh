@@ -1842,7 +1842,7 @@ class {{ context_name|objectize }}(ContextManager):
 
         ::
 
-            # {{ command.command }}
+            # {{ command.command }}{% if command.command|length > 65%}  # noqa{% endif %}
 
         {% for attr in command.arguments -%}
         {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(70)|indent(12) }}
@@ -1854,7 +1854,7 @@ class {{ context_name|objectize }}(ContextManager):
         \"""{% if command.command|length > 66%}  # noqa{% endif %}
         {%- for attr in command.arguments -%}
             {% if attr.name == 'portlbl' %}
-        port = self.enode.ports(portlbl, portlbl)
+        port = self.enode.ports.get(portlbl, portlbl)
             {%- endif -%}
         {%- endfor %}
 
@@ -1881,7 +1881,7 @@ def {{ command.command|methodize }}(
 
     ::
 
-        # {{ command.command }}
+        # {{ command.command }}{% if command.command|length > 68%}  # noqa{% endif %}
 
     {% for attr in command.arguments -%}
     {{ ':param %s: %s'|format(attr.name, attr.doc)|wordwrap(75)|indent(5) }}
