@@ -488,6 +488,26 @@ class Configure(ContextManager):
 
         assert not result
 
+    def no_sflow_agent_interface(
+            self):
+        """
+        Remove sFlow agent interface configuration.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no sflow agent-interface
+
+        """
+
+        cmd = (
+            'no sflow agent-interface'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
     def sflow_collector(
             self, ip):
         """

@@ -390,6 +390,11 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
+                'command': 'no sflow agent-interface',
+                'doc': 'Remove sFlow agent interface configuration.',
+                'arguments': [],
+            },
+            {
                 'command': 'sflow collector {ip}',
                 'doc': 'Set sFlow collector configuration (IP)',
                 'arguments': [
