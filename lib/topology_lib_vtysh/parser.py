@@ -225,51 +225,63 @@ def parse_show_lacp_interface(raw_result):
      ::
 
         {
-                'lag_id': '1',
-                'local_system_id': '',
-                'remote_system_id': '',
-                'local_port_id': '',
-                'remote_port_id': '',
-                'local_key': '',
-                'remote_key': '',
+                'lag_id': '100',
+                'local_port_id': '17'
+                'remote_port_id': '0'
+                'local_port_priority': '1'
+                'remote_port_priority': '0'
+                'local_key': '100'
+                'remote_key': '0'
                 'local_state': {
-                    'active': False,
+                    'active': True,
                     'short_time': False,
-                    'collecting': True,
+                    'collecting': False,
                     'state_expired': False,
                     'passive': False,
-                    'long_timeout': False,
-                    'distributing': True,
-                    'aggregable': False,
+                    'long_timeout': True,
+                    'distributing': False,
+                    'aggregable': True,
                     'in_sync': False,
-                    'neighbor_state': False,
+                    'neighbor_state': True,
                     'individual': False,
-                    'out_sync': False
+                    'out_sync': True
                 },
                 'remote_state': {
                     'active': False,
                     'short_time': False,
-                    'collecting': True,
+                    'collecting': False,
                     'state_expired': False,
-                    'passive': False,
-                    'long_timeout': False,
+                    'passive': True,
+                    'long_timeout': True,
                     'distributing': False,
-                    'aggregable': False,
-                    'in_sync': True,
+                    'aggregable': True,
+                    'in_sync': False,
                     'neighbor_state': False,
                     'individual': False,
-                    'out_sync': False
+                    'out_sync': True
                 },
+                'local_system_id': '70:72:cf:52:54:84',
+                'remote_system_id': '00:00:00:00:00:00',
+                'local_system_priority': '65534',
+                'remote_system_priority': '0'
             }
     """
 
     lacp_re = (
         r'Aggregate-name\s*:\s*[lag]*(?P<lag_id>\w*)?[\s \S]*'
-        r'System-id\s*\|\s*(?P<local_system_id>.*)?\|'
-        r'\s*(?P<remote_system_id>.*)?\s+'
-        r'Port-id\s*\|\s*(?P<local_port_id>.*)?\|\s*(?P<remote_port_id>.*)?\s+'
-        r'Key\s*\|\s*(?P<local_key>.*)?\|\s*(?P<remote_key>.*)?\s+'
-        r'State\s*\|\s*(?P<local_state>.*)?\|\s*(?P<remote_state>.*)?\s+'
+        r'Port-id\s*\|\s*(?P<local_port_id>\d*)?\s*\|'
+        r'\s*(?P<remote_port_id>\d*)?\s+'
+        r'Port-priority\s*\|\s*(?P<local_port_priority>\d*)?\s*\|'
+        r'\s*(?P<remote_port_priority>\d*)?\s+'
+        r'Key\s*\|\s*(?P<local_key>\d*)?\s*\|'
+        r'\s*(?P<remote_key>\d*)?\s+'
+        r'State\s*\|\s*(?P<local_state>[APFISLNOCDXE]*)?\s*\|'
+        r'\s*(?P<remote_state>[APFISLNOCDXE]*)?\s+'
+        r'System-id\s*\|\s*'
+        r'(?P<local_system_id>([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2})?\s*\|'
+        r'\s*(?P<remote_system_id>([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2})?\s+'
+        r'System-priority\s*\|\s*(?P<local_system_priority>\d*)?\s*\|'
+        r'\s*(?P<remote_system_priority>\d*)?\s+'
     )
 
     re_result = re.search(lacp_re, raw_result)

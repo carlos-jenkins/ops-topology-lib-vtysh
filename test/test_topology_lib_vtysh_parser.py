@@ -192,54 +192,60 @@ C - Collecting    D - Distributing
 X - State m/c expired              E - Default neighbor state
 
 
-Aggregate-name : lag1
+Aggregate-name : lag100
 -------------------------------------------------
-                   Actor             Partner
+                       Actor             Partner
 -------------------------------------------------
-System-id  |                    |
-Port-id    |                    |
-Key        |                    |
-State      |                    |
-    """
+Port-id            | 17                 | 0
+Port-priority      | 1                  | 0
+Key                | 100                | 0
+State              | ALFOE              | PLFO
+System-id          | 70:72:cf:52:54:84  | 00:00:00:00:00:00
+System-priority    | 65534              | 0
+"""
 
     result = parse_show_lacp_interface(raw_result)
 
     expected = {
-        'lag_id': '1',
-        'local_system_id': '',
-        'remote_system_id': '',
-        'local_port_id': '',
-        'remote_port_id': '',
-        'local_key': '',
-        'remote_key': '',
+        'lag_id': '100',
+        'local_port_id': '17',
+        'remote_port_id': '0',
+        'local_port_priority': '1',
+        'remote_port_priority': '0',
+        'local_key': '100',
+        'remote_key': '0',
         'local_state': {
-            'active': False,
+            'active': True,
             'short_time': False,
             'collecting': False,
             'state_expired': False,
             'passive': False,
-            'long_timeout': False,
+            'long_timeout': True,
             'distributing': False,
-            'aggregable': False,
+            'aggregable': True,
             'in_sync': False,
-            'neighbor_state': False,
+            'neighbor_state': True,
             'individual': False,
-            'out_sync': False
+            'out_sync': True
         },
         'remote_state': {
             'active': False,
             'short_time': False,
             'collecting': False,
             'state_expired': False,
-            'passive': False,
-            'long_timeout': False,
+            'passive': True,
+            'long_timeout': True,
             'distributing': False,
-            'aggregable': False,
+            'aggregable': True,
             'in_sync': False,
             'neighbor_state': False,
             'individual': False,
-            'out_sync': False
+            'out_sync': True
         },
+        'local_system_id': '70:72:cf:52:54:84',
+        'remote_system_id': '00:00:00:00:00:00',
+        'local_system_priority': '65534',
+        'remote_system_priority': '0'
     }
 
     ddiff = DeepDiff(result, expected)
