@@ -477,6 +477,16 @@ VTYSH_SPEC = OrderedDict([
                     }
                 ],
             },
+            {
+                'command': 'no router bgp {asn}',
+                'doc': 'Removes the BGP Router',
+                'arguments': [
+                    {
+                        'name': 'asn',
+                        'doc': 'Autonomous System Number.',
+                    }
+                ],
+            },
         ]
     }),
     ('route_map', {

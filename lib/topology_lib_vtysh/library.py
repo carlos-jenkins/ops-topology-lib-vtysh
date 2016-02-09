@@ -596,6 +596,27 @@ class Configure(ContextManager):
 
         assert not result
 
+    def no_router_bgp(
+            self, asn):
+        """
+        Removes the BGP Router
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no router bgp {asn}
+
+        :param asn: Autonomous System Number.
+        """
+
+        cmd = (
+            'no router bgp {asn}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
 
 class RouteMap(ContextManager):
     """
