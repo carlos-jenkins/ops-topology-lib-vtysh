@@ -162,7 +162,8 @@ def parse_show_udld_interface(raw_result):
     result = re_result.groupdict()
     for key, value in result.items():
         if value is not None:
-            if value.isdigit():
+            # The interface may be a digit (e.g '1') or string ('fast0/1')
+            if value.isdigit() and key != 'interface':
                 result[key] = int(value)
     return result
 
