@@ -32,7 +32,9 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_lldp_statistics,
                                        parse_show_ip_bgp_summary,
                                        parse_show_ip_bgp_neighbors,
-                                       parse_show_ip_bgp
+                                       parse_show_ip_bgp,
+                                       parse_ping_repetitions,
+                                       parse_ping6_repetitions
                                        )
 
 
@@ -642,6 +644,50 @@ Total number of entries 6
             'route_status': '*'
         }
     ]
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_ping_repetitions():
+    raw_result = """\
+PING 10.0.0.9 (10.0.0.9): 100 data bytes
+108 bytes from 10.0.0.9: icmp_seq=0 ttl=64 time=1.040 ms
+--- 10.0.0.9 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 1.040/1.040/1.040/0.000 ms
+    """
+
+    result = parse_ping_repetitions(raw_result)
+
+    expected = {
+        'transmitted': 1,
+        'received': 1,
+        'errors': 0,
+        'packet_loss': 0
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_ping6_repetitions():
+    raw_result = """\
+PING 2000::2 (2000::2): 100 data bytes
+108 bytes from 2000::2: icmp_seq=0 ttl=64 time=0.411 ms
+--- 2000::2 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 0.411/0.411/0.411/0.000 ms
+    """
+
+    result = parse_ping6_repetitions(raw_result)
+
+    expected = {
+        'transmitted': 1,
+        'received': 1,
+        'errors': 0,
+        'packet_loss': 0
+    }
 
     ddiff = DeepDiff(result, expected)
     assert not ddiff

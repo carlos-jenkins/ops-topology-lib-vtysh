@@ -150,6 +150,36 @@ VTYSH_SPEC = OrderedDict([
                     },
                 ],
             },
+            {
+                'command': 'ping {destination} repetitions {count}',
+                'doc': 'Send IPv4 ping',
+                'arguments': [
+                    {
+                        'name': 'destination',
+                        'doc': '<A.B.C.D> IPv4 address.'
+                    },
+                    {
+                        'name': 'count',
+                        'doc': 'Number of packets to send.'
+                    }
+                ],
+                'returns': True
+            },
+            {
+                'command': 'ping6 {destination} repetitions {count}',
+                'doc': 'Send IPv6 ping',
+                'arguments': [
+                    {
+                        'name': 'destination',
+                        'doc': '<X:X::X:X> IPv6 address.'
+                    },
+                    {
+                        'name': 'count',
+                        'doc': 'Number of packets to send.'
+                    }
+                ],
+                'returns': True
+            }
         ]
     }),
     ('configure', {

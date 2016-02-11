@@ -701,11 +701,91 @@ def parse_show_ip_bgp(raw_result):
     return result
 
 
+def parse_ping_repetitions(raw_result):
+    """
+    Parse the 'ping' command raw output.
+
+    :param str raw_result: ping raw result string.
+    :rtype: dict
+    :return: The parsed result of the ping command in a \
+        list of dictionaries of the form:
+
+     ::
+
+        {
+            'transmitted': 0,
+            'received': 0,
+            'errors': 0,
+            'packet_loss': 0
+        }
+    """
+
+    ping_re = (
+        r'^(?P<transmitted>\d+) packets transmitted, '
+        r'(?P<received>\d+) packets received,'
+        r'( \+(?P<errors>\d+) errors,)? '
+        r'(?P<packet_loss>\d+)% packet loss$'
+    )
+
+    result = {}
+    for line in raw_result.splitlines():
+        re_result = re.search(ping_re, line)
+        if re_result:
+            for key, value in re_result.groupdict().items():
+                if value is None:
+                    result[key] = 0
+                elif value.isdigit():
+                    result[key] = int(value)
+
+    return result
+
+
+def parse_ping6_repetitions(raw_result):
+    """
+    Parse the 'ping6' command raw output.
+
+    :param str raw_result: ping6 raw result string.
+    :rtype: dict
+    :return: The parsed result of the ping6 command in a \
+        list of dictionaries of the form:
+
+     ::
+
+        {
+            'transmitted': 0,
+            'received': 0,
+            'errors': 0,
+            'packet_loss': 0
+        }
+    """
+
+    ping_re = (
+        r'^(?P<transmitted>\d+) packets transmitted, '
+        r'(?P<received>\d+) packets received,'
+        r'( \+(?P<errors>\d+) errors,)? '
+        r'(?P<packet_loss>\d+)% packet loss$'
+    )
+
+    result = {}
+    for line in raw_result.splitlines():
+        re_result = re.search(ping_re, line)
+        if re_result:
+            for key, value in re_result.groupdict().items():
+                if value is None:
+                    result[key] = 0
+                elif value.isdigit():
+                    result[key] = int(value)
+
+    return result
+
+
 __all__ = [
     'parse_show_vlan', 'parse_show_lacp_aggregates',
     'parse_show_lacp_interface', 'parse_show_interface',
     'parse_show_lacp_configuration', 'parse_show_lldp_neighbor_info',
     'parse_show_lldp_statistics', 'parse_show_ip_bgp_summary',
     'parse_show_ip_bgp_neighbors', 'parse_show_ip_bgp',
-    'parse_show_udld_interface'
+    'parse_show_udld_interface', 'parse_ping_repetitions',
+    'parse_ping6_repetitions'
+
 ]

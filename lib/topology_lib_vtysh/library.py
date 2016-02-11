@@ -3770,6 +3770,56 @@ def clear_udld_statistics_interface(
     assert not result
 
 
+def ping_repetitions(
+        enode, destination, count):
+    """
+    Send IPv4 ping
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # ping {destination} repetitions {count}
+
+    :param destination: <A.B.C.D> IPv4 address.
+    :param count: Number of packets to send.
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_ping_repetitions`
+    """
+
+    cmd = (
+        'ping {destination} repetitions {count}'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_ping_repetitions(result)
+
+
+def ping6_repetitions(
+        enode, destination, count):
+    """
+    Send IPv6 ping
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # ping6 {destination} repetitions {count}
+
+    :param destination: <X:X::X:X> IPv6 address.
+    :param count: Number of packets to send.
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_ping6_repetitions`
+    """
+
+    cmd = (
+        'ping6 {destination} repetitions {count}'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_ping6_repetitions(result)
+
+
 __all__ = [
     'ContextManager',
     'Configure',
@@ -3792,5 +3842,7 @@ __all__ = [
     'show_ip_bgp',
     'show_udld_interface',
     'clear_udld_statistics',
-    'clear_udld_statistics_interface'
+    'clear_udld_statistics_interface',
+    'ping_repetitions',
+    'ping6_repetitions'
 ]
