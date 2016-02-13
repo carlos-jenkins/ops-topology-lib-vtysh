@@ -54,9 +54,16 @@ VTYSH_SPEC = OrderedDict([
                 'returns': True
             },
             {
-                'command': 'show vlan',
+                'command': 'show vlan {vlanid}',
                 'doc': 'Show VLAN configuration.',
-                'arguments': [],
+                'arguments': [
+                    {
+                        'name': 'vlanid',
+                        'doc': 'Vlan ID number.',
+                        'optional': True
+                    }
+
+                 ],
                 'returns': True
             },
             {
