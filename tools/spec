@@ -130,6 +130,12 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
                 'returns': True
             },
+            {
+                'command': 'show running-config',
+                'doc': 'Show running-config information.',
+                'arguments': [],
+                'returns': True
+            },
             # TODO: Add support for the show udld (shows all interfaces) cmd
             {
                 'command': 'show udld interface {port}',

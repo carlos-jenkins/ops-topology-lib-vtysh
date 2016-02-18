@@ -1032,6 +1032,69 @@ def parse_show_rib(raw_result):
     return result
 
 
+def parse_show_running_config(raw_result):
+    """
+    Parse the 'show running-config' command raw output.
+    This parser currently returns only BGP section of the show-running
+    command, please review the doc/developer.rst file to get more information
+    on adding new sections.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show vlan command in a
+              dictionary of the form:
+
+     ::
+
+         {
+            'bgp':
+                {'64001':
+                    {'networks': ['10.240.1.2/32',
+                                '10.240.10.2/32',
+                                '10.240.9.2/32'],
+                    'router_id': '2.0.0.1'},
+                '64002':
+                    {'networks': ['11.240.1.2/32',
+                                '11.240.10.2/32',
+                                '11.240.9.2/32'],
+                    'router_id': '3.0.0.1'}
+                }
+        }
+    """
+
+    result = {}
+
+    # Only the bgp section is captured
+    bgp_section_re = r'router bgp.*(?=!)'
+    re_bgp_section = re.findall(bgp_section_re, raw_result, re.DOTALL)
+    as_number_re = r'router bgp\s+(\d+)'
+    router_id_re = r'\s+bgp router-id\s+(.*)'
+    network_re = r'\s+network\s+(.*)'
+    re_as_number = None
+    result['bgp'] = {}
+    if re_bgp_section:
+        for line in re_bgp_section[0].splitlines():
+            re_result = re.match(as_number_re, line)
+            if re_result:
+                re_as_number = re_result.group(1)
+                result['bgp'][re_as_number] = {}
+
+            re_result = re.match(router_id_re, line)
+            if re_result:
+                result['bgp'][re_as_number]['router_id'] = re_result.group(1)
+
+            re_result = re.match(network_re, line)
+            if re_result:
+                network = re_result.group(1)
+                if 'networks' not in result['bgp'][re_as_number].keys():
+                    result['bgp'][re_as_number]['networks'] = []
+                    result['bgp'][re_as_number]['networks'].append(network)
+                else:
+                    result['bgp'][re_as_number]['networks'].append(network)
+
+    return result
+
+
 __all__ = [
     'parse_show_vlan', 'parse_show_lacp_aggregates',
     'parse_show_lacp_interface', 'parse_show_interface',
@@ -1039,6 +1102,6 @@ __all__ = [
     'parse_show_lldp_statistics', 'parse_show_ip_bgp_summary',
     'parse_show_ip_bgp_neighbors', 'parse_show_ip_bgp',
     'parse_show_udld_interface', 'parse_ping_repetitions',
-    'parse_ping6_repetitions', 'parse_show_rib'
-
+    'parse_ping6_repetitions', 'parse_show_rib',
+    'parse_show_running_config'
 ]

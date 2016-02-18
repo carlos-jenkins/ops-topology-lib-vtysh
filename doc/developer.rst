@@ -140,3 +140,17 @@ In that case, there must exist only one library function where its
 documentation clearly explains the multiple types of parameters that it may
 receive. You can find an example in the documentation for
 :func:`topology_lib_vtysh.library.Configure.ip_route`.
+
+
+About show-running function
+...........................
+The code currently is parsing only the BGP section. If an additional
+section requires parsing, a new index should be added to the result
+dictionary, i.e.: if vlan section parsing is to be implemented then:
+1- A regex to capture only the required (vlan) section must be defined
+2- An entry to the result dictionary with vlan index should be added:
+result['vlan'] = {}
+3- Any vlan related data that is parsed should be added to the vlan section
+i.e.: result['vlan']['vlanList'] = code_that_gets_vlan_list
+4- Follow the same order that the show-running output is displayed to keep
+consistency and readability.

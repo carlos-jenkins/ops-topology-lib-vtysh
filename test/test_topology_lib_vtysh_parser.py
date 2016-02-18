@@ -35,7 +35,8 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_ip_bgp,
                                        parse_show_rib,
                                        parse_ping_repetitions,
-                                       parse_ping6_repetitions
+                                       parse_ping6_repetitions,
+                                       parse_show_running_config
                                        )
 
 
@@ -834,6 +835,40 @@ Displaying ipv6 rib entries
                 ]
             }
         ]
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_running_config():
+    raw_result = """\
+    Current configuration:
+!
+!
+!
+router bgp 64001
+     bgp router-id 2.0.0.1
+     network 10.240.0.2/32
+     network 10.240.1.2/32
+     network 10.240.2.2/32
+     network 10.240.3.2/32
+     network 10.240.4.2/32
+!
+"""
+
+    result = parse_show_running_config(raw_result)
+
+    expected = {
+        'bgp':
+            {'64001':
+                {'networks': ['10.240.0.2/32',
+                              '10.240.1.2/32',
+                              '10.240.2.2/32',
+                              '10.240.3.2/32',
+                              '10.240.4.2/32'],
+                 'router_id': '2.0.0.1'}
+             }
     }
 
     ddiff = DeepDiff(result, expected)
