@@ -1095,6 +1095,113 @@ def parse_show_running_config(raw_result):
     return result
 
 
+def parse_show_ip_route(raw_result):
+    """
+    Parse the 'show ip route' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: list
+    :return: The parsed result of the show ip route command in a \
+        list of dictionaries of the form:
+
+     ::
+
+        [
+            {
+                'id': '140.0.0.0',
+                'prefix': '30',
+                'next_hops': [
+                    {
+                        'via': '10.10.0.2',
+                        'distance': '20',
+                        'from': 'bgp',
+                        'metric': '0'
+                    }
+                ]
+            },
+            {
+                'id': '10.10.0.0',
+                'prefix': '24',
+                'next_hops': [
+                    {
+                        'via': '1',
+                        'distance': '0',
+                        'from': 'connected',
+                        'metric': '0'
+                    }
+                ]
+            },
+            {
+                'id': '193.0.0.2',
+                'prefix': '32',
+                'next_hops': [
+                    {
+                        'via': '50.0.0.2',
+                        'distance': '1',
+                        'from': 'static',
+                        'metric': '0'
+                    },
+                    {
+                        'via': '56.0.0.3',
+                        'distance': '1',
+                        'from': 'static',
+                        'metric': '0'
+                    }
+                ]
+            }
+        ]
+    """
+
+    ipv4_network_re = (
+        r'(?P<network>\d+\.\d+\.\d+\.\d+)/(?P<prefix>\d+)'
+    )
+
+    ipv4_nexthop_re = (
+        r'via\s+(?P<via>(?:\d+\.\d+\.\d+\.\d+|\d+)),\s+'
+        r'\[(?P<distance>\d+)/(?P<metric>\d+)\],\s+(?P<from>\S+)'
+    )
+
+    result = []
+
+    lines = raw_result.splitlines()
+    line_index = 0
+
+    while line_index < len(lines):
+        re_result = re.search(ipv4_network_re, lines[line_index])
+
+        if re_result:
+            network = {}
+            partial = re_result.groupdict()
+
+            network['id'] = partial['network']
+            network['prefix'] = partial['prefix']
+
+            network['next_hops'] = []
+            check_for_next_hops = True
+
+            line_index += 1
+
+            while (check_for_next_hops and line_index < len(lines)):
+                re_result = re.search(
+                    ipv4_nexthop_re,
+                    lines[line_index]
+                    )
+
+                if re_result:
+                    partial = re_result.groupdict()
+
+                    network['next_hops'].append(partial)
+                    line_index += 1
+                else:
+                    check_for_next_hops = False
+
+            result.append(network)
+        else:
+            line_index += 1
+
+    return result
+
+
 __all__ = [
     'parse_show_vlan', 'parse_show_lacp_aggregates',
     'parse_show_lacp_interface', 'parse_show_interface',
@@ -1103,5 +1210,5 @@ __all__ = [
     'parse_show_ip_bgp_neighbors', 'parse_show_ip_bgp',
     'parse_show_udld_interface', 'parse_ping_repetitions',
     'parse_ping6_repetitions', 'parse_show_rib',
-    'parse_show_running_config'
+    'parse_show_running_config', 'parse_show_ip_route'
 ]

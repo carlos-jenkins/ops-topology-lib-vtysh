@@ -33,6 +33,7 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_ip_bgp_summary,
                                        parse_show_ip_bgp_neighbors,
                                        parse_show_ip_bgp,
+                                       parse_show_ip_route,
                                        parse_show_rib,
                                        parse_ping_repetitions,
                                        parse_ping6_repetitions,
@@ -870,6 +871,86 @@ router bgp 64001
                  'router_id': '2.0.0.1'}
              }
     }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ip_route():
+    raw_result = """
+Displaying ipv4 routes selected for forwarding
+
+'[x/y]' denotes [distance/metric]
+
+140.0.0.0/30,  1 unicast next-hops
+    via  10.10.0.2,  [20/0],  bgp
+140.0.0.4/30,  1 unicast next-hops
+    via  10.10.0.2,  [20/0],  bgp
+10.10.0.0/24,  1 unicast next-hops
+    via  1,  [0/0],  connected
+193.0.0.2/32,  2 unicast next-hops
+    via  50.0.0.2,  [1/0],  static
+    via  56.0.0.3,  [1/0],  static
+    """
+
+    result = parse_show_ip_route(raw_result)
+
+    expected = [
+        {
+            'id': '140.0.0.0',
+            'prefix': '30',
+            'next_hops': [
+                {
+                    'via': '10.10.0.2',
+                    'distance': '20',
+                    'from': 'bgp',
+                    'metric': '0'
+                }
+            ]
+        },
+        {
+            'id': '140.0.0.4',
+            'prefix': '30',
+            'next_hops': [
+                {
+                    'via': '10.10.0.2',
+                    'distance': '20',
+                    'from': 'bgp',
+                    'metric': '0'
+                }
+            ]
+        },
+        {
+            'id': '10.10.0.0',
+            'prefix': '24',
+            'next_hops': [
+                {
+                    'via': '1',
+                    'distance': '0',
+                    'from': 'connected',
+                    'metric': '0'
+                }
+            ]
+        },
+        {
+            'id': '193.0.0.2',
+            'prefix': '32',
+            'next_hops': [
+                {
+                    'via': '50.0.0.2',
+                    'distance': '1',
+                    'from': 'static',
+                    'metric': '0'
+                },
+                {
+                    'via': '56.0.0.3',
+                    'distance': '1',
+                    'from': 'static',
+                    'metric': '0'
+                }
+            ]
+        }
+    ]
 
     ddiff = DeepDiff(result, expected)
     assert not ddiff
