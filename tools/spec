@@ -136,6 +136,12 @@ VTYSH_SPEC = OrderedDict([
                 'returns': True
             },
             {
+                'command': 'show rib',
+                'doc': 'Show Routing Information Base.',
+                'arguments': [],
+                'returns': True
+            },
+            {
                 'command': 'clear udld statistics',
                 'doc': 'Clear UDLD statistics from all interfaces.',
                 'arguments': [],

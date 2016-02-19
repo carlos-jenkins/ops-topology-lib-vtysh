@@ -779,6 +779,259 @@ def parse_ping6_repetitions(raw_result):
     return result
 
 
+def parse_show_rib(raw_result):
+    """
+    Parse the 'show rib' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show rib command in a \
+        dictionary of the form:
+
+     ::
+
+        {
+            'ipv4_entries': [
+                {
+                    'id': '140.0.0.0',
+                    'prefix': '30',
+                    'selected': True,
+                    'next_hops': [
+                        {
+                            'selected': True,
+                            'via': '10.10.0.2',
+                            'distance': '20',
+                            'from': 'BGP',
+                            'metric': '0'
+                        }
+                    ]
+                },
+                {
+                    'id': '193.0.0.2',
+                    'prefix': '32',
+                    'selected': True,
+                    'next_hops': [
+                        {
+                            'selected': True,
+                            'via': '50.0.0.2',
+                            'distance': '1',
+                            'from': 'static',
+                            'metric': '0'
+                        },
+                        {
+                            'selected': True,
+                            'via': '56.0.0.3',
+                            'distance': '1',
+                            'from': 'static',
+                            'metric': '0'
+                        }
+                    ]
+                },
+                {
+                    'id': '10.10.0.0',
+                    'prefix': '24',
+                    'selected': True,
+                    'next_hops': [
+                        {
+                            'selected': True,
+                            'via': '1',
+                            'distance': '0',
+                            'from': 'connected',
+                            'metric': '0'
+                        }
+                    ]
+                }
+            ],
+            'ipv6_entries': [
+                {
+                    'id': '2002::/64',
+                    'selected': True,
+                    'next_hops': [
+                        {
+                            'selected': True,
+                            'via': '4',
+                            'distance': '0',
+                            'from': 'connected',
+                            'metric': '0'
+                        }
+                    ]
+                },
+                {
+                    'id': '2010:bd9::/32',
+                    'selected': True,
+                    'next_hops': [
+                        {
+                            'selected': True,
+                            'via': '2005::2',
+                            'distance': '1',
+                            'from': 'static',
+                            'metric': '0'
+                        },
+                        {
+                            'selected': True,
+                            'via': '2001::2',
+                            'distance': '1',
+                            'from': 'static',
+                            'metric': '0'
+                        },
+                        {
+                            'selected': False,
+                            'via': '2002::2',
+                            'distance': '1',
+                            'from': 'static',
+                            'metric': '0'
+                        }
+                    ]
+                }
+            ]
+        }
+    """
+
+    ipv4_entries_re = (
+        r'ipv4 rib entries'
+    )
+
+    ipv6_entries_re = (
+        r'ipv6 rib entries'
+    )
+
+    ipv4_network_re = (
+        r'(?P<selected>\*?)(?P<network>\d+\.\d+\.\d+\.\d+)/(?P<prefix>\d+)'
+    )
+
+    ipv6_network_re = (
+        r'(?P<selected>\*?)'
+        r'(?P<network>(?:(?:(?:[0-9A-Za-z]+:)+:?([0-9A-Za-z]+)?)+)/\d+)'
+    )
+
+    ipv4_nexthop_re = (
+        r'(?P<selected>\*?)via\s+(?P<via>(?:\d+\.\d+\.\d+\.\d+|\d+)),\s+'
+        r'\[(?P<distance>\d+)/(?P<metric>\d+)\],\s+(?P<from>\S+)'
+    )
+
+    ipv6_nexthop_re = (
+        r'(?P<selected>\*?)'
+        r'via\s+(?P<via>(?:(?:(?:[0-9A-Za-z]+:)+:?([0-9A-Za-z]+)?)+|\d+)),\s+'
+        r'\[(?P<distance>\d+)/(?P<metric>\d+)\],\s+(?P<from>\S+)'
+    )
+
+    result = {}
+    result['ipv4_entries'] = []
+    result['ipv6_entries'] = []
+
+    lines = raw_result.splitlines()
+    line_index = 0
+
+    while line_index < len(lines):
+        if re.search(ipv4_entries_re, lines[line_index]):
+
+            check_for_ipv4_entries = False
+
+            while (not check_for_ipv4_entries and line_index < len(lines)):
+                if re.search(ipv4_network_re, lines[line_index]):
+                    check_for_ipv4_entries = True
+                else:
+                    line_index += 1
+
+            while (check_for_ipv4_entries and line_index < len(lines)):
+                re_result = re.search(ipv4_network_re, lines[line_index])
+
+                if re_result:
+                    network = {}
+                    partial = re_result.groupdict()
+
+                    if partial['selected'] == '*':
+                        network['selected'] = True
+                    else:
+                        network['selected'] = False
+
+                    network['id'] = partial['network']
+                    network['prefix'] = partial['prefix']
+
+                    network['next_hops'] = []
+                    check_for_next_hops = True
+
+                    line_index += 1
+
+                    while (check_for_next_hops and line_index < len(lines)):
+                        re_result = re.search(
+                            ipv4_nexthop_re,
+                            lines[line_index]
+                            )
+
+                        if re_result:
+                            partial = re_result.groupdict()
+
+                            if partial['selected'] == '*':
+                                partial['selected'] = True
+                            else:
+                                partial['selected'] = False
+
+                            network['next_hops'].append(partial)
+                            line_index += 1
+                        else:
+                            check_for_next_hops = False
+
+                    result['ipv4_entries'].append(network)
+                else:
+                    check_for_ipv4_entries = False
+
+        if re.search(ipv6_entries_re, lines[line_index]):
+            check_for_ipv6_entries = False
+
+            while (not check_for_ipv6_entries and line_index < len(lines)):
+                if re.search(ipv6_network_re, lines[line_index]):
+                    check_for_ipv6_entries = True
+                else:
+                    line_index += 1
+
+            while (check_for_ipv6_entries and line_index < len(lines)):
+                re_result = re.search(ipv6_network_re, lines[line_index])
+
+                if re_result:
+                    network = {}
+                    partial = re_result.groupdict()
+
+                    if partial['selected'] == '*':
+                        network['selected'] = True
+                    else:
+                        network['selected'] = False
+
+                    network['id'] = partial['network']
+
+                    network['next_hops'] = []
+                    check_for_next_hops = True
+
+                    line_index += 1
+
+                    while (check_for_next_hops and line_index < len(lines)):
+                        re_result = re.search(
+                            ipv6_nexthop_re,
+                            lines[line_index]
+                            )
+
+                        if re_result:
+                            partial = re_result.groupdict()
+
+                            if partial['selected'] == '*':
+                                partial['selected'] = True
+                            else:
+                                partial['selected'] = False
+
+                            network['next_hops'].append(partial)
+                            line_index += 1
+                        else:
+                            check_for_next_hops = False
+
+                    result['ipv6_entries'].append(network)
+                else:
+                    check_for_ipv6_entries = False
+
+        line_index += 1
+
+    return result
+
+
 __all__ = [
     'parse_show_vlan', 'parse_show_lacp_aggregates',
     'parse_show_lacp_interface', 'parse_show_interface',
@@ -786,6 +1039,6 @@ __all__ = [
     'parse_show_lldp_statistics', 'parse_show_ip_bgp_summary',
     'parse_show_ip_bgp_neighbors', 'parse_show_ip_bgp',
     'parse_show_udld_interface', 'parse_ping_repetitions',
-    'parse_ping6_repetitions'
+    'parse_ping6_repetitions', 'parse_show_rib'
 
 ]

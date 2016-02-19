@@ -3726,6 +3726,29 @@ def show_udld_interface(
     return parse_show_udld_interface(result)
 
 
+def show_rib(
+        enode):
+    """
+    Show Routing Information Base.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show rib
+
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_rib`
+    """
+
+    cmd = (
+        'show rib'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_rib(result)
+
+
 def clear_udld_statistics(
         enode):
     """
@@ -3841,6 +3864,7 @@ __all__ = [
     'show_ip_bgp_neighbors',
     'show_ip_bgp',
     'show_udld_interface',
+    'show_rib',
     'clear_udld_statistics',
     'clear_udld_statistics_interface',
     'ping_repetitions',
