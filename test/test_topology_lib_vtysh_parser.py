@@ -37,7 +37,8 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_rib,
                                        parse_ping_repetitions,
                                        parse_ping6_repetitions,
-                                       parse_show_running_config
+                                       parse_show_running_config,
+                                       parse_show_ip_ecmp
                                        )
 
 
@@ -870,6 +871,36 @@ router bgp 64001
                               '10.240.4.2/32'],
                  'router_id': '2.0.0.1'}
              }
+        }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ip_ecmp():
+    raw_result = """\
+ECMP Configuration
+---------------------
+
+ECMP Status        : Enabled
+Resilient Hashing  : Disabled
+
+ECMP Load Balancing by
+------------------------
+Source IP          : Enabled
+Destination IP     : Disabled
+Source Port        : Enabled
+Destination Port   : Disabled
+"""
+    result = parse_show_ip_ecmp(raw_result)
+
+    expected = {
+        'global_status': True,
+        'resilient': False,
+        'src_ip': True,
+        'dest_ip': False,
+        'src_port': True,
+        'dest_port': False
     }
 
     ddiff = DeepDiff(result, expected)

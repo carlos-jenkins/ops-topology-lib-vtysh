@@ -161,6 +161,12 @@ VTYSH_SPEC = OrderedDict([
                 'returns': True
             },
             {
+                'command': 'show ip ecmp',
+                'doc': 'Show ECMP Configuration',
+                'arguments': [],
+                'returns': True
+            },
+            {
                 'command': 'clear udld statistics',
                 'doc': 'Clear UDLD statistics from all interfaces.',
                 'arguments': [],
@@ -541,6 +547,66 @@ VTYSH_SPEC = OrderedDict([
                         'doc': 'Autonomous System Number.',
                     }
                 ],
+            },
+            {
+                'command': 'ip ecmp disable',
+                'doc': 'Completely disable ECMP',
+                'arguments': [],
+            },
+            {
+                'command': 'no ip ecmp disable',
+                'doc': 'Completely disable ECMP',
+                'arguments': [],
+            },
+            {
+                'command': 'ip ecmp load-balance dst-ip disable',
+                'doc': 'Disable load balancing by destination IP',
+                'arguments': [],
+            },
+            {
+                'command': 'no ip ecmp load-balance dst-ip disable',
+                'doc': 'Disable load balancing by destination IP',
+                'arguments': [],
+            },
+            {
+                'command': 'ip ecmp load-balance dst-port disable',
+                'doc': 'Disable load balancing by destination port',
+                'arguments': [],
+            },
+            {
+                'command': 'no ip ecmp load-balance dst-port disable',
+                'doc': 'Disable load balancing by destination port',
+                'arguments': [],
+            },
+            {
+                'command': 'ip ecmp load-balance src-port disable',
+                'doc': 'Disable load balancing by source port',
+                'arguments': [],
+            },
+            {
+                'command': 'no ip ecmp load-balance src-port disable',
+                'doc': 'Disable load balancing by source port',
+                'arguments': [],
+            },
+            {
+                'command': 'ip ecmp load-balance src-ip disable',
+                'doc': 'Disable load balancing by source IP',
+                'arguments': [],
+            },
+            {
+                'command': 'no ip ecmp load-balance src-ip disable',
+                'doc': 'Disable load balancing by source IP',
+                'arguments': [],
+            },
+            {
+                'command': 'ip ecmp load-balance resilient disable',
+                'doc': 'Disable resilient hashing for load balancing',
+                'arguments': [],
+            },
+            {
+                'command': 'no ip ecmp load-balance resilient disable',
+                'doc': 'Disable resilient hashing for load balancing',
+                'arguments': [],
             },
         ]
     }),

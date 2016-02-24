@@ -1202,6 +1202,51 @@ def parse_show_ip_route(raw_result):
     return result
 
 
+def parse_show_ip_ecmp(raw_result):
+    """
+    Parse the 'show ip ecmp' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show ip ecmp in a \
+        dictionary of the form:
+
+    ::
+
+        {
+            'global_status': True,
+            'resilient': False,
+            'src_ip': True,
+            'dest_ip': True,
+            'src_port': True,
+            'dest_port': True
+        }
+    """
+
+    show_ip_ecmp_re = (
+        r'\s*ECMP Configuration\s*-*\s*'
+        r'ECMP Status\s*: (?P<global_status>\S+)\s*'
+        r'(Resilient Hashing\s*: (?P<resilient>\S+))?\s*'
+        r'ECMP Load Balancing by\s*-*\s*'
+        r'Source IP\s*: (?P<src_ip>\S+)\s*'
+        r'Destination IP\s*: (?P<dest_ip>\S+)\s*'
+        r'Source Port\s*: (?P<src_port>\S+)\s*'
+        r'Destination Port\s*: (?P<dest_port>\S+)\s*'
+    )
+
+    re_result = re.match(show_ip_ecmp_re, raw_result)
+    assert re_result
+
+    result = re_result.groupdict()
+    for key, value in result.items():
+        if value is not None:
+            if value == 'Enabled':
+                result[key] = True
+            elif value == 'Disabled':
+                result[key] = False
+
+    return result
+
 __all__ = [
     'parse_show_vlan', 'parse_show_lacp_aggregates',
     'parse_show_lacp_interface', 'parse_show_interface',
@@ -1210,5 +1255,6 @@ __all__ = [
     'parse_show_ip_bgp_neighbors', 'parse_show_ip_bgp',
     'parse_show_udld_interface', 'parse_ping_repetitions',
     'parse_ping6_repetitions', 'parse_show_rib',
-    'parse_show_running_config', 'parse_show_ip_route'
+    'parse_show_running_config', 'parse_show_ip_route', 'parse_show_ip_ecmp'
+
 ]

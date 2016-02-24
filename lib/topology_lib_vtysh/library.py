@@ -617,6 +617,246 @@ class Configure(ContextManager):
 
         assert not result
 
+    def ip_ecmp_disable(
+            self):
+        """
+        Completely disable ECMP
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ip ecmp disable
+
+        """
+
+        cmd = (
+            'ip ecmp disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ip_ecmp_disable(
+            self):
+        """
+        Completely disable ECMP
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ip ecmp disable
+
+        """
+
+        cmd = (
+            'no ip ecmp disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ip_ecmp_load_balance_dst_ip_disable(
+            self):
+        """
+        Disable load balancing by destination IP
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ip ecmp load-balance dst-ip disable
+
+        """
+
+        cmd = (
+            'ip ecmp load-balance dst-ip disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ip_ecmp_load_balance_dst_ip_disable(
+            self):
+        """
+        Disable load balancing by destination IP
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ip ecmp load-balance dst-ip disable
+
+        """
+
+        cmd = (
+            'no ip ecmp load-balance dst-ip disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ip_ecmp_load_balance_dst_port_disable(
+            self):
+        """
+        Disable load balancing by destination port
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ip ecmp load-balance dst-port disable
+
+        """
+
+        cmd = (
+            'ip ecmp load-balance dst-port disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ip_ecmp_load_balance_dst_port_disable(
+            self):
+        """
+        Disable load balancing by destination port
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ip ecmp load-balance dst-port disable
+
+        """
+
+        cmd = (
+            'no ip ecmp load-balance dst-port disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ip_ecmp_load_balance_src_port_disable(
+            self):
+        """
+        Disable load balancing by source port
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ip ecmp load-balance src-port disable
+
+        """
+
+        cmd = (
+            'ip ecmp load-balance src-port disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ip_ecmp_load_balance_src_port_disable(
+            self):
+        """
+        Disable load balancing by source port
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ip ecmp load-balance src-port disable
+
+        """
+
+        cmd = (
+            'no ip ecmp load-balance src-port disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ip_ecmp_load_balance_src_ip_disable(
+            self):
+        """
+        Disable load balancing by source IP
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ip ecmp load-balance src-ip disable
+
+        """
+
+        cmd = (
+            'ip ecmp load-balance src-ip disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ip_ecmp_load_balance_src_ip_disable(
+            self):
+        """
+        Disable load balancing by source IP
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ip ecmp load-balance src-ip disable
+
+        """
+
+        cmd = (
+            'no ip ecmp load-balance src-ip disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ip_ecmp_load_balance_resilient_disable(
+            self):
+        """
+        Disable resilient hashing for load balancing
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ip ecmp load-balance resilient disable
+
+        """
+
+        cmd = (
+            'ip ecmp load-balance resilient disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ip_ecmp_load_balance_resilient_disable(
+            self):
+        """
+        Disable resilient hashing for load balancing
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ip ecmp load-balance resilient disable
+
+        """
+
+        cmd = (
+            'no ip ecmp load-balance resilient disable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
 
 class RouteMap(ContextManager):
     """
@@ -3837,6 +4077,25 @@ def show_rib(
     return parse_show_rib(result)
 
 
+def show_ip_ecmp(
+        enode):
+    """
+    ECMP Configuration
+
+        # show ip ecmp
+
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_ip_ecmp`
+    """
+
+    cmd = (
+        'show ip ecmp'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_ip_ecmp(result)
+
+
 def clear_udld_statistics(
         enode):
     """
@@ -3955,6 +4214,7 @@ __all__ = [
     'show_ip_route',
     'show_udld_interface',
     'show_rib',
+    'show_ip_ecmp',
     'clear_udld_statistics',
     'clear_udld_statistics_interface',
     'ping_repetitions',
