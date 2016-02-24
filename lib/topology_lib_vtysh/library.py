@@ -2739,6 +2739,47 @@ class ConfigRouterBgp(ContextManager):
 
         assert not result
 
+    def bgp_fast_external_failover(
+            self):
+        """
+        Immediately reset session if a link to a directly connected external
+        peer goes down
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # bgp fast-external-failover
+
+        """
+
+        cmd = (
+            'bgp fast-external-failover'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_bgp_fast_external_failover(
+            self):
+        """
+        Disables BGP fast external failover
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no bgp fast-external-failover
+
+        """
+
+        cmd = (
+            'no bgp fast-external-failover'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
     def network(
             self, network):
         """

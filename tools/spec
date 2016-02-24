@@ -1380,6 +1380,17 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
+                'command': 'bgp fast-external-failover',
+                'doc': 'Immediately reset session if a link to '
+                       'a directly connected external peer goes down',
+                'arguments': [],
+            },
+            {
+                'command': 'no bgp fast-external-failover',
+                'doc': 'Disables BGP fast external failover',
+                'arguments': [],
+            },
+            {
                 'command': 'network {network}',
                 'doc': 'Adds the announcement network for BGP',
                 'arguments': [
