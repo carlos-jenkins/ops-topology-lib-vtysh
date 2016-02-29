@@ -510,13 +510,13 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'feature lldp',
-                'doc': 'Configure LLDP parameters.',
+                'command': 'lldp enable',
+                'doc': 'Enable LLDP globally.',
                 'arguments': [],
             },
             {
-                'command': 'no feature lldp',
-                'doc': 'Un-configure LLDP parameters.',
+                'command': 'no lldp enable',
+                'doc': 'Disable LLDP globally.',
                 'arguments': [],
             },
             {

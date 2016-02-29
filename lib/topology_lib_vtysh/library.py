@@ -372,41 +372,41 @@ class Configure(ContextManager):
 
         assert not result
 
-    def feature_lldp(
+    def lldp_enable(
             self):
         """
-        Configure LLDP parameters.
+        Enable LLDP globally.
 
         This function runs the following vtysh command:
 
         ::
 
-            # feature lldp
+            # lldp enable
 
         """
 
         cmd = (
-            'feature lldp'
+            'lldp enable'
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         assert not result
 
-    def no_feature_lldp(
+    def no_lldp_enable(
             self):
         """
-        Un-configure LLDP parameters.
+        Disable LLDP globally.
 
         This function runs the following vtysh command:
 
         ::
 
-            # no feature lldp
+            # no lldp enable
 
         """
 
         cmd = (
-            'no feature lldp'
+            'no lldp enable'
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
