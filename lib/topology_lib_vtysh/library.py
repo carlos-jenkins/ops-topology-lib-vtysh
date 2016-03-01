@@ -2108,6 +2108,136 @@ class ConfigInterfaceVlan(ContextManager):
         assert not result
 
 
+class ConfigInterfaceLoopback(ContextManager):
+    """
+    Loopback interface configuration.
+
+    pre_commands:
+
+    ::
+
+            ['config terminal', 'interface loopback {loopback_id}']
+
+    post_commands:
+
+    ::
+
+            ['end']
+    """
+    def __init__(self, enode, loopback_id):
+        self.enode = enode
+        self.loopback_id = loopback_id
+
+    def __enter__(self):
+        commands = """\
+            config terminal
+            interface loopback {loopback_id}
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+        return self
+
+    def __exit__(self, type, value, traceback):
+        commands = """\
+            end
+        """
+
+        self.enode.libs.common.assert_batch(
+            commands,
+            replace=self.__dict__,
+            shell='vtysh'
+        )
+
+    def ip_address(
+            self, ipv4):
+        """
+        Set IPv4 address for loopback
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ip address {ipv4}
+
+        :param ipv4: A.B.C.D/M Loopback IP address.
+        """
+
+        cmd = (
+            'ip address {ipv4}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ip_address(
+            self, ipv4):
+        """
+        Unset IPv4 address for loopback
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ip address {ipv4}
+
+        :param ipv4: A.B.C.D/M Loopback IP address.
+        """
+
+        cmd = (
+            'no ip address {ipv4}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ipv6_address(
+            self, ipv6):
+        """
+        Set IPv6 address on Loopback
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ipv6 address {ipv6}
+
+        :param ipv6: X:X::X:X/M  Loopback IPv6 address
+        """
+
+        cmd = (
+            'ipv6 address {ipv6}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ipv6_address(
+            self, ipv6):
+        """
+        Unset IPv6 address on loopback interface
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ipv6 address {ipv6}
+
+        :param ipv6: X:X::X:X/M  Loopback IPv6 address
+        """
+
+        cmd = (
+            'no ipv6 address {ipv6}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+
 class ConfigInterfaceLag(ContextManager):
     """
     Configure link-aggregation parameters.
@@ -4323,6 +4453,7 @@ __all__ = [
     'RouteMap',
     'ConfigInterface',
     'ConfigInterfaceVlan',
+    'ConfigInterfaceLoopback',
     'ConfigInterfaceLag',
     'ConfigInterfaceMgmt',
     'ConfigRouterBgp',

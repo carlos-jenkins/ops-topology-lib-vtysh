@@ -63,7 +63,7 @@ VTYSH_SPEC = OrderedDict([
                         'optional': True
                     }
 
-                 ],
+                ],
                 'returns': True
             },
             {
@@ -1184,6 +1184,61 @@ VTYSH_SPEC = OrderedDict([
             },
         ]
     }),
+    ('config_interface_loopback', {
+        'doc': 'Loopback interface configuration.',
+        'arguments': [
+            {
+                'name': 'loopback_id',
+                'doc': 'Loopback  id within  range <1-2147483647> '
+            }
+        ],
+        'pre_commands':
+     ['config terminal', 'interface loopback {loopback_id}'],
+        'post_commands': ['end'],
+        'commands': [
+            {
+                'command': 'ip address {ipv4}',
+                'doc': 'Set IPv4 address for loopback',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Loopback IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'no ip address {ipv4}',
+                'doc': 'Unset IPv4 address for loopback',
+                'arguments': [
+                    {
+                        'name': 'ipv4',
+                        'doc': 'A.B.C.D/M Loopback IP address.',
+                    },
+                ],
+            },
+            {
+                'command': 'ipv6 address {ipv6}',
+                'doc': 'Set IPv6 address on Loopback',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Loopback IPv6 address',
+                    },
+                ],
+            },
+            {
+                'command': 'no ipv6 address {ipv6}',
+                'doc': 'Unset IPv6 address on loopback interface',
+                'arguments': [
+                    {
+                        'name': 'ipv6',
+                        'doc': 'X:X::X:X/M  Loopback IPv6 address',
+                    },
+                ],
+            },
+        ]
+     }),
+
     ('config_interface_lag', {
         'doc': 'Configure link-aggregation parameters.',
         'arguments': [
