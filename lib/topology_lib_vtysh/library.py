@@ -229,6 +229,57 @@ class Configure(ContextManager):
 
         assert not result
 
+    def ipv6_prefix_list_seq(
+            self, prefix_name, seq, permission, network):
+        """
+        Configure IPv6 prefix-based filtering
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ipv6 prefix-list {prefix_name} seq {seq} {permission} {network}
+
+        :param prefix_name: WORD  The IP prefix-list name
+        :param seq: <1-4294967295>  Sequence number
+        :param permission: deny    Specify packets to rejectpermit  Specify
+            packets to forward
+        :param network: X:X::X:X/M IPv6 prefix
+        """
+
+        cmd = (
+            'ipv6 prefix-list {prefix_name} seq {seq} {permission} {network}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ipv6_prefix_list_seq(
+            self, prefix_name, seq, permission, network):
+        """
+        Deletes the IPv6 prefix-list
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ipv6 prefix-list {prefix_name} seq {seq} {permission} {network}  # noqa
+
+        :param prefix_name: WORD  The IP prefix-list name
+        :param seq: <1-4294967295>  Sequence number
+        :param permission: deny    Specify packets to rejectpermit  Specify
+            packets to forward
+        :param network: X:X::X:X/M IPv6 prefix
+        """
+
+        cmd = (
+            'no ipv6 prefix-list {prefix_name} seq {seq} {permission} '
+            '{network}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
     def no_route_map(
             self, routemap_name, permission, seq):
         """
@@ -3257,6 +3308,55 @@ class ConfigRouterBgp(ContextManager):
 
         assert not result
 
+    def neighbor_prefix_list(
+            self, peer, prefix_name, filter_direction=''):
+        """
+        Applies a prefix-list to the neighbor to filter updates to and from the
+        neighbor
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # neighbor {peer} prefix-list {prefix_name} {filter_direction}
+
+        :param peer: <A.B.C.D|X:X::X:X|WORD> peer IPv4/IPv6 address or
+            neighbor tag
+        :param prefix_name: <WORD> The name of a prefix list
+        :param filter_direction: <in|out> Filters incoming/outgoing routes
+        """
+
+        cmd = (
+            'neighbor {peer} prefix-list {prefix_name} {filter_direction}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_neighbor_prefix_list(
+            self, peer, prefix_name, filter_direction=''):
+        """
+        Remove a prefix-list filter from the neighbor
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no neighbor {peer} prefix-list {prefix_name} {filter_direction}
+
+        :param peer: <A.B.C.D|X:X::X:X|WORD> peer IPv4/IPv6 address or
+            neighbor tag
+        :param prefix_name: <WORD> The name of a prefix list
+        :param filter_direction: <in|out> Filters incoming/outgoing routes
+        """
+
+        cmd = (
+            'no neighbor {peer} prefix-list {prefix_name} {filter_direction}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
     def neighbor_description(
             self, ip, text):
         """
@@ -4080,7 +4180,11 @@ def show_rib(
 def show_ip_ecmp(
         enode):
     """
-    ECMP Configuration
+    Show ECMP Configuration
+
+    This function runs the following vtysh command:
+
+    ::
 
         # show ip ecmp
 

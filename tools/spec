@@ -342,6 +342,66 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
+                'command': (
+                    'ipv6 prefix-list {prefix_name} seq {seq}'
+                    ' {permission} {network}'
+                ),
+                'doc': 'Configure IPv6 prefix-based filtering',
+                'arguments': [
+                    {
+                        'name': 'prefix_name',
+                        'doc': 'WORD  The IP prefix-list name',
+                    },
+                    {
+                        'name': 'seq',
+                        'doc': '<1-4294967295>  Sequence number',
+                    },
+                    {
+                        'name': 'permission',
+                        'doc': (
+                            'deny    Specify packets to reject'
+                            'permit  Specify packets to forward'
+                        ),
+                    },
+                    {
+                        'name': 'network',
+                        'doc': (
+                            'X:X::X:X/M IPv6 prefix'
+                        ),
+                    },
+                ],
+            },
+            {
+                'command': (
+                    'no ipv6 prefix-list {prefix_name} seq {seq}'
+                    ' {permission} {network}'
+                ),
+                'doc': 'Deletes the IPv6 prefix-list',
+                'arguments': [
+                    {
+                        'name': 'prefix_name',
+                        'doc': 'WORD  The IP prefix-list name',
+                    },
+                    {
+                        'name': 'seq',
+                        'doc': '<1-4294967295>  Sequence number',
+                    },
+                    {
+                        'name': 'permission',
+                        'doc': (
+                            'deny    Specify packets to reject'
+                            'permit  Specify packets to forward'
+                        ),
+                    },
+                    {
+                        'name': 'network',
+                        'doc': (
+                            'X:X::X:X/M IPv6 prefix'
+                        ),
+                    },
+                ],
+            },
+            {
                 'command': 'no route-map {routemap_name} {permission} {seq}',
                 'doc': 'Route-map configuration',
                 'arguments': [
@@ -1624,6 +1684,49 @@ VTYSH_SPEC = OrderedDict([
                             'in      Apply map to incoming routes\n'
                             'out     Apply map to outbound routes\n'
                         ),
+                    },
+                ],
+            },
+            {
+                'command': 'neighbor {peer} prefix-list {prefix_name} '
+                           '{filter_direction}',
+                'doc': 'Applies a prefix-list to the neighbor to filter '
+                       'updates to and from the neighbor',
+                'arguments': [
+                    {
+                        'name': 'peer',
+                        'doc': '<A.B.C.D|X:X::X:X|WORD> peer IPv4/IPv6 address'
+                               ' or neighbor tag',
+                    },
+                    {
+                        'name': 'prefix_name',
+                        'doc': '<WORD> The name of a prefix list',
+                    },
+                    {
+                        'name': 'filter_direction',
+                        'doc': '<in|out> Filters incoming/outgoing routes',
+                        'optional': True
+                    },
+                ],
+            },
+            {
+                'command': 'no neighbor {peer} prefix-list {prefix_name} '
+                           '{filter_direction}',
+                'doc': 'Remove a prefix-list filter from the neighbor',
+                'arguments': [
+                    {
+                        'name': 'peer',
+                        'doc': '<A.B.C.D|X:X::X:X|WORD> peer IPv4/IPv6 address'
+                               ' or neighbor tag',
+                    },
+                    {
+                        'name': 'prefix_name',
+                        'doc': '<WORD> The name of a prefix list',
+                    },
+                    {
+                        'name': 'filter_direction',
+                        'doc': '<in|out> Filters incoming/outgoing routes',
+                        'optional': True
                     },
                 ],
             },
