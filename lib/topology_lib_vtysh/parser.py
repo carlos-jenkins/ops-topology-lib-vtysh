@@ -1307,6 +1307,7 @@ __all__ = [
     'parse_show_ip_bgp_neighbors', 'parse_show_ip_bgp',
     'parse_show_udld_interface', 'parse_ping_repetitions',
     'parse_ping6_repetitions', 'parse_show_rib',
-    'parse_show_running_config', 'parse_show_ip_route', 'parse_show_ip_ecmp'
+    'parse_show_running_config', 'parse_show_ip_route', 'parse_show_ipv6_bgp',
+    'parse_show_ip_ecmp'
 
 ]
