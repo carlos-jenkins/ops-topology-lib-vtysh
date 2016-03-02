@@ -4083,6 +4083,29 @@ def show_ip_bgp(
     return parse_show_ip_bgp(result)
 
 
+def show_ipv6_bgp(
+        enode):
+    """
+    Show bgp routing information.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show ipv6 bgp
+
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_ipv6_bgp`
+    """
+
+    cmd = (
+        'show ipv6 bgp'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_ipv6_bgp(result)
+
+
 def show_running_config(
         enode):
     """
@@ -4314,6 +4337,7 @@ __all__ = [
     'show_ip_bgp_summary',
     'show_ip_bgp_neighbors',
     'show_ip_bgp',
+    'show_ipv6_bgp',
     'show_running_config',
     'show_ip_route',
     'show_udld_interface',

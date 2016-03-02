@@ -131,6 +131,12 @@ VTYSH_SPEC = OrderedDict([
                 'returns': True
             },
             {
+                'command': 'show ipv6 bgp',
+                'doc': 'Show bgp routing information.',
+                'arguments': [],
+                'returns': True
+            },
+            {
                 'command': 'show running-config',
                 'doc': 'Show running-config information.',
                 'arguments': [],

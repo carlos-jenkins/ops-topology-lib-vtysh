@@ -701,6 +701,58 @@ def parse_show_ip_bgp(raw_result):
     return result
 
 
+def parse_show_ipv6_bgp(raw_result):
+    """
+    Parse the 'show ipv6 bgp' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show ipv6 bgp command in a \
+        list of dictionaries of the form:
+
+     ::
+
+        [
+            {
+                'route_status': '*>',
+                'network': '10::/126',
+                'next_hop': '::',
+                'metric': 0,
+                'locprf': 0,
+                'weight': 0,
+                'path': '65000 64100 i'
+            },
+            {
+                'route_status': '*',
+                'network': '10::/126',
+                'next_hop': '3::1',
+                'metric': 0,
+                'locprf': 0,
+                'weight': 0,
+                'path': '65000 64100 i'
+            }
+        ]
+    """
+
+    routes_re = (
+        r'(?P<route_status>[*>sdh=iSR]+)\s+(?P<network>\S+)\s+'
+        r'(?P<next_hop>\S+)\s+(?P<metric>\d+)\s+(?P<locprf>\d+)\s+'
+        r'(?P<weight>\d+)\s+(?P<path>.*)\w?\s*'
+    )
+
+    result = []
+    for line in raw_result.splitlines():
+        re_result = re.search(routes_re, line)
+        if re_result:
+            partial = re_result.groupdict()
+            for key, value in partial.items():
+                if value and value.isdigit():
+                    partial[key] = int(value)
+            result.append(partial)
+
+    return result
+
+
 def parse_ping_repetitions(raw_result):
     """
     Parse the 'ping' command raw output.

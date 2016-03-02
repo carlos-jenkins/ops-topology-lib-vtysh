@@ -33,6 +33,7 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_ip_bgp_summary,
                                        parse_show_ip_bgp_neighbors,
                                        parse_show_ip_bgp,
+                                       parse_show_ipv6_bgp,
                                        parse_show_ip_route,
                                        parse_show_rib,
                                        parse_ping_repetitions,
@@ -418,6 +419,126 @@ Neighbor             AS MsgRcvd MsgSent Up/Down  State
         },
         'local_as_number': 64000
     }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ipv6_bgp():
+    raw_result = """\
+Status codes: s suppressed, d damped, h history, * valid, > best, = multipath,
+              i internal, S Stale, R Removed
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Local router-id 1.1.1.2
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 10::/126         3::1                     0      0      0 65001 i
+*> 10::10/126       ::                       0      0      0 65001 i
+*> 10::14/126       ::                       0      0      0 65001 i
+*> 10::18/126       ::                       0      0      0 65001 i
+*> 10::1c/126       ::                       0      0      0 65001 i
+*> 10::20/126       ::                       0      0      0 65001 i
+*> 10::24/126       ::                       0      0      0 65001 i
+*> 10::4/126        ::                       0      0      0 65001 i
+*> 10::8/126        ::                       0      0      0 65001 i
+*> 10::c/126        ::                       0      0      0 65001 i
+Total number of entries 10
+    """
+
+    result = parse_show_ipv6_bgp(raw_result)
+
+    expected = [
+        {
+            'path': '65001 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10::/126',
+            'locprf': 0,
+            'next_hop': '3::1',
+            'route_status': '*>'
+        },
+        {
+            'path': '65001 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10::10/126',
+            'locprf': 0,
+            'next_hop': '::',
+            'route_status': '*>'
+        },
+        {
+            'path': '65001 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10::14/126',
+            'locprf': 0,
+            'next_hop': '::',
+            'route_status': '*>'
+        },
+        {
+            'path': '65001 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10::18/126',
+            'locprf': 0,
+            'next_hop': '::',
+            'route_status': '*>'
+        },
+        {
+            'path': '65001 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10::1c/126',
+            'locprf': 0,
+            'next_hop': '::',
+            'route_status': '*>'
+        },
+        {
+            'path': '65001 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10::20/126',
+            'locprf': 0,
+            'next_hop': '::',
+            'route_status': '*>'
+        },
+        {
+            'path': '65001 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10::24/126',
+            'locprf': 0,
+            'next_hop': '::',
+            'route_status': '*>'
+        },
+        {
+            'path': '65001 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10::4/126',
+            'locprf': 0,
+            'next_hop': '::',
+            'route_status': '*>'
+        },
+        {
+            'path': '65001 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10::8/126',
+            'locprf': 0,
+            'next_hop': '::',
+            'route_status': '*>'
+        },
+        {
+            'path': '65001 i',
+            'metric': 0,
+            'weight': 0,
+            'network': '10::c/126',
+            'locprf': 0,
+            'next_hop': '::',
+            'route_status': '*>'
+        }
+    ]
 
     ddiff = DeepDiff(result, expected)
     assert not ddiff
