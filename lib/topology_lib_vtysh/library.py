@@ -908,6 +908,238 @@ class Configure(ContextManager):
 
         assert not result
 
+    def ntp_server(
+            self, host):
+        """
+        NTP Association configuration
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ntp server {host}
+
+        :param host: NTP Association name or IPv4 Address.
+        """
+
+        cmd = (
+            'ntp server {host}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ntp_server(
+            self, host):
+        """
+        Remove NTP association
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ntp server {host}
+
+        :param host: NTP Association name or IPv4 Address.
+        """
+
+        cmd = (
+            'no ntp server {host}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ntp_server_prefer(
+            self, host):
+        """
+        Add NTP Association preference configuration
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ntp server {host} prefer
+
+        :param host: NTP Association name or IPv4 Address.
+        """
+
+        cmd = (
+            'ntp server {host} prefer'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ntp_server_key_id(
+            self, host, key_id):
+        """
+        Add NTP Key ID
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ntp server {host} key-id {key_id}
+
+        :param host: NTP Association name or IPv4 Address.
+        :param key_id: WORD  NTP Key Number between 1-65534
+        """
+
+        cmd = (
+            'ntp server {host} key-id {key_id}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ntp_server_version(
+            self, host, version):
+        """
+        Add NTP Association version configuration
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ntp server {host} version {version}
+
+        :param host: NTP Association name or IPv4 Address.
+        :param version: WORD  Version can be 3 or 4
+        """
+
+        cmd = (
+            'ntp server {host} version {version}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ntp_authentication_enable(
+            self):
+        """
+        Enable NTP Authentication configuration
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ntp authentication enable
+
+        """
+
+        cmd = (
+            'ntp authentication enable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ntp_authentication_enable(
+            self):
+        """
+        Disable NTP Authentication configuration
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ntp authentication enable
+
+        """
+
+        cmd = (
+            'no ntp authentication enable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ntp_authentication_key_md5(
+            self, key_id, password):
+        """
+        Add NTP Authentication Key
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ntp authentication-key {key_id} md5 {password}
+
+        :param key_id: WORD  NTP Key Number between 1-65534
+        :param password: WORD  NTP MD5 Password <8-16> chars
+        """
+
+        cmd = (
+            'ntp authentication-key {key_id} md5 {password}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ntp_authentication_key(
+            self, key_id):
+        """
+        Remove NTP Authentication Key
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ntp authentication-key {key_id}
+
+        :param key_id: WORD  NTP Key Number between 1-65534
+        """
+
+        cmd = (
+            'no ntp authentication-key {key_id}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def ntp_trusted_key(
+            self, key_id):
+        """
+        Add NTP Trusted Key
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # ntp trusted-key {key_id}
+
+        :param key_id: WORD  NTP Key Number between 1-65534
+        """
+
+        cmd = (
+            'ntp trusted-key {key_id}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_ntp_trusted_key(
+            self, key_id):
+        """
+        Remove NTP Trusted Key
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no ntp trusted-key {key_id}
+
+        :param key_id: WORD  NTP Key Number between 1-65534
+        """
+
+        cmd = (
+            'no ntp trusted-key {key_id}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
 
 class RouteMap(ContextManager):
     """
@@ -4447,6 +4679,121 @@ def ping6_repetitions(
     return parse_ping6_repetitions(result)
 
 
+def show_ntp_associations(
+        enode):
+    """
+    Show NTP Association summary.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show ntp associations
+
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_ntp_associations`
+    """
+
+    cmd = (
+        'show ntp associations'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_ntp_associations(result)
+
+
+def show_ntp_authentication_key(
+        enode):
+    """
+    Show NTP Authentication Keys information.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show ntp authentication-key
+
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_ntp_authentication_key`
+    """
+
+    cmd = (
+        'show ntp authentication-key'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_ntp_authentication_key(result)
+
+
+def show_ntp_statistics(
+        enode):
+    """
+    Show NTP Statistics information.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show ntp statistics
+
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_ntp_statistics`
+    """
+
+    cmd = (
+        'show ntp statistics'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_ntp_statistics(result)
+
+
+def show_ntp_status(
+        enode):
+    """
+    Show NTP Status information.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show ntp status
+
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_ntp_status`
+    """
+
+    cmd = (
+        'show ntp status'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_ntp_status(result)
+
+
+def show_ntp_trusted_keys(
+        enode):
+    """
+    Show NTP Trusted Keys information.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show ntp trusted-keys
+
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_ntp_trusted_keys`
+    """
+
+    cmd = (
+        'show ntp trusted-keys'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_ntp_trusted_keys(result)
+
+
 __all__ = [
     'ContextManager',
     'Configure',
@@ -4477,5 +4824,10 @@ __all__ = [
     'clear_udld_statistics',
     'clear_udld_statistics_interface',
     'ping_repetitions',
-    'ping6_repetitions'
+    'ping6_repetitions',
+    'show_ntp_associations',
+    'show_ntp_authentication_key',
+    'show_ntp_statistics',
+    'show_ntp_status',
+    'show_ntp_trusted_keys'
 ]

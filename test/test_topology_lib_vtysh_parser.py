@@ -39,7 +39,12 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_ping_repetitions,
                                        parse_ping6_repetitions,
                                        parse_show_running_config,
-                                       parse_show_ip_ecmp
+                                       parse_show_ip_ecmp,
+                                       parse_show_ntp_associations,
+                                       parse_show_ntp_authentication_key,
+                                       parse_show_ntp_statistics,
+                                       parse_show_ntp_status,
+                                       parse_show_ntp_trusted_keys
                                        )
 
 
@@ -1103,6 +1108,204 @@ Displaying ipv4 routes selected for forwarding
             ]
         }
     ]
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ntp_associations():
+    raw_result = """\
+--------------------------------------------------------------------------\
+--------------------------------------------
+ID             NAME           REMOTE  VER  KEYID           REF-ID  ST  T  \
+LAST  POLL  REACH    DELAY  OFFSET  JITTER
+--------------------------------------------------------------------------\
+--------------------------------------------
+   1    domain.com                -       3      -                -   -  -\
+   -     -      -        -       -       -
+*  2    192.168.1.100    192.168.1.100    3      10  172.16.135.123   4  U\
+    41    64    377    0.138  17.811   1.942
+   3    192.168.1.103    192.168.1.103    3      -           .STEP.  16  U\
+   -  1024      0    0.000   0.000   0.000
+--------------------------------------------------------------------------\
+--------------------------------------------
+    """
+
+    result = parse_show_ntp_associations(raw_result)
+
+    expected = {
+        '1': {
+            'code': ' ',
+            'id': '1',
+            'name': 'domain.com',
+            'remote': '-',
+            'version': '3',
+            'key_id': '-',
+            'reference_id': '-',
+            'stratum': '-',
+            'type': '-',
+            'last': '-',
+            'poll': '-',
+            'reach': '-',
+            'delay': '-',
+            'offset': '-',
+            'jitter': '-'
+        },
+        '2': {
+            'code': '*',
+            'id': '2',
+            'name': '192.168.1.100',
+            'remote': '192.168.1.100',
+            'version': '3',
+            'key_id': '10',
+            'reference_id': '172.16.135.123',
+            'stratum': '4',
+            'type': 'U',
+            'last': '41',
+            'poll': '64',
+            'reach': '377',
+            'delay': '0.138',
+            'offset': '17.811',
+            'jitter': '1.942'
+        },
+        '3': {
+            'code': ' ',
+            'id': '3',
+            'name': '192.168.1.103',
+            'remote': '192.168.1.103',
+            'version': '3',
+            'key_id': '-',
+            'reference_id': '.STEP.',
+            'stratum': '16',
+            'type': 'U',
+            'last': '-',
+            'poll': '1024',
+            'reach': '0',
+            'delay': '0.000',
+            'offset': '0.000',
+            'jitter': '0.000'
+        }
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ntp_authentication_key():
+    raw_result = """---------------------------
+Auth-key       MD5 password
+---------------------------
+    10        MyPassword
+    11        MyPassword_2
+---------------------------
+    """
+
+    result = parse_show_ntp_authentication_key(raw_result)
+
+    expected = {
+        '10': {
+            'key_id': '10',
+            'md5_password': 'MyPassword'
+        },
+        '11': {
+            'key_id': '11',
+            'md5_password': 'MyPassword_2'
+        }
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ntp_statistics():
+    raw_result = """             Rx-pkts    234793
+     Cur Ver Rx-pkts    15
+     Old Ver Rx-pkts    191
+          Error pkts    16
+    Auth-failed pkts    17
+       Declined pkts    18
+     Restricted pkts    19
+   Rate-limited pkts    20
+            KOD pkts    21
+    """
+
+    result = parse_show_ntp_statistics(raw_result)
+
+    expected = {
+        'rx_pkts': 234793,
+        'cur_ver_rx_pkts': 15,
+        'old_ver_rx_pkts': 191,
+        'error_pkts': 16,
+        'auth_failed_pkts': 17,
+        'declined_pkts': 18,
+        'restricted_pkts': 19,
+        'rate_limited_pkts': 20,
+        'kod_pkts': 21
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ntp_status():
+    raw_result = """NTP is enabled
+NTP authentication is disabled
+Uptime: 592 second(s)
+Synchronized to NTP Server 192.168.1.100 at stratum 5
+Poll interval = 64 seconds
+Time accuracy is within -0.829 seconds
+Reference time: Mon Feb 15 2016 16:59:20.909 (UTC)
+    """
+
+    result = parse_show_ntp_status(raw_result)
+
+    expected = {
+        'status': 'enabled',
+        'authentication_status': 'disabled',
+        'uptime': 592,
+        'server': '192.168.1.100',
+        'stratum': '5',
+        'poll_interval': '64',
+        'time_accuracy': '-0.829',
+        'reference_time': 'Mon Feb 15 2016 16:59:20.909 (UTC)'
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ntp_status_not_synch():
+    raw_result = """NTP is enabled
+NTP authentication is disabled
+Uptime: 2343 second(s)
+    """
+
+    result = parse_show_ntp_status(raw_result)
+
+    expected = {
+        'status': 'enabled',
+        'authentication_status': 'disabled',
+        'uptime': 2343
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ntp_trusted_keys():
+    raw_result = """------------
+Trusted-keys
+------------
+    10
+    11
+------------"""
+
+    result = parse_show_ntp_trusted_keys(raw_result)
+
+    expected = {
+        '10': {'key_id': '10'},
+        '11': {'key_id': '11'}
+    }
 
     ddiff = DeepDiff(result, expected)
     assert not ddiff

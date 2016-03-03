@@ -1299,6 +1299,235 @@ def parse_show_ip_ecmp(raw_result):
 
     return result
 
+
+def parse_show_ntp_associations(raw_result):
+    """
+    Parse the 'show ntp associations' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show ntp associations command in a \
+        dictionary of the form:
+
+     ::
+
+        {
+            '1': { 'code': '*',
+                   'id': '1'
+                   'name': '192.168.1.100',
+                   'remote': '192.168.1.100',
+                   'version': '3',
+                   'key_id': '-',
+                   'reference_id': '172.16.135.123',
+                   'stratum': '4',
+                   'type': 'U',
+                   'last': '41',
+                   'poll': '64',
+                   'reach': '377',
+                   'delay': '0.138',
+                   'offset': '17.811',
+                   'jitter': '1.942'
+            },
+            '2': { 'code': ' ',
+                   'id': '2'
+                   'name': '192.168.1.101',
+                   'remote': '192.168.1.101',
+                   'version': '3',
+                   'key_id': '10',
+                   'reference_id': '172.16.135.123',
+                   'stratum': '4',
+                   'type': 'U',
+                   'last': '50',
+                   'poll': '64',
+                   'reach': '377',
+                   'delay': '0.162',
+                   'offset': '-1.749',
+                   'jitter': '8.429'
+            }
+        }
+    """
+
+    ntp_asssociations_re = (
+        r'(?P<code>\D)\s+(?P<id>\d+)\s+(?P<name>\S+)\s+'
+        r'(?P<remote>\S+)\s+(?P<version>\d+)\s+(?P<key_id>\S+)\s+'
+        r'(?P<reference_id>\S+)\s+(?P<stratum>\S+)\s+(?P<type>\S+)\s+'
+        r'(?P<last>\S+)\s+(?P<poll>\S+)\s+(?P<reach>\S+)\s+'
+        r'(?P<delay>\S+)\s+(?P<offset>\S+)\s+(?P<jitter>\S+)'
+    )
+
+    result = {}
+    for line in raw_result.splitlines():
+        re_result = re.search(ntp_asssociations_re, line)
+        if re_result:
+            partial = re_result.groupdict()
+            result[partial['id']] = partial
+
+    return result
+
+
+def parse_show_ntp_authentication_key(raw_result):
+    """
+    Parse the 'show ntp authentication-keys' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show ntp authentication-keys command \
+        in a dictionary of the form:
+
+     ::
+
+        {
+            '10': { 'key_id': '10',
+                    'md5_password': 'MyPassword'
+            },
+            '11': { 'key_id': '11',
+                    'md5_password': 'MyPassword_2'
+            }
+        }
+    """
+
+    ntp_authentication_key_re = (
+        r'\s(?P<key_id>\d+)\s+(?P<md5_password>\S+)'
+    )
+
+    result = {}
+    for line in raw_result.splitlines():
+        re_result = re.search(ntp_authentication_key_re, line)
+        if re_result:
+            partial = re_result.groupdict()
+            result[partial['key_id']] = partial
+
+    return result
+
+
+def parse_show_ntp_statistics(raw_result):
+    """
+    Parse the 'show ntp statistics' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show ntp statistics command \
+        in a dictionary of the form:
+
+     ::
+
+        {
+            'rx_pkts': 234793,
+            'cur_ver_rx_pkts' : 15,
+            'old_ver_rx_pkts' : 191,
+            'error_pkts' : 16,
+            'auth_failed_pkts' : 17,
+            'declined_pkts' : 18,
+            'restricted_pkts' : 19,
+            'rate_limited_pkts' : 20,
+            'kod_pkts' : 21
+        }
+    """
+
+    ntp_statistics_re = (
+        r'\s*Rx-pkts\s*(?P<rx_pkts>\d+)\s*'
+        r'Cur\sVer\sRx-pkts\s*(?P<cur_ver_rx_pkts>\d+)\s*'
+        r'Old\sVer\sRx-pkts\s*(?P<old_ver_rx_pkts>\d+)\s*'
+        r'Error\spkts\s*(?P<error_pkts>\d+)\s*'
+        r'Auth-failed\spkts\s*(?P<auth_failed_pkts>\d+)\s*'
+        r'Declined\spkts\s*(?P<declined_pkts>\d+)\s*'
+        r'Restricted\spkts\s*(?P<restricted_pkts>\d+)\s*'
+        r'Rate-limited\spkts\s*(?P<rate_limited_pkts>\d+)\s*'
+        r'KOD\spkts\s*(?P<kod_pkts>\d+)\s*'
+    )
+
+    re_result = re.match(ntp_statistics_re, raw_result)
+
+    result = re_result.groupdict()
+    for key, value in result.items():
+        if value and value.isdigit():
+            result[key] = int(value)
+
+    return result
+
+
+def parse_show_ntp_status(raw_result):
+    """
+    Parse the 'show ntp status' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show ntp status command \
+        in a dictionary of the form:
+
+     ::
+
+        {
+            'status': 'enabled',
+            'authentication_status' : 'disabled',
+            'uptime' : 2343,
+            'server' : '192.168.1.100',
+            'stratum' : '4',
+            'poll_interval' : '64',
+            'time_accuracy' : '17.811',
+            'reference_time' : 'Mon Feb 15 2016 16:59:20.909 (UTC)'
+        }
+    """
+
+    ntp_status_re = (
+        r'\s*NTP\sis\s*(?P<status>\w+)\s*'
+        r'NTP\sauthentication\sis\s*(?P<authentication_status>\w+)\s*'
+        r'Uptime:\s*(?P<uptime>\d+)\s*'
+    )
+
+    ntp_status_synchronized_re = (
+        r'\s*Synchronized\sto\sNTP\sServer\s*(?P<server>\S+)\s*'
+        r'at\sstratum\s*(?P<stratum>\d+)\s*'
+        r'Poll\sinterval\s=\s*(?P<poll_interval>\d+)\s*seconds\s*'
+        r'Time\saccuracy\sis\swithin\s*(?P<time_accuracy>\S+)\s*seconds\s*'
+        r'Reference\stime:\s*(?P<reference_time>[\S+\s*]{34})\s*'
+    )
+
+    result = {}
+    re_result = re.match(ntp_status_re, raw_result)
+    result = re_result.groupdict()
+    result['uptime'] = int(result['uptime'])
+
+    re_result_synchronized = re.search(ntp_status_synchronized_re, raw_result)
+    if re_result_synchronized is not None:
+        result_synchronized = re_result_synchronized.groupdict()
+        for key, value in result_synchronized.items():
+            result[key] = value
+
+    return result
+
+
+def parse_show_ntp_trusted_keys(raw_result):
+    """
+    Parse the 'show ntp trusted-keys' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show ntp trusted-keys command \
+        in a dictionary of the form:
+
+     ::
+
+        {
+            '11': { 'key_id': '11' },
+            '12': { 'key_id': '12' }
+        }
+    """
+
+    ntp_trusted_key_re = (
+        r'(?P<key_id>\d+)'
+    )
+
+    result = {}
+    for line in raw_result.splitlines():
+        re_result = re.search(ntp_trusted_key_re, line)
+        if re_result:
+            partial = re_result.groupdict()
+            result[partial['key_id']] = partial
+
+    return result
+
+
 __all__ = [
     'parse_show_vlan', 'parse_show_lacp_aggregates',
     'parse_show_lacp_interface', 'parse_show_interface',
@@ -1308,6 +1537,7 @@ __all__ = [
     'parse_show_udld_interface', 'parse_ping_repetitions',
     'parse_ping6_repetitions', 'parse_show_rib',
     'parse_show_running_config', 'parse_show_ip_route', 'parse_show_ipv6_bgp',
-    'parse_show_ip_ecmp'
-
+    'parse_show_ip_ecmp', 'parse_show_ntp_associations',
+    'parse_show_ntp_authentication_key', 'parse_show_ntp_statistics',
+    'parse_show_ntp_status', 'parse_show_ntp_trusted_keys'
 ]

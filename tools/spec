@@ -216,6 +216,36 @@ VTYSH_SPEC = OrderedDict([
                     }
                 ],
                 'returns': True
+            },
+            {
+                'command': 'show ntp associations',
+                'doc': 'Show NTP Association summary.',
+                'arguments': [],
+                'returns': True
+            },
+            {
+                'command': 'show ntp authentication-key',
+                'doc': 'Show NTP Authentication Keys information.',
+                'arguments': [],
+                'returns': True
+            },
+            {
+                'command': 'show ntp statistics',
+                'doc': 'Show NTP Statistics information.',
+                'arguments': [],
+                'returns': True
+            },
+            {
+                'command': 'show ntp status',
+                'doc': 'Show NTP Status information.',
+                'arguments': [],
+                'returns': True
+            },
+            {
+                'command': 'show ntp trusted-keys',
+                'doc': 'Show NTP Trusted Keys information.',
+                'arguments': [],
+                'returns': True
             }
         ]
     }),
@@ -674,6 +704,118 @@ VTYSH_SPEC = OrderedDict([
                 'doc': 'Disable resilient hashing for load balancing',
                 'arguments': [],
             },
+            {
+                'command': 'ntp server {host}',
+                'doc': 'NTP Association configuration',
+                'arguments': [
+                    {
+                        'name': 'host',
+                        'doc': 'NTP Association name or IPv4 Address.',
+                    }
+                ],
+            },
+            {
+                'command': 'no ntp server {host}',
+                'doc': 'Remove NTP association',
+                'arguments': [
+                    {
+                        'name': 'host',
+                        'doc': 'NTP Association name or IPv4 Address.',
+                    }
+                ],
+            },
+            {
+                'command': 'ntp server {host} prefer',
+                'doc': 'Add NTP Association preference configuration',
+                'arguments': [
+                    {
+                        'name': 'host',
+                        'doc': 'NTP Association name or IPv4 Address.',
+                    }
+                ],
+            },
+            {
+                'command': 'ntp server {host} key-id {key_id}',
+                'doc': 'Add NTP Key ID',
+                'arguments': [
+                    {
+                        'name': 'host',
+                        'doc': 'NTP Association name or IPv4 Address.',
+                    },
+                    {
+                        'name': 'key_id',
+                        'doc': 'WORD  NTP Key Number between 1-65534',
+                    }
+                ],
+            },
+            {
+                'command': 'ntp server {host} version {version}',
+                'doc': 'Add NTP Association version configuration',
+                'arguments': [
+                    {
+                        'name': 'host',
+                        'doc': 'NTP Association name or IPv4 Address.',
+                    },
+                    {
+                        'name': 'version',
+                        'doc': 'WORD  Version can be 3 or 4',
+                    }
+                ],
+            },
+            {
+                'command': 'ntp authentication enable',
+                'doc': 'Enable NTP Authentication configuration',
+                'arguments': [],
+            },
+            {
+                'command': 'no ntp authentication enable',
+                'doc': 'Disable NTP Authentication configuration',
+                'arguments': [],
+            },
+            {
+                'command': 'ntp authentication-key {key_id} md5 {password}',
+                'doc': 'Add NTP Authentication Key',
+                'arguments': [
+                    {
+                        'name': 'key_id',
+                        'doc': 'WORD  NTP Key Number between 1-65534',
+                    },
+                    {
+                        'name': 'password',
+                        'doc': 'WORD  NTP MD5 Password <8-16> chars',
+                    }
+                ],
+            },
+            {
+                'command': 'no ntp authentication-key {key_id}',
+                'doc': 'Remove NTP Authentication Key',
+                'arguments': [
+                    {
+                        'name': 'key_id',
+                        'doc': 'WORD  NTP Key Number between 1-65534',
+                    }
+                ],
+            },
+            {
+                'command': 'ntp trusted-key {key_id}',
+                'doc': 'Add NTP Trusted Key',
+                'arguments': [
+                    {
+                        'name': 'key_id',
+                        'doc': 'WORD  NTP Key Number between 1-65534',
+                    }
+                ],
+            },
+            {
+                'command': 'no ntp trusted-key {key_id}',
+                'doc': 'Remove NTP Trusted Key',
+                'arguments': [
+                    {
+                        'name': 'key_id',
+                        'doc': 'WORD  NTP Key Number between 1-65534',
+                    }
+                ],
+            }
         ]
     }),
     ('route_map', {
