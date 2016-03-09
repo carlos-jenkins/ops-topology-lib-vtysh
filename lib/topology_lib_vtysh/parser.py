@@ -1254,6 +1254,113 @@ def parse_show_ip_route(raw_result):
     return result
 
 
+def parse_show_ipv6_route(raw_result):
+    """
+    Parse the 'show ipv6 route' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: list
+    :return: The parsed result of the show ipv6 route command in a \
+        list of dictionaries of the form:
+
+     ::
+
+        [
+            {
+                'id': '140.0.0.0',
+                'prefix': '30',
+                'next_hops': [
+                    {
+                        'via': '10.10.0.2',
+                        'distance': '20',
+                        'from': 'bgp',
+                        'metric': '0'
+                    }
+                ]
+            },
+            {
+                'id': '10.10.0.0',
+                'prefix': '24',
+                'next_hops': [
+                    {
+                        'via': '1',
+                        'distance': '0',
+                        'from': 'connected',
+                        'metric': '0'
+                    }
+                ]
+            },
+            {
+                'id': '193.0.0.2',
+                'prefix': '32',
+                'next_hops': [
+                    {
+                        'via': '50.0.0.2',
+                        'distance': '1',
+                        'from': 'static',
+                        'metric': '0'
+                    },
+                    {
+                        'via': '56.0.0.3',
+                        'distance': '1',
+                        'from': 'static',
+                        'metric': '0'
+                    }
+                ]
+            }
+        ]
+    """
+
+    ipv6_network_re = (
+        r'(?P<selected>\*?)'
+        r'(?P<network>(?:(?:(?:[0-9A-Za-z]+:)+:?([0-9A-Za-z]+)?)+)/\d+)'
+    )
+
+    ipv6_nexthop_re = (
+        r'via\s+(?P<via>(?:(?:(?:[0-9A-Za-z]+:)+:?([0-9A-Za-z]+)?)+|\d+)),\s+'
+        r'\[(?P<distance>\d+)/(?P<metric>\d+)\],\s+(?P<from>\S+)'
+    )
+
+    result = []
+
+    lines = raw_result.splitlines()
+    line_index = 0
+
+    while line_index < len(lines):
+        re_result = re.search(ipv6_network_re, lines[line_index])
+
+        if re_result:
+            network = {}
+            partial = re_result.groupdict()
+
+            network['id'] = partial['network']
+
+            network['next_hops'] = []
+            check_for_next_hops = True
+
+            line_index += 1
+
+            while (check_for_next_hops and line_index < len(lines)):
+                re_result = re.search(
+                    ipv6_nexthop_re,
+                    lines[line_index]
+                    )
+
+                if re_result:
+                    partial = re_result.groupdict()
+
+                    network['next_hops'].append(partial)
+                    line_index += 1
+                else:
+                    check_for_next_hops = False
+
+            result.append(network)
+        else:
+            line_index += 1
+
+    return result
+
+
 def parse_show_ip_ecmp(raw_result):
     """
     Parse the 'show ip ecmp' command raw output.
@@ -1536,8 +1643,9 @@ __all__ = [
     'parse_show_ip_bgp_neighbors', 'parse_show_ip_bgp',
     'parse_show_udld_interface', 'parse_ping_repetitions',
     'parse_ping6_repetitions', 'parse_show_rib',
-    'parse_show_running_config', 'parse_show_ip_route', 'parse_show_ipv6_bgp',
-    'parse_show_ip_ecmp', 'parse_show_ntp_associations',
-    'parse_show_ntp_authentication_key', 'parse_show_ntp_statistics',
-    'parse_show_ntp_status', 'parse_show_ntp_trusted_keys'
+    'parse_show_running_config', 'parse_show_ip_route',
+    'parse_show_ipv6_route', 'parse_show_ipv6_bgp', 'parse_show_ip_ecmp',
+    'parse_show_ntp_associations', 'parse_show_ntp_authentication_key',
+    'parse_show_ntp_statistics', 'parse_show_ntp_status',
+    'parse_show_ntp_trusted_keys'
 ]

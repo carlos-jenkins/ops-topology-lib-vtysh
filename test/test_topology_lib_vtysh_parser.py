@@ -35,6 +35,7 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_ip_bgp,
                                        parse_show_ipv6_bgp,
                                        parse_show_ip_route,
+                                       parse_show_ipv6_route,
                                        parse_show_rib,
                                        parse_ping_repetitions,
                                        parse_ping6_repetitions,
@@ -1107,6 +1108,69 @@ Displaying ipv4 routes selected for forwarding
                 }
             ]
         }
+    ]
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_ipv6_route():
+    raw_result = """
+Displaying ipv6 routes selected for forwarding
+
+'[x/y]' denotes [distance/metric]
+
+2002::/64,  1 unicast next-hops
+        via  1,  [0/0],  connected
+2003::/64,  2 unicast next-hops
+        via  2004::2000:0:0:2,  [1/0],  static
+        via  2004::4000:0:0:2,  [1/0],  static
+2004::2000:0:0:0/67,  1 unicast next-hops
+        via  2,  [0/0],  connected
+    """
+
+    result = parse_show_ipv6_route(raw_result)
+
+    expected = [
+        {
+            'id': '2002::/64',
+            'next_hops': [
+                {
+                    'via': '1',
+                    'distance': '0',
+                    'from': 'connected',
+                    'metric': '0'
+                }
+            ]
+        },
+        {
+            'id': '2003::/64',
+            'next_hops': [
+                {
+                    'via': '2004::2000:0:0:2',
+                    'distance': '1',
+                    'from': 'static',
+                    'metric': '0'
+                },
+                {
+                    'via': '2004::4000:0:0:2',
+                    'distance': '1',
+                    'from': 'static',
+                    'metric': '0'
+                }
+            ]
+        },
+        {
+            'id': '2004::2000:0:0:0/67',
+            'next_hops': [
+                {
+                    'via': '2',
+                    'distance': '0',
+                    'from': 'connected',
+                    'metric': '0'
+                }
+            ]
+        },
     ]
 
     ddiff = DeepDiff(result, expected)

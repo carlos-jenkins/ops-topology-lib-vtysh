@@ -4514,6 +4514,29 @@ def show_ip_route(
     return parse_show_ip_route(result)
 
 
+def show_ipv6_route(
+        enode):
+    """
+    Display the routing table.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show ipv6 route
+
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_ipv6_route`
+    """
+
+    cmd = (
+        'show ipv6 route'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_ipv6_route(result)
+
+
 def show_udld_interface(
         enode, portlbl):
     """
@@ -4818,6 +4841,7 @@ __all__ = [
     'show_ipv6_bgp',
     'show_running_config',
     'show_ip_route',
+    'show_ipv6_route',
     'show_udld_interface',
     'show_rib',
     'show_ip_ecmp',

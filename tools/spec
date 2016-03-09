@@ -148,6 +148,12 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
                 'returns': True
             },
+            {
+                'command': 'show ipv6 route',
+                'doc': 'Display the routing table.',
+                'arguments': [],
+                'returns': True
+            },
             # TODO: Add support for the show udld (shows all interfaces) cmd
             {
                 'command': 'show udld interface {port}',
