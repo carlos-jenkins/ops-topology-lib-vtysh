@@ -2196,6 +2196,32 @@ VTYSH_SPEC = OrderedDict([
                     },
                 ],
             },
+            {
+                'command': 'redistribute {type}',
+                'doc': 'Configures route redistribution of the '
+                       'specified protocol into BGP',
+                'arguments': [
+                    {
+                        'name': 'type',
+                        'doc': (
+                            '<connected | static | ospf>'
+                        ),
+                    },
+                ],
+            },
+            {
+                'command': 'no redistribute {type}',
+                'doc': 'Unconfigures route redistribution of the '
+                       'specified protocol into BGP',
+                'arguments': [
+                    {
+                        'name': 'type',
+                        'doc': (
+                            '<connected | static | ospf>'
+                        ),
+                    },
+                ],
+            },
         ]
     }),
     ('config_vlan', {

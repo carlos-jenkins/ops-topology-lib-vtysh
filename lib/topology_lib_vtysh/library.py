@@ -4078,6 +4078,48 @@ class ConfigRouterBgp(ContextManager):
 
         assert not result
 
+    def redistribute(
+            self, type):
+        """
+        Configures route redistribution of the specified protocol into BGP
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # redistribute {type}
+
+        :param type: <connected | static | ospf>
+        """
+
+        cmd = (
+            'redistribute {type}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_redistribute(
+            self, type):
+        """
+        Unconfigures route redistribution of the specified protocol into BGP
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no redistribute {type}
+
+        :param type: <connected | static | ospf>
+        """
+
+        cmd = (
+            'no redistribute {type}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
 
 class ConfigVlan(ContextManager):
     """
