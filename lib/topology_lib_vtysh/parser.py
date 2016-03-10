@@ -73,6 +73,7 @@ def parse_show_interface(raw_result):
         r'(State information: (?P<state_information>\S+))?\s*'
         r'Hardware: (?P<hardware>\S+), MAC Address: (?P<mac_address>\S+)\s+'
         r'(IPv4 address (?P<ipv4>\S+))?\s*'
+        r'(IPv6 address (?P<ipv6>\S+))?\s*'
         r'MTU (?P<mtu>\d+)\s+'
         r'(?P<conection_type>\S+)\s+'
         r'Speed (?P<speed>\d+) (?P<speed_unit>\S+)\s+'
