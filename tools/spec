@@ -252,6 +252,12 @@ VTYSH_SPEC = OrderedDict([
                 'doc': 'Show NTP Trusted Keys information.',
                 'arguments': [],
                 'returns': True
+            },
+            {
+                'command': 'show dhcp-server leases',
+                'doc': 'Show DHCP server leases information.',
+                'arguments': [],
+                'returns': True
             }
         ]
     }),

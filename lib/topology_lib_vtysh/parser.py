@@ -1635,6 +1635,49 @@ def parse_show_ntp_trusted_keys(raw_result):
     return result
 
 
+def parse_show_dhcp_server_leases(raw_result):
+    """
+    Parse the 'show dchp-server leases' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show dhcp-server leases command \
+        in a dictionary of the form:
+
+     ::
+
+        {
+            '192.168.10.10':
+            {
+                   'expiry_time': 'Thu Mar  3 05:36:11 2016',
+                   'mac_address': '00:50:56:b4:6c:36',
+                   'ip_address': '192.168.10.10',
+                   'hostname': 'cl02-win8',
+                   'client_id': '*'
+             },
+            '192.168.20.10':
+            {
+                   'expiry_time': 'Wed Sep 23 23:07:12 2015',
+                   'mac_address': '10:55:56:b4:6c:c6',
+                   'ip_address': '192.168.20.10',
+                   'hostname': '95_h1',
+                   'client_id': '*'
+             }
+        }
+    """
+
+    dhcp_server_leases_re = (
+       r'\n+(?P<expiry_time>[\S+\s*]{24})\s+(?P<mac_address>\S+)\s+'
+       r'(?P<ip_address>\S+)\s+(?P<hostname>\S+)\s+(?P<client_id>\S+)'
+    )
+
+    result = {}
+    for re_result in re.finditer(dhcp_server_leases_re, raw_result):
+        lease = re_result.groupdict()
+        result[lease['ip_address']] = lease
+    return result
+
+
 __all__ = [
     'parse_show_vlan', 'parse_show_lacp_aggregates',
     'parse_show_lacp_interface', 'parse_show_interface',
@@ -1647,5 +1690,6 @@ __all__ = [
     'parse_show_ipv6_route', 'parse_show_ipv6_bgp', 'parse_show_ip_ecmp',
     'parse_show_ntp_associations', 'parse_show_ntp_authentication_key',
     'parse_show_ntp_statistics', 'parse_show_ntp_status',
-    'parse_show_ntp_trusted_keys'
+    'parse_show_ntp_trusted_keys',
+    'parse_show_dhcp_server_leases'
 ]

@@ -45,7 +45,8 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_ntp_authentication_key,
                                        parse_show_ntp_statistics,
                                        parse_show_ntp_status,
-                                       parse_show_ntp_trusted_keys
+                                       parse_show_ntp_trusted_keys,
+                                       parse_show_dhcp_server_leases
                                        )
 
 
@@ -1369,6 +1370,37 @@ Trusted-keys
     expected = {
         '10': {'key_id': '10'},
         '11': {'key_id': '11'}
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_dhcp_server_leases():
+    raw_result = """\
+Expiry Time                MAC Address       IP Address  Hostname and Client-id
+-------------------------------------------------------------------------------
+Thu Mar  3 05:36:11 2016   00:50:56:b4:6c:36   192.168.10.10  cl02-win8   *
+Wed Sep 23 23:07:12 2015   10:55:56:b4:6c:c6   192.168.20.10  95_h1       *
+                """
+
+    result = parse_show_dhcp_server_leases(raw_result)
+
+    expected = {
+        '192.168.10.10': {
+                'expiry_time': 'Thu Mar  3 05:36:11 2016',
+                'mac_address': '00:50:56:b4:6c:36',
+                'ip_address': '192.168.10.10',
+                'hostname': 'cl02-win8',
+                'client_id': '*'
+        },
+        '192.168.20.10': {
+                'expiry_time': 'Wed Sep 23 23:07:12 2015',
+                'mac_address': '10:55:56:b4:6c:c6',
+                'ip_address': '192.168.20.10',
+                'hostname': '95_h1',
+                'client_id': '*'
+             }
     }
 
     ddiff = DeepDiff(result, expected)
