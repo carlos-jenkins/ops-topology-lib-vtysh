@@ -46,7 +46,8 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_ntp_statistics,
                                        parse_show_ntp_status,
                                        parse_show_ntp_trusted_keys,
-                                       parse_show_dhcp_server_leases
+                                       parse_show_dhcp_server_leases,
+                                       parse_show_dhcp_server
                                        )
 
 
@@ -1388,19 +1389,104 @@ Wed Sep 23 23:07:12 2015   10:55:56:b4:6c:c6   192.168.20.10  95_h1       *
 
     expected = {
         '192.168.10.10': {
-                'expiry_time': 'Thu Mar  3 05:36:11 2016',
-                'mac_address': '00:50:56:b4:6c:36',
-                'ip_address': '192.168.10.10',
-                'hostname': 'cl02-win8',
-                'client_id': '*'
+            'expiry_time': 'Thu Mar  3 05:36:11 2016',
+            'mac_address': '00:50:56:b4:6c:36',
+            'ip_address': '192.168.10.10',
+            'hostname': 'cl02-win8',
+            'client_id': '*'
         },
         '192.168.20.10': {
-                'expiry_time': 'Wed Sep 23 23:07:12 2015',
-                'mac_address': '10:55:56:b4:6c:c6',
-                'ip_address': '192.168.20.10',
-                'hostname': '95_h1',
-                'client_id': '*'
-             }
+            'expiry_time': 'Wed Sep 23 23:07:12 2015',
+            'mac_address': '10:55:56:b4:6c:c6',
+            'ip_address': '192.168.20.10',
+            'hostname': '95_h1',
+            'client_id': '*'
+        }
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_dhcp_server():
+    raw_result = """\
+DHCP dynamic IP allocation configuration
+----------------------------------------
+Name              Start IP Address                              End IP A\
+ddress                                Netmask          Broadcast        \
+Prefix-len  Lease time(min)  Static  Set tag          Match tags
+------------------------------------------------------------------------\
+------------------------------------------------------------------------\
+----------------------------------------------------------------
+CLIENTS-VLAN60    192.168.60.10                                 192.168.\
+60.250                                255.255.255.0    192.168.60.255   \
+*           1440             False   *                *
+
+
+DHCP static IP allocation configuration
+---------------------------------------
+DHCP static host is not configured.
+
+
+DHCP options configuration
+--------------------------
+Option Number  Option Name       Option Value          ipv6   Match tags
+------------------------------------------------------------------------
+15             *                 tigerlab.ntl.com      False  *
+*              Router            192.168.60.254        False  *
+6              *                 10.100.205.200        False  *
+
+
+DHCP Match configuration
+------------------------
+DHCP match is not configured.
+
+
+DHCP BOOTP configuration
+------------------------
+DHCP BOOTP is not configured.
+    """
+
+    result = parse_show_dhcp_server(raw_result)
+
+    expected = {
+        'pools': [
+            {
+                'pool_name': 'CLIENTS-VLAN60',
+                'start_ip': '192.168.60.10',
+                'end_ip': '192.168.60.250',
+                'netmask': '255.255.255.0',
+                'broadcast': '192.168.60.255',
+                'prefix_len': '*',
+                'lease_time': '1440',
+                'static_bind': 'False',
+                'set_tag': '*',
+                'match_tag': '*'
+            }
+        ],
+        'options': [
+            {
+                'option_number': '15',
+                'option_name': '*',
+                'option_value': 'tigerlab.ntl.com',
+                'ipv6_option': 'False',
+                'match_tags': '*'
+            },
+            {
+                'option_number': '*',
+                'option_name': 'Router',
+                'option_value': '192.168.60.254',
+                'ipv6_option': 'False',
+                'match_tags': '*'
+            },
+            {
+                'option_number': '6',
+                'option_name': '*',
+                'option_value': '10.100.205.200',
+                'ipv6_option': 'False',
+                'match_tags': '*'
+            }
+        ]
     }
 
     ddiff = DeepDiff(result, expected)

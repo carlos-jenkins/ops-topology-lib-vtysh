@@ -258,6 +258,12 @@ VTYSH_SPEC = OrderedDict([
                 'doc': 'Show DHCP server leases information.',
                 'arguments': [],
                 'returns': True
+            },
+            {
+                'command': 'show dhcp-server',
+                'doc': 'Display DHCP server configuration.',
+                'arguments': [],
+                'returns': True
             }
         ]
     }),
