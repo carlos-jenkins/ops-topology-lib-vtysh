@@ -940,11 +940,11 @@ def parse_show_rib(raw_result):
     """
 
     ipv4_entries_re = (
-        r'ipv4 rib entries'
+        r'(?<!No )ipv4 rib entries'
     )
 
     ipv6_entries_re = (
-        r'ipv6 rib entries'
+        r'(?<!No )ipv6 rib entries'
     )
 
     ipv4_network_re = (

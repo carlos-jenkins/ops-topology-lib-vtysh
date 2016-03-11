@@ -971,6 +971,23 @@ Displaying ipv6 rib entries
     ddiff = DeepDiff(result, expected)
     assert not ddiff
 
+    raw_result = """
+
+No ipv4 rib entries
+
+No ipv6 rib entries
+    """
+
+    result = parse_show_rib(raw_result)
+
+    expected = {
+        'ipv4_entries': [],
+        'ipv6_entries': []
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
 
 def test_parse_show_running_config():
     raw_result = """\
