@@ -27,6 +27,7 @@ from __future__ import unicode_literals, absolute_import
 from __future__ import print_function, division
 
 from .parser import *  # noqa
+from .exceptions import determine_exception
 
 
 class ContextManager(object):
@@ -110,7 +111,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_interface_lag(
             self, lag_id):
@@ -131,7 +133,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_route(
             self, ipv4, next_hop, metric=''):
@@ -154,7 +157,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_route(
             self, ipv4, next_hop, metric=''):
@@ -177,7 +181,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_prefix_list_seq(
             self, prefix_name, seq, permission, network):
@@ -203,7 +208,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_prefix_list_seq(
             self, prefix_name, seq, permission, network):
@@ -229,7 +235,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ipv6_prefix_list_seq(
             self, prefix_name, seq, permission, network):
@@ -254,7 +261,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ipv6_prefix_list_seq(
             self, prefix_name, seq, permission, network):
@@ -280,7 +288,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_route_map(
             self, routemap_name, permission, seq):
@@ -305,7 +314,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ipv6_route(
             self, ipv6, next_hop, metric=''):
@@ -328,7 +338,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ipv6_route(
             self, ipv6, next_hop, metric=''):
@@ -351,7 +362,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def lacp_system_priority(
             self, priority):
@@ -372,7 +384,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def lldp_enable(
             self):
@@ -392,7 +405,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_lldp_enable(
             self):
@@ -412,7 +426,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def sflow_enable(
             self):
@@ -432,7 +447,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_sflow_enable(
             self):
@@ -452,7 +468,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def sflow_sampling(
             self, rate):
@@ -473,7 +490,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_sflow_sampling(
             self):
@@ -493,7 +511,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def sflow_polling(
             self, interval):
@@ -514,7 +533,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_sflow_polling(
             self):
@@ -534,7 +554,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def sflow_agent_interface(
             self, portlbl, address_family=''):
@@ -557,7 +578,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_sflow_agent_interface(
             self):
@@ -577,7 +599,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def sflow_collector(
             self, ip):
@@ -598,7 +621,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def sflow_collector_port(
             self, ip, port):
@@ -620,7 +644,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def sflow_collector_vrf(
             self, ip, vrf):
@@ -642,7 +667,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def sflow_collector_port_vrf(
             self, ip, port, vrf):
@@ -665,7 +691,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_router_bgp(
             self, asn):
@@ -686,7 +713,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_ecmp_disable(
             self):
@@ -706,7 +734,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_ecmp_disable(
             self):
@@ -726,7 +755,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_ecmp_load_balance_dst_ip_disable(
             self):
@@ -746,7 +776,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_ecmp_load_balance_dst_ip_disable(
             self):
@@ -766,7 +797,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_ecmp_load_balance_dst_port_disable(
             self):
@@ -786,7 +818,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_ecmp_load_balance_dst_port_disable(
             self):
@@ -806,7 +839,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_ecmp_load_balance_src_port_disable(
             self):
@@ -826,7 +860,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_ecmp_load_balance_src_port_disable(
             self):
@@ -846,7 +881,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_ecmp_load_balance_src_ip_disable(
             self):
@@ -866,7 +902,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_ecmp_load_balance_src_ip_disable(
             self):
@@ -886,7 +923,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_ecmp_load_balance_resilient_disable(
             self):
@@ -906,7 +944,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_ecmp_load_balance_resilient_disable(
             self):
@@ -926,7 +965,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ntp_server(
             self, host):
@@ -947,7 +987,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ntp_server(
             self, host):
@@ -968,7 +1009,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ntp_server_prefer(
             self, host):
@@ -989,7 +1031,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ntp_server_key_id(
             self, host, key_id):
@@ -1011,7 +1054,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ntp_server_version(
             self, host, version):
@@ -1033,7 +1077,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ntp_authentication_enable(
             self):
@@ -1053,7 +1098,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ntp_authentication_enable(
             self):
@@ -1073,7 +1119,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ntp_authentication_key_md5(
             self, key_id, password):
@@ -1095,7 +1142,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ntp_authentication_key(
             self, key_id):
@@ -1116,7 +1164,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ntp_trusted_key(
             self, key_id):
@@ -1137,7 +1186,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ntp_trusted_key(
             self, key_id):
@@ -1158,7 +1208,8 @@ class Configure(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
 
 class RouteMap(ContextManager):
@@ -1227,7 +1278,8 @@ class RouteMap(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_description(
             self, description):
@@ -1248,7 +1300,8 @@ class RouteMap(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def match_ip_address_prefix_list(
             self, prefix_name):
@@ -1269,7 +1322,8 @@ class RouteMap(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_match_ip_address_prefix_list(
             self, prefix_name=''):
@@ -1290,7 +1344,8 @@ class RouteMap(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def set_metric(
             self, metric):
@@ -1311,7 +1366,8 @@ class RouteMap(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_set_metric(
             self, metric=''):
@@ -1332,7 +1388,8 @@ class RouteMap(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def set_community(
             self, community):
@@ -1354,7 +1411,8 @@ class RouteMap(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_set_community(
             self, community=''):
@@ -1376,7 +1434,8 @@ class RouteMap(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
 
 class ConfigInterface(ContextManager):
@@ -1443,7 +1502,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_address(
             self, ipv4):
@@ -1464,7 +1524,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_address_secondary(
             self, ipv4):
@@ -1485,7 +1546,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_address_secondary(
             self, ipv4):
@@ -1506,7 +1568,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ipv6_address(
             self, ipv6):
@@ -1527,7 +1590,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ipv6_address(
             self, ipv6):
@@ -1548,7 +1612,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ipv6_address_secondary(
             self, ipv6):
@@ -1569,7 +1634,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ipv6_address_secondary(
             self, ipv6):
@@ -1590,7 +1656,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def routing(
             self):
@@ -1610,7 +1677,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_routing(
             self):
@@ -1630,7 +1698,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def shutdown(
             self):
@@ -1650,7 +1719,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_shutdown(
             self):
@@ -1670,7 +1740,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def vlan_access(
             self, vlan_id):
@@ -1691,7 +1762,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_vlan_access(
             self, vlan_id):
@@ -1712,7 +1784,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def vlan_trunk_allowed(
             self, vlan_id):
@@ -1733,7 +1806,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_vlan_trunk_allowed(
             self, vlan_id):
@@ -1754,7 +1828,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def vlan_trunk_native_tag(
             self):
@@ -1774,7 +1849,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_vlan_trunk_native_tag(
             self):
@@ -1794,7 +1870,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def vlan_trunk_native(
             self, vlan_id):
@@ -1815,7 +1892,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_vlan_trunk_native(
             self, vlan_id):
@@ -1836,7 +1914,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def lacp_port_id(
             self, port_id):
@@ -1857,7 +1936,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def lacp_port_priority(
             self, port_priority):
@@ -1878,7 +1958,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def lag(
             self, lag_id):
@@ -1899,7 +1980,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_lag(
             self, lag_id):
@@ -1920,7 +2002,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def lldp_transmission(
             self):
@@ -1940,7 +2023,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_lldp_transmission(
             self):
@@ -1960,7 +2044,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def lldp_reception(
             self):
@@ -1980,7 +2065,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_lldp_reception(
             self):
@@ -2000,7 +2086,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def udld_enable(
             self):
@@ -2020,7 +2107,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_udld_enable(
             self):
@@ -2040,7 +2128,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def udld_interval(
             self, interval):
@@ -2061,7 +2150,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def udld_retries(
             self, retries):
@@ -2082,7 +2172,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def udld_mode(
             self, mode):
@@ -2103,7 +2194,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def sflow_enable(
             self):
@@ -2123,7 +2215,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_sflow_enable(
             self):
@@ -2143,7 +2236,8 @@ class ConfigInterface(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
 
 class ConfigInterfaceVlan(ContextManager):
@@ -2210,7 +2304,8 @@ class ConfigInterfaceVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_address(
             self, ipv4):
@@ -2231,7 +2326,8 @@ class ConfigInterfaceVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_address_secondary(
             self, ipv4):
@@ -2252,7 +2348,8 @@ class ConfigInterfaceVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_address_secondary(
             self, ipv4):
@@ -2273,7 +2370,8 @@ class ConfigInterfaceVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ipv6_address(
             self, ipv6):
@@ -2294,7 +2392,8 @@ class ConfigInterfaceVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ipv6_address(
             self, ipv6):
@@ -2315,7 +2414,8 @@ class ConfigInterfaceVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ipv6_address_secondary(
             self, ipv6):
@@ -2336,7 +2436,8 @@ class ConfigInterfaceVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ipv6_address_secondary(
             self, ipv6):
@@ -2357,7 +2458,8 @@ class ConfigInterfaceVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def shutdown(
             self):
@@ -2377,7 +2479,8 @@ class ConfigInterfaceVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_shutdown(
             self):
@@ -2397,7 +2500,8 @@ class ConfigInterfaceVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
 
 class ConfigInterfaceLoopback(ContextManager):
@@ -2464,7 +2568,8 @@ class ConfigInterfaceLoopback(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_address(
             self, ipv4):
@@ -2485,7 +2590,8 @@ class ConfigInterfaceLoopback(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ipv6_address(
             self, ipv6):
@@ -2506,7 +2612,8 @@ class ConfigInterfaceLoopback(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ipv6_address(
             self, ipv6):
@@ -2527,7 +2634,8 @@ class ConfigInterfaceLoopback(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
 
 class ConfigInterfaceLag(ContextManager):
@@ -2594,7 +2702,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_address(
             self, ipv4):
@@ -2615,7 +2724,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_address_secondary(
             self, ipv4):
@@ -2636,7 +2746,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_address_secondary(
             self, ipv4):
@@ -2657,7 +2768,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ipv6_address(
             self, ipv6):
@@ -2678,7 +2790,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ipv6_address(
             self, ipv6):
@@ -2699,7 +2812,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ipv6_address_secondary(
             self, ipv6):
@@ -2720,7 +2834,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ipv6_address_secondary(
             self, ipv6):
@@ -2741,7 +2856,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def shutdown(
             self):
@@ -2761,7 +2877,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_shutdown(
             self):
@@ -2781,7 +2898,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def routing(
             self):
@@ -2801,7 +2919,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_routing(
             self):
@@ -2821,7 +2940,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def vlan_access(
             self, vlan_id):
@@ -2842,7 +2962,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_vlan_access(
             self, vlan_id):
@@ -2863,7 +2984,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def vlan_trunk_allowed(
             self, vlan_id):
@@ -2884,7 +3006,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_vlan_trunk_allowed(
             self, vlan_id):
@@ -2905,7 +3028,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def vlan_trunk_native_tag(
             self):
@@ -2925,7 +3049,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_vlan_trunk_native_tag(
             self):
@@ -2945,7 +3070,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def vlan_trunk_native(
             self, vlan_id):
@@ -2966,7 +3092,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_vlan_trunk_native(
             self, vlan_id):
@@ -2987,7 +3114,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def lacp_mode_passive(
             self):
@@ -3007,7 +3135,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_lacp_mode_passive(
             self):
@@ -3027,7 +3156,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def lacp_mode_active(
             self):
@@ -3047,7 +3177,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_lacp_mode_active(
             self):
@@ -3067,7 +3198,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def lacp_fallback(
             self):
@@ -3087,7 +3219,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def hash_l2_src_dst(
             self):
@@ -3107,7 +3240,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def hash_l3_src_dst(
             self):
@@ -3127,7 +3261,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def hash_l4_src_dst(
             self):
@@ -3147,7 +3282,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def lacp_rate_fast(
             self):
@@ -3167,7 +3303,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_lacp_rate_fast(
             self):
@@ -3187,7 +3324,8 @@ class ConfigInterfaceLag(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
 
 class ConfigInterfaceMgmt(ContextManager):
@@ -3253,7 +3391,8 @@ class ConfigInterfaceMgmt(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_ip_static(
             self, ip):
@@ -3274,7 +3413,8 @@ class ConfigInterfaceMgmt(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def default_gateway(
             self, gateway):
@@ -3295,7 +3435,8 @@ class ConfigInterfaceMgmt(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_default_gateway(
             self, gateway):
@@ -3316,7 +3457,8 @@ class ConfigInterfaceMgmt(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def nameserver(
             self, primary_nameserver, secondary_nameserver=''):
@@ -3339,7 +3481,8 @@ class ConfigInterfaceMgmt(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_nameserver(
             self, primary_nameserver, secondary_nameserver=''):
@@ -3362,7 +3505,8 @@ class ConfigInterfaceMgmt(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def ip_dhcp(
             self):
@@ -3382,7 +3526,8 @@ class ConfigInterfaceMgmt(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
 
 class ConfigRouterBgp(ContextManager):
@@ -3449,7 +3594,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_bgp_router_id(
             self, id):
@@ -3470,7 +3616,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def bgp_fast_external_failover(
             self):
@@ -3491,7 +3638,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_bgp_fast_external_failover(
             self):
@@ -3511,7 +3659,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def network(
             self, network):
@@ -3532,7 +3681,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_network(
             self, network):
@@ -3553,7 +3703,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def maximum_paths(
             self, num):
@@ -3574,7 +3725,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_maximum_paths(
             self, num):
@@ -3595,7 +3747,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def timers_bgp(
             self, keepalive, hold):
@@ -3618,7 +3771,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_timers_bgp(
             self, keepalive='', hold=''):
@@ -3642,7 +3796,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def neighbor_remote_as(
             self, ip, asn):
@@ -3665,7 +3820,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_neighbor(
             self, ip):
@@ -3686,7 +3842,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def neighbor_route_map(
             self, ip, route_name, action):
@@ -3717,7 +3874,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_neighbor_route_map(
             self, ip, route_name, action):
@@ -3748,7 +3906,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def neighbor_prefix_list(
             self, peer, prefix_name, filter_direction=''):
@@ -3773,7 +3932,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_neighbor_prefix_list(
             self, peer, prefix_name, filter_direction=''):
@@ -3797,7 +3957,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def neighbor_description(
             self, ip, text):
@@ -3820,7 +3981,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_neighbor_description(
             self, ip, text=''):
@@ -3843,7 +4005,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def neighbor_password(
             self, ip, pwd):
@@ -3865,7 +4028,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_neighbor_password(
             self, ip):
@@ -3886,7 +4050,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def neighbor_timers(
             self, ip, keepalive, hold):
@@ -3910,7 +4075,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_neighbor_timers(
             self, ip, keepalive='', hold=''):
@@ -3935,7 +4101,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def neighbor_allowas_in(
             self, ip, val=''):
@@ -3959,7 +4126,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_neighbor_allowas_in(
             self, ip, val=''):
@@ -3982,7 +4150,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def neighbor_remove_private_as(
             self, ip):
@@ -4003,7 +4172,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_neighbor_remove_private_as(
             self, ip):
@@ -4024,7 +4194,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def neighbor_soft_reconfiguration_inbound(
             self, ip):
@@ -4046,7 +4217,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_neighbor_soft_reconfiguration_inbound(
             self, ip):
@@ -4067,7 +4239,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def neighbor_shutdown(
             self, ip):
@@ -4089,7 +4262,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_neighbor_shutdown(
             self, ip):
@@ -4110,7 +4284,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def neighbor_peer_group(
             self, ip_or_group, group=''):
@@ -4133,7 +4308,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_neighbor_peer_group(
             self, ip_or_group, group=''):
@@ -4156,7 +4332,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def redistribute(
             self, type):
@@ -4177,7 +4354,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_redistribute(
             self, type):
@@ -4198,7 +4376,8 @@ class ConfigRouterBgp(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
 
 class ConfigVlan(ContextManager):
@@ -4264,7 +4443,8 @@ class ConfigVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_shutdown(
             self):
@@ -4284,7 +4464,8 @@ class ConfigVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def description(
             self, description):
@@ -4305,7 +4486,8 @@ class ConfigVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
     def no_description(
             self, description):
@@ -4326,7 +4508,8 @@ class ConfigVlan(ContextManager):
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
 
 
 def show_interface(
@@ -4796,7 +4979,8 @@ def clear_udld_statistics(
     )
     result = enode(cmd.format(**locals()), shell='vtysh')
 
-    assert not result
+    if result:
+        raise determine_exception(result)(result)
 
 
 def clear_udld_statistics_interface(
@@ -4819,7 +5003,8 @@ def clear_udld_statistics_interface(
     )
     result = enode(cmd.format(**locals()), shell='vtysh')
 
-    assert not result
+    if result:
+        raise determine_exception(result)(result)
 
 
 def ping_repetitions(

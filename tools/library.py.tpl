@@ -36,6 +36,7 @@ from __future__ import unicode_literals, absolute_import
 from __future__ import print_function, division
 
 from .parser import *  # noqa
+from .exceptions import determine_exception
 
 
 class ContextManager(object):
@@ -144,7 +145,8 @@ class {{ context_name|objectize }}(ContextManager):
         {% if 'returns' in command.keys() and command.returns -%}
         {{ 'return parse_%s(result)'|format(command.command|methodize) }}
         {%- else -%}
-        assert not result
+        if result:
+            raise determine_exception(result)(result)
         {%- endif %}
 {% endfor %}
 {% endfor -%}
@@ -183,7 +185,8 @@ def {{ command.command|methodize }}(
     {% if 'returns' in command.keys() and command.returns -%}
     {{ 'return parse_%s(result)'|format(command.command|methodize) }}
     {%- else -%}
-    assert not result
+    if result:
+        raise determine_exception(result)(result)
     {%- endif %}
 
 {% endfor %}
