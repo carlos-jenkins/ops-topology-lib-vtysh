@@ -131,16 +131,30 @@ class {{ context_name|objectize }}(ContextManager):
          :func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
         {% endif -%}
         """{% if command.command|length > 66%}  # noqa{% endif %}
+
+        cmd = [
+            '{{command.command}}'{% if command.command|length > 65%}  # noqa{% endif %}
+        ]
         {%- for attr in command.arguments -%}
             {% if attr.name == 'portlbl' %}
+
         port = self.enode.ports.get(portlbl, portlbl)
+            {%- elif 'optional' in attr.keys() and attr.optional %}
+
+        if {{attr.name}}:
+            cmd.append(
+                '{{"{}{{"}}{{attr.name}}{{"}}{}"}}'.format(
+                    '{{ '' if 'prefix' not in attr.keys() else attr.prefix }}',
+                    {{-' '}}'{{ '' if 'suffix' not in attr.keys() else attr.suffix }}'
+                )
+            )
             {%- endif -%}
         {%- endfor %}
 
-        cmd = (
-            '{{ command.command|wordwrap(64, wrapstring=" \'\n\'")|indent(12)}}'
+        result = self.enode(
+            (' '.join(cmd)).format(**locals()),
+            shell='vtysh'
         )
-        result = self.enode(cmd.format(**locals()), shell='vtysh')
 
         {% if 'returns' in command.keys() and command.returns -%}
         {{ 'return parse_%s(result)'|format(command.command|methodize) }}
@@ -171,16 +185,30 @@ def {{ command.command|methodize }}(
      :func:`topology_lib_vtysh.parser.{{ 'parse_%s'|format(command.command|methodize) }}`
     {% endif -%}
     """{% if command.command|length > 69%}  # noqa{% endif %}
+
+    cmd = [
+        '{{command.command}}'
+    ]
     {%- for attr in command.arguments -%}
         {% if attr.name == 'portlbl' %}
+
     port = enode.ports.get(portlbl, portlbl)
+        {%- elif 'optional' in attr.keys() and attr.optional %}
+
+    if {{attr.name}}:
+        cmd.append(
+            '{{"{}{{"}}{{attr.name}}{{"}}{}"}}'.format(
+                '{{ '' if 'prefix' not in attr.keys() else attr.prefix }}',
+                {{-' '}}'{{ '' if 'suffix' not in attr.keys() else attr.suffix }}'
+            )
+        )
         {%- endif -%}
     {%- endfor %}
 
-    cmd = (
-        '{{ command.command|wordwrap(67, wrapstring=" \'\n\'")|indent(8)}}'
+    result = enode(
+        (' '.join(cmd)).format(**locals()),
+        shell='vtysh'
     )
-    result = enode(cmd.format(**locals()), shell='vtysh')
 
     {% if 'returns' in command.keys() and command.returns -%}
     {{ 'return parse_%s(result)'|format(command.command|methodize) }}
