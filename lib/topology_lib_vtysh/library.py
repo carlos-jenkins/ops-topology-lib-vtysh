@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2015 Hewlett Packard Enterprise Development LP
+# Copyright (C) 2015-2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,10 +15,12 @@
 # specific language governing permissions and limitations
 # under the License.
 
-# WARNING: This is auto-generated, do not manually modify
-
 """
-vtysh library.
+Vtysh auto-generated communication library module.
+
+.. warning::
+
+   This is auto-generated, do not modify manually!!
 """
 
 from __future__ import unicode_literals, absolute_import
