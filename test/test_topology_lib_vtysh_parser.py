@@ -393,6 +393,7 @@ Neighbor entries age-out       : 0
 Neighbor Chassis-Name          :
 Neighbor Chassis-Description   :
 Neighbor Chassis-ID            :
+Neighbor Management-Address    :
 Chassis Capabilities Available :
 Chassis Capabilities Enabled   :
 Neighbor Port-ID               :
@@ -408,11 +409,12 @@ TTL                            :
         'neighbor_entries_dropped': 0,
         'neighbor_entries_age_out': 0,
         'neighbor_chassis_name': None,
-        'neighbor_chassis_description': '',
+        'neighbor_chassis_description': None,
         'neighbor_chassis_id': None,
-        'chassis_capabilities_available': '',
-        'chassis_capabilities_enabled': '',
-        'neighbor_port_id': '',
+        'neighbor_mgmt_address': None,
+        'chassis_capabilities_available': None,
+        'chassis_capabilities_enabled': None,
+        'neighbor_port_id': None,
         'ttl': None
     }
     ddiff = DeepDiff(result, expected)

@@ -412,31 +412,34 @@ def parse_show_lldp_neighbor_info(raw_result):
                 'neighbor_entries_dropped': 0,
                 'neighbor_entries_age_out': 0,
                 'neighbor_chassis_name': None,
-                'neighbor_chassis_description': '',
+                'neighbor_chassis_description': None,
                 'neighbor_chassis_id': None,
-                'chassis_capabilities_available': '',
-                'chassis_capabilities_enabled': '',
-                'neighbor_port_id': '',
+                'neighbor_mgmt_address': None,
+                'chassis_capabilities_available': None,
+                'chassis_capabilities_enabled': None,
+                'neighbor_port_id': None,
                 'ttl': None
             }
     """
 
     neighbor_info_re = (
-        r'\s*Port\s+:\s*(?P<port>\d+)\s*'
-        r'Neighbor entries\s+:\s*(?P<neighbor_entries>\d+)\s*'
-        r'Neighbor entries deleted\s+:\s*(?P<neighbor_entries_deleted>\d+)\s*'
-        r'Neighbor entries dropped\s+:\s*(?P<neighbor_entries_dropped>\d+)\s*'
-        r'Neighbor entries age-out\s+:\s*(?P<neighbor_entries_age_out>\d+)\s*'
-        r'Neighbor Chassis-Name\s+:\s*(?P<neighbor_chassis_name>\S+)?\s*'
+        r'\s*Port\s+:\s*(?P<port>\d+)\n'
+        r'Neighbor entries\s+:\s*(?P<neighbor_entries>\d+)\n'
+        r'Neighbor entries deleted\s+:\s*(?P<neighbor_entries_deleted>\d+)\n'
+        r'Neighbor entries dropped\s+:\s*(?P<neighbor_entries_dropped>\d+)\n'
+        r'Neighbor entries age-out\s+:\s*(?P<neighbor_entries_age_out>\d+)\n'
+        r'Neighbor Chassis-Name\s+:\s*(?P<neighbor_chassis_name>\S+)?\n'
         r'Neighbor Chassis-Description\s+:\s*'
-        r'(?P<neighbor_chassis_description>.*)\s*'
-        r'Neighbor Chassis-ID\s+:\s*(?P<neighbor_chassis_id>[0-9a-f:]+)?\s*'
-        r'Chassis Capabilities Available\s*:\s*'
-        r'(?P<chassis_capabilities_available>.*)?\s*'
-        r'Chassis Capabilities Enabled\s*:\s*'
-        r'(?P<chassis_capabilities_enabled>.*)?\s*'
-        r'Neighbor Port-ID\s*:\s*(?P<neighbor_port_id>.*)?\s*'
-        r'TTL\s+:\s*(?P<ttl>\d+)?\s*'
+        r'(?P<neighbor_chassis_description>[\w\s\n/,.*()_-]+)?'
+        r'Neighbor Chassis-ID\s+:\s*(?P<neighbor_chassis_id>[0-9a-f:]+)?\n'
+        r'Neighbor Management-Address\s+:\s*'
+        r'(?P<neighbor_mgmt_address>[\w:.]+)?\n'
+        r'Chassis Capabilities Available\s+:\s*'
+        r'(?P<chassis_capabilities_available>[\w\s\n,.*_-]+)?\n'
+        r'Chassis Capabilities Enabled\s+:\s*'
+        r'(?P<chassis_capabilities_enabled>[\w\s\n,.*_-]+)?\n'
+        r'Neighbor Port-ID\s+:\s*(?P<neighbor_port_id>[\w\s\n/,.*_-]+)?\n'
+        r'TTL\s+:\s*(?P<ttl>\d+)?'
     )
 
     re_result = re.match(neighbor_info_re, raw_result)
