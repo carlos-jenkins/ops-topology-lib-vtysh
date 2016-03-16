@@ -47,7 +47,8 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_ntp_status,
                                        parse_show_ntp_trusted_keys,
                                        parse_show_dhcp_server_leases,
-                                       parse_show_dhcp_server
+                                       parse_show_dhcp_server,
+                                       parse_show_sflow
                                        )
 
 
@@ -1562,6 +1563,82 @@ DHCP BOOTP is not configured.
                 'match_tags': '*'
             }
         ]
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_sflow():
+    raw_result = """\
+sFlow Configuration
+-----------------------------------------
+sFlow                         enabled
+Collector IP/Port/Vrf         10.10.11.2/6343/vrf_default
+Agent Interface               2
+Agent Address Family          ipv4
+Sampling Rate                 20
+Polling Interval              30
+Header Size                   128
+Max Datagram Size             1400
+Number of Samples             10
+    """
+
+    result = parse_show_sflow(raw_result)
+
+    expected = {
+        'sflow': 'enabled',
+        'collector': [
+            {
+                'ip': '10.10.11.2',
+                'port': '6343',
+                'vrf': 'vrf_default'
+            }
+        ],
+        'agent_interface': '2',
+        'agent_address_family': 'ipv4',
+        'sampling_rate': 20,
+        'polling_interval': 30,
+        'header_size': 128,
+        'max_datagram_size': 1400,
+        'number_of_samples': 10
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+    raw_result = """\
+sFlow Configuration
+-----------------------------------------
+sFlow                         disabled
+Collector IP/Port/Vrf         10.10.11.2/6344/vrf_mgmt
+Agent Interface               Not set
+Agent Address Family          ipv6
+Sampling Rate                 20
+Polling Interval              30
+Header Size                   128
+Max Datagram Size             1400
+Number of Samples             20
+    """
+
+    result = parse_show_sflow(raw_result)
+
+    expected = {
+        'sflow': 'disabled',
+        'collector': [
+            {
+                'ip': '10.10.11.2',
+                'port': '6344',
+                'vrf': 'vrf_mgmt'
+            }
+        ],
+        'agent_interface': 'Not set',
+        'agent_address_family': 'ipv6',
+        'sampling_rate': 20,
+        'polling_interval': 30,
+        'header_size': 128,
+        'max_datagram_size': 1400,
+        'number_of_samples': 20
     }
 
     ddiff = DeepDiff(result, expected)

@@ -494,7 +494,7 @@ class Configure(ContextManager):
         assert not result
 
     def sflow_agent_interface(
-            self, portlbl):
+            self, portlbl, address_family=''):
         """
         Set sFlow agent interface
 
@@ -502,38 +502,15 @@ class Configure(ContextManager):
 
         ::
 
-            # sflow agent-interface {port}
+            # sflow agent-interface {portlbl} {address_family}
 
         :param portlbl: Valid L3 interface name.
+        :param address_family: Optional, IPv4 or IPv6 (Default : IPv4).
         """
         port = self.enode.ports.get(portlbl, portlbl)
 
         cmd = (
-            'sflow agent-interface {port}'
-        )
-        result = self.enode(cmd.format(**locals()), shell='vtysh')
-
-        assert not result
-
-    def sflow_agent_interface_agent_address_family(
-            self, portlbl, address_family):
-        """
-        Set sFlow agent interface and address family
-
-        This function runs the following vtysh command:
-
-        ::
-
-            # sflow agent-interface {port} agent-address-family {address_family}  # noqa
-
-        :param portlbl: Valid L3 interface name.
-        :param address_family: IPv4 or IPv6 (Default : IPv4).
-        """
-        port = self.enode.ports.get(portlbl, portlbl)
-
-        cmd = (
-            'sflow agent-interface {port} agent-address-family '
-            '{address_family}'
+            'sflow agent-interface {portlbl} {address_family}'
         )
         result = self.enode(cmd.format(**locals()), shell='vtysh')
 
@@ -4639,6 +4616,29 @@ def show_ipv6_route(
     return parse_show_ipv6_route(result)
 
 
+def show_sflow(
+        enode):
+    """
+    Show sFlow information.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show sflow
+
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_sflow`
+    """
+
+    cmd = (
+        'show sflow'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_sflow(result)
+
+
 def show_udld_interface(
         enode, portlbl):
     """
@@ -4990,6 +4990,7 @@ __all__ = [
     'show_running_config',
     'show_ip_route',
     'show_ipv6_route',
+    'show_sflow',
     'show_udld_interface',
     'show_rib',
     'show_ip_ecmp',
