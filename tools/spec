@@ -1238,6 +1238,16 @@ VTYSH_SPEC = OrderedDict([
                     }
                 ],
             },
+            {
+                'command': 'sflow enable',
+                'doc': 'Enable sflow feature on interface',
+                'arguments': [],
+            },
+            {
+                'command': 'no sflow enable',
+                'doc': 'Disable sflow feature on interface',
+                'arguments': [],
+            },
         ]
     }),
     ('config_interface_vlan', {

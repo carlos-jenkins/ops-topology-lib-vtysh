@@ -2085,6 +2085,46 @@ class ConfigInterface(ContextManager):
 
         assert not result
 
+    def sflow_enable(
+            self):
+        """
+        Enable sflow feature on interface
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # sflow enable
+
+        """
+
+        cmd = (
+            'sflow enable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_sflow_enable(
+            self):
+        """
+        Disable sflow feature on interface
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no sflow enable
+
+        """
+
+        cmd = (
+            'no sflow enable'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
 
 class ConfigInterfaceVlan(ContextManager):
     """
