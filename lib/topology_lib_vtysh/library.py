@@ -3109,6 +3109,26 @@ class ConfigInterfaceLag(ContextManager):
 
         assert not result
 
+    def hash_l4_src_dst(
+            self):
+        """
+        Base the hash on l4-src-dst.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # hash l4-src-dst
+
+        """
+
+        cmd = (
+            'hash l4-src-dst'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
     def lacp_rate_fast(
             self):
         """

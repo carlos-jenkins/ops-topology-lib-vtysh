@@ -337,7 +337,7 @@ Aggregate-name        : lag2
 Aggregated-interfaces :
 Heartbeat rate        : slow
 Fallback              : false
-Hash                  : l3-src-dst
+Hash                  : l4-src-dst
 Aggregate mode        : off
     """
 
@@ -357,7 +357,7 @@ Aggregate mode        : off
             'interfaces': [],
             'heartbeat_rate': 'slow',
             'fallback': False,
-            'hash': 'l3-src-dst',
+            'hash': 'l4-src-dst',
             'mode': 'off'
         },
     }

@@ -1626,6 +1626,11 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
             },
             {
+                'command': 'hash l4-src-dst',
+                'doc': 'Base the hash on l4-src-dst.',
+                'arguments': [],
+            },
+            {
                 'command': 'lacp rate fast',
                 'doc': 'Set LACP heartbeats are requested at the rate '
                        'of one per second.',
