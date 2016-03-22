@@ -86,12 +86,22 @@ def parse_show_interface(raw_result):
         r'(?P<rx_error>\d+) input error\s+'
         r'(?P<rx_dropped>\d+) dropped\s+'
         r'(?P<rx_crc_fcs>\d+) CRC/FCS\s+'
+        r'(L3:)?'
+        r'(\s*ucast:\s+(?P<rx_l3_ucast_packets>\d+) packets,)?\s*'
+        r'((?P<rx_l3_ucast_bytes>\d+) bytes)?'
+        r'(\s*mcast:\s+(?P<rx_l3_mcast_packets>\d+) packets,)?\s+'
+        r'((?P<rx_l3_mcast_bytes>\d+) bytes\s+)?'
         r'TX\s+'
         r'(?P<tx_packets>\d+) output packets\s+'
         r'(?P<tx_bytes>\d+) bytes\s+'
         r'(?P<tx_errors>\d+) input error\s+'
         r'(?P<tx_dropped>\d+) dropped\s+'
         r'(?P<tx_collisions>\d+) collision'
+        r'(\s*L3:)?'
+        r'(\s*ucast:\s+(?P<tx_l3_ucast_packets>\d+) packets,\s+)?'
+        r'((?P<tx_l3_ucast_bytes>\d+) bytes)?'
+        r'(\s*mcast:\s+(?P<tx_l3_mcast_packets>\d+) packets,\s+)?'
+        r'((?P<tx_l3_mcast_bytes>\d+) bytes)?'
     )
 
     re_result = re.match(show_re, raw_result)
