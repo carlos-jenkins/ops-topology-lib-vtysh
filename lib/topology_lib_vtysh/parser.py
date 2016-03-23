@@ -825,9 +825,9 @@ def parse_ping_repetitions(raw_result):
 
     ping_re = (
         r'^(?P<transmitted>\d+) packets transmitted, '
-        r'(?P<received>\d+) packets received,'
+        r'(?P<received>\d+) received,'
         r'( \+(?P<errors>\d+) errors,)? '
-        r'(?P<packet_loss>\d+)% packet loss$'
+        r'(?P<packet_loss>\d+)% packet loss, '
     )
 
     result = {}
@@ -864,9 +864,9 @@ def parse_ping6_repetitions(raw_result):
 
     ping_re = (
         r'^(?P<transmitted>\d+) packets transmitted, '
-        r'(?P<received>\d+) packets received,'
+        r'(?P<received>\d+) received,'
         r'( \+(?P<errors>\d+) errors,)? '
-        r'(?P<packet_loss>\d+)% packet loss$'
+        r'(?P<packet_loss>\d+)% packet loss, '
     )
 
     result = {}
