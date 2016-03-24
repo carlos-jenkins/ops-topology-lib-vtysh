@@ -493,6 +493,47 @@ class Configure(ContextManager):
 
         assert not result
 
+    def sflow_polling(
+            self, interval):
+        """
+        Set sFlow polling interval.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # sflow polling {interval}
+
+        :param interval: <0-3600>  The range is 0 to 3600.
+        """
+
+        cmd = (
+            'sflow polling {interval}'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
+    def no_sflow_polling(
+            self):
+        """
+        Reset sFlow polling interval to default.
+
+        This function runs the following vtysh command:
+
+        ::
+
+            # no sflow polling
+
+        """
+
+        cmd = (
+            'no sflow polling'
+        )
+        result = self.enode(cmd.format(**locals()), shell='vtysh')
+
+        assert not result
+
     def sflow_agent_interface(
             self, portlbl, address_family=''):
         """
@@ -4639,6 +4680,31 @@ def show_sflow(
     return parse_show_sflow(result)
 
 
+def show_sflow_interface(
+        enode, portlbl):
+    """
+    Show sFlow information for the interface.
+
+    This function runs the following vtysh command:
+
+    ::
+
+        # show sflow interface {port}
+
+    :param portlbl: Label that identifies interface.
+    :return: A dictionary as returned by
+     :func:`topology_lib_vtysh.parser.parse_show_sflow_interface`
+    """
+    port = enode.ports.get(portlbl, portlbl)
+
+    cmd = (
+        'show sflow interface {port}'
+    )
+    result = enode(cmd.format(**locals()), shell='vtysh')
+
+    return parse_show_sflow_interface(result)
+
+
 def show_udld_interface(
         enode, portlbl):
     """
@@ -4991,6 +5057,7 @@ __all__ = [
     'show_ip_route',
     'show_ipv6_route',
     'show_sflow',
+    'show_sflow_interface',
     'show_udld_interface',
     'show_rib',
     'show_ip_ecmp',

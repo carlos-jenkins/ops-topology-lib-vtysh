@@ -160,6 +160,17 @@ VTYSH_SPEC = OrderedDict([
                 'arguments': [],
                 'returns': True
             },
+            {
+                'command': 'show sflow interface {port}',
+                'doc': 'Show sFlow information for the interface.',
+                'arguments': [
+                    {
+                        'name': 'portlbl',
+                        'doc': 'Label that identifies interface.',
+                    }
+                ],
+                'returns': True
+            },
             # TODO: Add support for the show udld (shows all interfaces) cmd
             {
                 'command': 'show udld interface {port}',
@@ -566,6 +577,21 @@ VTYSH_SPEC = OrderedDict([
             {
                 'command': 'no sflow sampling',
                 'doc': 'Reset sFlow sampling rate to default.',
+                'arguments': [],
+            },
+            {
+                'command': 'sflow polling {interval}',
+                'doc': 'Set sFlow polling interval.',
+                'arguments': [
+                    {
+                        'name': 'interval',
+                        'doc': '<0-3600>  The range is 0 to 3600.',
+                    }
+                ],
+            },
+            {
+                'command': 'no sflow polling',
+                'doc': 'Reset sFlow polling interval to default.',
                 'arguments': [],
             },
             {

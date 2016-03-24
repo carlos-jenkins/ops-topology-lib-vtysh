@@ -48,7 +48,8 @@ from topology_lib_vtysh.parser import (parse_show_interface,
                                        parse_show_ntp_trusted_keys,
                                        parse_show_dhcp_server_leases,
                                        parse_show_dhcp_server,
-                                       parse_show_sflow
+                                       parse_show_sflow,
+                                       parse_show_sflow_interface
                                        )
 
 
@@ -1731,6 +1732,48 @@ Number of Samples             20
         'polling_interval': 30,
         'header_size': 128,
         'max_datagram_size': 1400,
+        'number_of_samples': 20
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+
+def test_parse_show_sflow_interface():
+    raw_result = """\
+sFlow Configuration - Interface 1
+-----------------------------------------
+sFlow                         enabled
+Sampling Rate                 20
+Number of Samples             10
+    """
+
+    result = parse_show_sflow_interface(raw_result)
+
+    expected = {
+        'interface': 1,
+        'sflow': 'enabled',
+        'sampling_rate': 20,
+        'number_of_samples': 10
+    }
+
+    ddiff = DeepDiff(result, expected)
+    assert not ddiff
+
+    raw_result = """\
+sFlow Configuration - Interface 1
+-----------------------------------------
+sFlow                         disabled
+Sampling Rate                 20
+Number of Samples             20
+    """
+
+    result = parse_show_sflow_interface(raw_result)
+
+    expected = {
+        'interface': 1,
+        'sflow': 'disabled',
+        'sampling_rate': 20,
         'number_of_samples': 20
     }
 

@@ -404,6 +404,43 @@ def parse_show_lacp_configuration(raw_result):
     return result
 
 
+def parse_show_sflow_interface(raw_result):
+    """
+    Parse the 'show sflow interface' command raw output.
+
+    :param str raw_result: vtysh raw result string.
+    :rtype: dict
+    :return: The parsed result of the show sflow interface command in a \
+        dictionary of the form:
+
+     ::
+
+        {
+            'interface': '1'
+            'sflow': 'enabled',
+            'sampling_rate': '20',
+            'number_of_samples': '10'
+        }
+    """
+
+    sflow_info_re = (
+        r'sFlow Configuration - Interface\s(?P<interface>\d+)\s*'
+        r'-----------------------------------------\s*'
+        r'sFlow\s*(?P<sflow>\S+)\s*'
+        r'Sampling\sRate\s*(?P<sampling_rate>\d+)\s*'
+        r'Number\sof\sSamples\s*(?P<number_of_samples>\d+)\s*'
+    )
+
+    re_result = re.search(sflow_info_re, raw_result)
+    assert re_result
+
+    result = re_result.groupdict()
+    for key, value in result.items():
+        if value and value.isdigit():
+            result[key] = int(value)
+    return result
+
+
 def parse_show_lldp_neighbor_info(raw_result):
     """
     Parse the 'show lldp neighbor-info' command raw output.
@@ -1859,5 +1896,6 @@ __all__ = [
     'parse_show_ntp_associations', 'parse_show_ntp_authentication_key',
     'parse_show_ntp_statistics', 'parse_show_ntp_status',
     'parse_show_ntp_trusted_keys', 'parse_show_sflow',
-    'parse_show_dhcp_server_leases', 'parse_show_dhcp_server'
+    'parse_show_dhcp_server_leases', 'parse_show_dhcp_server',
+    'parse_show_sflow_interface'
 ]
