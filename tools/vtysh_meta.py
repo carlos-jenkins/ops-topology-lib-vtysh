@@ -44,7 +44,7 @@ VTYSH_SPEC = OrderedDict([
                 'returns': True
             },
             {
-                'command': 'show vlan {vlanid}',
+                'command': 'show vlan',
                 'doc': 'Show VLAN configuration.',
                 'arguments': [
                     {
@@ -68,7 +68,7 @@ VTYSH_SPEC = OrderedDict([
                 'returns': True
             },
             {
-                'command': 'show lacp aggregates {lag}',
+                'command': 'show lacp aggregates',
                 'doc': 'Show LACP aggregates.',
                 'arguments': [
                     {
@@ -301,7 +301,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'ip route {ipv4} {next_hop} {metric}',
+                'command': 'ip route {ipv4} {next_hop}',
                 'doc': 'Configure static routes',
                 'arguments': [
                     {
@@ -320,7 +320,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no ip route {ipv4} {next_hop} {metric}',
+                'command': 'no ip route {ipv4} {next_hop}',
                 'doc': 'Un-configure static routes',
                 'arguments': [
                     {
@@ -487,7 +487,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'ipv6 route {ipv6} {next_hop} {metric}',
+                'command': 'ipv6 route {ipv6} {next_hop}',
                 'doc': 'Configure static routes',
                 'arguments': [
                     {
@@ -506,7 +506,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no ipv6 route {ipv6} {next_hop} {metric}',
+                'command': 'no ipv6 route {ipv6} {next_hop}',
                 'doc': 'Un-configure static routes',
                 'arguments': [
                     {
@@ -586,7 +586,7 @@ VTYSH_SPEC = OrderedDict([
             },
             {
                 'command': (
-                    'sflow agent-interface {portlbl} {address_family}'
+                    'sflow agent-interface {portlbl}'
                 ),
                 'doc': 'Set sFlow agent interface',
                 'arguments': [
@@ -905,7 +905,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no match ip address prefix-list {prefix_name}',
+                'command': 'no match ip address prefix-list',
                 'doc': 'Unset prefix-list',
                 'arguments': [
                     {
@@ -926,7 +926,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no set metric {metric}',
+                'command': 'no set metric',
                 'doc': 'Unset metric',
                 'arguments': [
                     {
@@ -951,7 +951,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no set community {community}',
+                'command': 'no set community',
                 'doc': 'Unset community',
                 'arguments': [
                     {
@@ -1701,8 +1701,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'nameserver {primary_nameserver} '
-                           '{secondary_nameserver}',
+                'command': 'nameserver {primary_nameserver}',
                 'doc': 'Configure the nameserver',
                 'arguments': [
                     {
@@ -1717,8 +1716,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no nameserver {primary_nameserver} '
-                           '{secondary_nameserver}',
+                'command': 'no nameserver {primary_nameserver}',
                 'doc': 'Configure the nameserver',
                 'arguments': [
                     {
@@ -1840,7 +1838,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no timers bgp {keepalive} {hold}',
+                'command': 'no timers bgp',
                 'doc': 'Sets the default values for keepalive interval and '
                        'hold time for a BGP router',
                 'arguments': [
@@ -1934,8 +1932,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'neighbor {peer} prefix-list {prefix_name} '
-                           '{filter_direction}',
+                'command': 'neighbor {peer} prefix-list {prefix_name}',
                 'doc': 'Applies a prefix-list to the neighbor to filter '
                        'updates to and from the neighbor',
                 'arguments': [
@@ -1956,8 +1953,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no neighbor {peer} prefix-list {prefix_name} '
-                           '{filter_direction}',
+                'command': 'no neighbor {peer} prefix-list {prefix_name}',
                 'doc': 'Remove a prefix-list filter from the neighbor',
                 'arguments': [
                     {
@@ -1992,7 +1988,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no neighbor {ip} description {text}',
+                'command': 'no neighbor {ip} description',
                 'doc': 'Removes a BGP neighbor',
                 'arguments': [
                     {
@@ -2061,7 +2057,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no neighbor {ip} timers {keepalive} {hold}',
+                'command': 'no neighbor {ip} timers',
                 'doc': 'Sets the default values for keepalive interval '
                        'and hold time for a specific BGP peer',
                 'arguments': [
@@ -2086,7 +2082,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'neighbor {ip} allowas-in {val}',
+                'command': 'neighbor {ip} allowas-in',
                 'doc': 'Specifies an allow-as-in occurrence number '
                        'for an AS to be in the AS path',
                 'arguments': [
@@ -2105,7 +2101,7 @@ VTYSH_SPEC = OrderedDict([
                 ],
             },
             {
-                'command': 'no neighbor {ip} allowas-in {val}',
+                'command': 'no neighbor {ip} allowas-in',
                 'doc': 'Clears the allow-as-in occurrence number for '
                        'an AS to be in the AS path',
                 'arguments': [
