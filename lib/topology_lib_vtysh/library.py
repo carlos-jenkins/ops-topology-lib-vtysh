@@ -153,7 +153,7 @@ class Configure(ContextManager):
 
         ::
 
-            # ip route {ipv4} {next_hop} {metric}
+            # ip route {ipv4} {next_hop}
 
         :param ipv4: A.B.C.D/M IP destination prefix.
         :param next_hop: Can be an ip address or a interface.
@@ -161,7 +161,7 @@ class Configure(ContextManager):
         """
 
         cmd = [
-            'ip route {ipv4} {next_hop} {metric}'
+            'ip route {ipv4} {next_hop}'
         ]
 
         if metric:
@@ -188,7 +188,7 @@ class Configure(ContextManager):
 
         ::
 
-            # no ip route {ipv4} {next_hop} {metric}
+            # no ip route {ipv4} {next_hop}
 
         :param ipv4: A.B.C.D/M IP destination prefix.
         :param next_hop: Can be an ip address or a interface.
@@ -196,7 +196,7 @@ class Configure(ContextManager):
         """
 
         cmd = [
-            'no ip route {ipv4} {next_hop} {metric}'
+            'no ip route {ipv4} {next_hop}'
         ]
 
         if metric:
@@ -375,7 +375,7 @@ class Configure(ContextManager):
 
         ::
 
-            # ipv6 route {ipv6} {next_hop} {metric}
+            # ipv6 route {ipv6} {next_hop}
 
         :param ipv6: X:X::X:X/M IP destination prefix.
         :param next_hop: Can be an ip address or a interface.
@@ -383,7 +383,7 @@ class Configure(ContextManager):
         """
 
         cmd = [
-            'ipv6 route {ipv6} {next_hop} {metric}'
+            'ipv6 route {ipv6} {next_hop}'
         ]
 
         if metric:
@@ -410,7 +410,7 @@ class Configure(ContextManager):
 
         ::
 
-            # no ipv6 route {ipv6} {next_hop} {metric}
+            # no ipv6 route {ipv6} {next_hop}
 
         :param ipv6: X:X::X:X/M IP destination prefix.
         :param next_hop: Can be an ip address or a interface.
@@ -418,7 +418,7 @@ class Configure(ContextManager):
         """
 
         cmd = [
-            'no ipv6 route {ipv6} {next_hop} {metric}'
+            'no ipv6 route {ipv6} {next_hop}'
         ]
 
         if metric:
@@ -673,14 +673,14 @@ class Configure(ContextManager):
 
         ::
 
-            # sflow agent-interface {portlbl} {address_family}
+            # sflow agent-interface {portlbl}
 
         :param portlbl: Valid L3 interface name.
         :param address_family: Optional, IPv4 or IPv6 (Default : IPv4).
         """
 
         cmd = [
-            'sflow agent-interface {portlbl} {address_family}'
+            'sflow agent-interface {portlbl}'
         ]
 
         port = self.enode.ports.get(portlbl, portlbl)
@@ -1581,13 +1581,13 @@ class RouteMap(ContextManager):
 
         ::
 
-            # no match ip address prefix-list {prefix_name}
+            # no match ip address prefix-list
 
         :param prefix_name: WORD  IP prefix-list name
         """
 
         cmd = [
-            'no match ip address prefix-list {prefix_name}'
+            'no match ip address prefix-list'
         ]
 
         if prefix_name:
@@ -1640,13 +1640,13 @@ class RouteMap(ContextManager):
 
         ::
 
-            # no set metric {metric}
+            # no set metric
 
         :param metric: <0-4294967295>  Metric value
         """
 
         cmd = [
-            'no set metric {metric}'
+            'no set metric'
         ]
 
         if metric:
@@ -1700,14 +1700,14 @@ class RouteMap(ContextManager):
 
         ::
 
-            # no set community {community}
+            # no set community
 
         :param community: AA:NN  Community number in aa:nn format orlocal-AS
             \|no-advertise\|no-export\|internet or additive
         """
 
         cmd = [
-            'no set community {community}'
+            'no set community'
         ]
 
         if community:
@@ -4089,7 +4089,7 @@ class ConfigInterfaceMgmt(ContextManager):
 
         ::
 
-            # nameserver {primary_nameserver} {secondary_nameserver}
+            # nameserver {primary_nameserver}
 
         :param primary_nameserver: Primary nameserver (ipv4 or ipv6) address.
         :param secondary_nameserver: Secondary nameserver (ipv4 or ipv6)
@@ -4097,7 +4097,7 @@ class ConfigInterfaceMgmt(ContextManager):
         """
 
         cmd = [
-            'nameserver {primary_nameserver} {secondary_nameserver}'
+            'nameserver {primary_nameserver}'
         ]
 
         if secondary_nameserver:
@@ -4124,7 +4124,7 @@ class ConfigInterfaceMgmt(ContextManager):
 
         ::
 
-            # no nameserver {primary_nameserver} {secondary_nameserver}
+            # no nameserver {primary_nameserver}
 
         :param primary_nameserver: Primary nameserver (ipv4 or ipv6) address.
         :param secondary_nameserver: Secondary nameserver (ipv4 or ipv6)
@@ -4132,7 +4132,7 @@ class ConfigInterfaceMgmt(ContextManager):
         """
 
         cmd = [
-            'no nameserver {primary_nameserver} {secondary_nameserver}'
+            'no nameserver {primary_nameserver}'
         ]
 
         if secondary_nameserver:
@@ -4466,7 +4466,7 @@ class ConfigRouterBgp(ContextManager):
 
         ::
 
-            # no timers bgp {keepalive} {hold}
+            # no timers bgp
 
         :param keepalive: <0 - 65535> Keepalive interval in seconds. Default
             is 60
@@ -4474,7 +4474,7 @@ class ConfigRouterBgp(ContextManager):
         """
 
         cmd = [
-            'no timers bgp {keepalive} {hold}'
+            'no timers bgp'
         ]
 
         if keepalive:
@@ -4635,7 +4635,7 @@ class ConfigRouterBgp(ContextManager):
 
         ::
 
-            # neighbor {peer} prefix-list {prefix_name} {filter_direction}
+            # neighbor {peer} prefix-list {prefix_name}
 
         :param peer: <A.B.C.D|X:X::X:X|WORD> peer IPv4/IPv6 address or
             neighbor tag
@@ -4644,7 +4644,7 @@ class ConfigRouterBgp(ContextManager):
         """
 
         cmd = [
-            'neighbor {peer} prefix-list {prefix_name} {filter_direction}'
+            'neighbor {peer} prefix-list {prefix_name}'
         ]
 
         if filter_direction:
@@ -4671,7 +4671,7 @@ class ConfigRouterBgp(ContextManager):
 
         ::
 
-            # no neighbor {peer} prefix-list {prefix_name} {filter_direction}
+            # no neighbor {peer} prefix-list {prefix_name}
 
         :param peer: <A.B.C.D|X:X::X:X|WORD> peer IPv4/IPv6 address or
             neighbor tag
@@ -4680,7 +4680,7 @@ class ConfigRouterBgp(ContextManager):
         """
 
         cmd = [
-            'no neighbor {peer} prefix-list {prefix_name} {filter_direction}'
+            'no neighbor {peer} prefix-list {prefix_name}'
         ]
 
         if filter_direction:
@@ -4735,7 +4735,7 @@ class ConfigRouterBgp(ContextManager):
 
         ::
 
-            # no neighbor {ip} description {text}
+            # no neighbor {ip} description
 
         :param ip: <A.B.C.D> Neighbor IPv4 address
         :param text: Description of the peer router.String of maximum length
@@ -4743,7 +4743,7 @@ class ConfigRouterBgp(ContextManager):
         """
 
         cmd = [
-            'no neighbor {ip} description {text}'
+            'no neighbor {ip} description'
         ]
 
         if text:
@@ -4853,7 +4853,7 @@ class ConfigRouterBgp(ContextManager):
 
         ::
 
-            # no neighbor {ip} timers {keepalive} {hold}
+            # no neighbor {ip} timers
 
         :param ip: <A.B.C.D> Neighbor IPv4 address
         :param keepalive: <0 - 65535> Keepalive interval in seconds.Default is
@@ -4862,7 +4862,7 @@ class ConfigRouterBgp(ContextManager):
         """
 
         cmd = [
-            'no neighbor {ip} timers {keepalive} {hold}'
+            'no neighbor {ip} timers'
         ]
 
         if keepalive:
@@ -4897,7 +4897,7 @@ class ConfigRouterBgp(ContextManager):
 
         ::
 
-            # neighbor {ip} allowas-in {val}
+            # neighbor {ip} allowas-in
 
         :param ip: <A.B.C.D> Neighbor IPv4 address
         :param val: <0 - 10> Number of times BGP can allow an instance of AS
@@ -4905,7 +4905,7 @@ class ConfigRouterBgp(ContextManager):
         """
 
         cmd = [
-            'neighbor {ip} allowas-in {val}'
+            'neighbor {ip} allowas-in'
         ]
 
         if val:
@@ -4932,7 +4932,7 @@ class ConfigRouterBgp(ContextManager):
 
         ::
 
-            # no neighbor {ip} allowas-in {val}
+            # no neighbor {ip} allowas-in
 
         :param ip: <A.B.C.D> Neighbor IPv4 address
         :param val: <0 - 10> Number of times BGP can allow aninstance of AS to
@@ -4940,7 +4940,7 @@ class ConfigRouterBgp(ContextManager):
         """
 
         cmd = [
-            'no neighbor {ip} allowas-in {val}'
+            'no neighbor {ip} allowas-in'
         ]
 
         if val:
@@ -5426,7 +5426,7 @@ def show_vlan(
 
     ::
 
-        # show vlan {vlanid}
+        # show vlan
 
     :param vlanid: Vlan ID number.
     :return: A dictionary as returned by
@@ -5434,7 +5434,7 @@ def show_vlan(
     """
 
     cmd = [
-        'show vlan {vlanid}'
+        'show vlan'
     ]
 
     if vlanid:
@@ -5491,7 +5491,7 @@ def show_lacp_aggregates(
 
     ::
 
-        # show lacp aggregates {lag}
+        # show lacp aggregates
 
     :param lag: Link-aggregate name.
     :return: A dictionary as returned by
@@ -5499,7 +5499,7 @@ def show_lacp_aggregates(
     """
 
     cmd = [
-        'show lacp aggregates {lag}'
+        'show lacp aggregates'
     ]
 
     if lag:
